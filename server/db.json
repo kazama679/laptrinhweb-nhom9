@@ -677,8 +677,8 @@
     {
       "id": 45778046,
       "name": "Laptop văn phòng",
-      "description": "Nhỏ gọn, nhẹ, thuận tiện mang đi, học và làm việc",
-      "status": true
+      "description": "Nhỏ gọn, nhẹ, thuận tiện mang đi, học và làm việc\n",
+      "status": false
     },
     {
       "id": 45778047,
@@ -687,21 +687,9 @@
       "status": true
     },
     {
-      "id": 1913060,
-      "name": "3",
-      "description": "gggggg",
-      "status": true
-    },
-    {
-      "id": 5666828,
-      "name": "33",
-      "description": "",
-      "status": true
-    },
-    {
-      "id": 3204319,
-      "name": "111",
-      "description": "",
+      "id": 5028692,
+      "name": "22223",
+      "description": "fffgggggggg",
       "status": true
     }
   ],

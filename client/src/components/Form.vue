@@ -2,7 +2,7 @@
     <div>
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
             <div className="bg-white p-8 rounded-lg w-full max-w-3xl">
-                <button @click="closeForm" className="text-blue-500 mb-4">Back</button>
+                <button @click="closeForm" class="text-blue-500 mb-4">Back</button>
                 <h2 className="text-2xl font-bold mb-4">{product ? 'Edit Product' : 'Add Product'}</h2>
                 <form onSubmit={handleSubmitForm} className="grid grid-cols-2 gap-4">
                     <div className="col-span-1">
@@ -66,10 +66,11 @@
 </template>
 
 <script setup>
-const emit = defineEmits(['onClose'])
-const closeForm=()=>{
-  emit('onClose')
-}
+const emit = defineEmits(['onClose']);
+
+const closeForm = () => {
+  emit('onClose');
+};
 </script>
 
 <style></style>

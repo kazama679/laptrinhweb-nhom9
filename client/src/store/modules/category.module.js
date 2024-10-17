@@ -18,7 +18,7 @@ const postModule = {
       state.data.push(payload);
     },
     editCategory(state, payload) {
-
+      state.data.push(payload);
     },
   },
 

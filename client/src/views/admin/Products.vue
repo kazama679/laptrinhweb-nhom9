@@ -87,21 +87,22 @@
         </div>
       </div>
     </main>
-    <Form v-if="isShow" @onCLose="handleClose"></Form>
+    <Form v-if="isShow" @onClose="handleClose"></Form>
   </div>
 </template>
 
 <script setup>
 import axios from "axios";
 import { onMounted, ref } from "vue";
-import Form from '@/components/Form.vue'
+import Form from '@/components/Form.vue';
+import apiClient from "@/api/instance";
 const products = ref([]);
 const category = ref([]);
 
 const fetchData = async () => {
   try {
-    const respones = await axios.get("http://localhost:8080/products");
-    const respones2 = await axios.get("http://localhost:8080/classify");
+    const respones = await apiClient.get('products');
+    const respones2 = await  apiClient.get('classify');
     products.value = respones.data;
     category.value = respones2.data;
   } catch (error) {
@@ -119,15 +120,15 @@ const formatVND = (price) => {
   return price.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
 };
 
-const isShow = ref(false)
-const showForm=()=>{
-  isShow.value=true
-}
+const isShow = ref(false);
 
-const handleClose=()=>{
-  isShow.value=false
-}
+const showForm = () => {
+  isShow.value = true;
+};
 
+const handleClose = () => {
+  isShow.value = false;
+};
 </script>
 
 <style></style>

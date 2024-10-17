@@ -21,6 +21,9 @@
               className="mt-1 p-2 border rounded w-full"
               required
             />
+            <div v-if="ErrorName" className="text-red-500 text-xs mt-1">
+              Tên danh mục không được phép trùng
+            </div>
           </div>
           <div className="col-span-1">
             <label htmlFor="status" className="block text-sm font-medium"
@@ -63,6 +66,8 @@
 </template>
 
 <script setup>
+import apiClient from "@/api/instance";
+import { ref } from "vue";
 import { useStore } from "vuex";
 
 const props = defineProps(["new", "act"]);
@@ -74,14 +79,27 @@ const onCLose = () => {
   emit("onClose");
 };
 
-const handleAdd = () => {
+const ErrorName = ref(false);
+
+const handleAdd = async () => {
   if (props.act == "add") {
-    store.dispatch("apiAddCategory", props.new);
+    const response = await apiClient.get("classify");
+    const listUser = response.data;
+    // kiểm tra có trùng tên k
+    const checkName = listUser.find((item) => item.name === props.new.name);
+    if (!checkName) {
+      ErrorName.value = false;
+      store.dispatch("apiAddCategory", props.new);
+      emit("onClose");
+      emit("update");
+    } else {
+      ErrorName.value = true;
+    }
   } else {
     store.dispatch("apiEditCategory", props.new);
+    emit("onClose");
+    emit("update");
   }
-  emit("onClose");
-  emit("update");
 };
 </script>
 
