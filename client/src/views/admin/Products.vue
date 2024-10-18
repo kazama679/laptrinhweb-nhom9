@@ -127,6 +127,7 @@ const showForm = () => {
 
 const handleClose = () => {
   isShow.value = false;
+  fetchData();
 };
 </script>
 

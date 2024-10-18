@@ -52,8 +52,8 @@
                             <td className="px-4 py-2 border">
                                 <div @click="handleStatus(item)" className="flex justify-center gap-2 cursor-pointer">
                                     <div v-if="!item.role">
-                                        <i v-if="item.status" class="fa-solid fa-lock text-green-500"></i>
-                                        <i v-else class="fa-solid fa-unlock text-red-500"></i>
+                                        <i v-if="!item.status" class="fa-solid fa-lock text-red-500"></i>
+                                        <i v-else class="fa-solid fa-unlock text-green-500"></i>
                                     </div>
                                 </div>
                             </td>
