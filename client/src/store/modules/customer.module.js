@@ -38,15 +38,25 @@ const moduleCustomer = {
         console.log("Error adding Customer:", error);
       }
     },
+
     async apiEditCustomer({ commit }, payload) {
       try {
         await apiEDIT(payload,'users'); // Đợi API thêm mới hoàn thành
         await commit("editCustomer", payload);
-        commit('getCustomer')
       } catch (error) {
         console.log("Error adding Customer:", error);
       }
     },
+
+    // async apiEditCustomer({ commit }, payload) {
+    //   try {
+    //     await apiEDIT(payload,'users'); // Đợi API thêm mới hoàn thành
+    //     await commit("editCustomer", payload);
+    //     commit('getCustomer')
+    //   } catch (error) {
+    //     console.log("Error adding Customer:", error);
+    //   }
+    // },
   },
 };
 

@@ -4,28 +4,25 @@
             <div className="bg-white p-8 rounded-lg w-full max-w-3xl">
                 <button @click="closeForm" class="text-blue-500 mb-4">Back</button>
                 <h2 className="text-2xl font-bold mb-4">Thêm sản phẩm</h2>
-                <form onSubmit={handleSubmitForm} className="grid grid-cols-2 gap-4">
+                <form @submit.prevent="addProduct" className="grid grid-cols-2 gap-4">
                     <div className="col-span-1">
                         <label htmlFor="name" className="block text-sm font-medium">Tên sản phẩm</label>
-                        <input v-model="newProduct.name" type="text"
-                            className="mt-1 p-2 border rounded w-full" required />
+                        <input v-model="newProduct.name" type="text" className="mt-1 p-2 border rounded w-full"
+                            required />
                     </div>
                     <div className="col-span-1">
                         <label htmlFor="stock" type="number" className="block text-sm font-medium">Số lượng</label>
-                        <input v-model="newProduct.stock"
-                            className="mt-1 p-2 border rounded w-full" required />
+                        <input v-model="newProduct.stock" className="mt-1 p-2 border rounded w-full" required />
                     </div>
                     <div className="col-span-1">
                         <label htmlFor="price" type="number" className="block text-sm font-medium">Giá</label>
-                        <input v-model="newProduct.price"
-                            className="mt-1 p-2 border rounded w-full" required />
+                        <input v-model="newProduct.price" className="mt-1 p-2 border rounded w-full" required />
                     </div>
                     <div className="col-span-1">
                         <label htmlFor="image" className="block text-sm font-medium">URL Ảnh</label>
-                        <input @change="handleUpFile" type="file">
-                            className="mt-1 p-2 border rounded w-full" required />
-                        <div v-if="newProduct.image!==''" className='flex justify-center text-center'>
-                            <img :src='newProduct.image' className="w-16 h-16 mt-4" /> 
+                        <input @change="handleUpFile" className="mt-1 p-2 border rounded w-full" required type="file">
+                        <div v-if="newProduct.image !== ''" className='flex justify-center text-center'>
+                            <img :src='newProduct.image' className="w-16 h-16 mt-4" />
                         </div>
                     </div>
                     <div className="col-span-1">
@@ -37,16 +34,14 @@
                     </div>
                     <div className="col-span-1">
                         <label htmlFor="status" className="block text-sm font-medium">Trạng thái</label>
-                        <select :value=true v-model="newProduct.status"
-                            className="mt-1 p-2 border rounded w-full">
+                        <select :value=true v-model="newProduct.status" className="mt-1 p-2 border rounded w-full">
                             <option :value=true>Đang bán</option>
                             <option :value=false>Ngừng bán</option>
                         </select>
                     </div>
                     <div className="col-span-2">
                         <label htmlFor="description" className="block text-sm font-medium">Chi tiết sản phẩm</label>
-                        <textarea 
-                        v-model="newProduct.description" className="mt-1 p-2 border rounded w-full" rows={3}
+                        <textarea v-model="newProduct.description" className="mt-1 p-2 border rounded w-full" rows={3}
                             placeholder="Mô tả chi tiết sản phẩm" />
                     </div>
                     <div className="col-span-2">
@@ -63,17 +58,27 @@
 <script setup>
 import apiClient from '@/api/instance';
 import { onMounted, reactive, ref } from 'vue';
-// import {getDownloadURL, ref as storageRef, uploadBytes} from '@/firebase/index';
-// import { storage } from '@/firebase';
+import {getDownloadURL, ref as storageRef, uploadBytes} from "firebase/storage";
+import { storage } from '@/firebase';
+import { useStore } from "vuex";
+const store = useStore();
 
 const emit = defineEmits(['onClose']);
 
 const closeForm = () => {
-  emit('onClose');
+    emit('onClose');
 };
 
-const newProduct=reactive({
-    id: Math.ceil(Math.random()*9999999),
+const imageUrl = ref('');
+const file = ref(null);
+
+const handleUpFile = (e) => {
+    imageUrl.value = URL.createObjectURL(e.target.files[0]);
+    file.value = e.target.files[0]
+}
+
+const newProduct = reactive({
+    id: Math.ceil(Math.random() * 9999999),
     name: '',
     price: 0,
     stock: 0,
@@ -82,46 +87,46 @@ const newProduct=reactive({
     image: '',
     description: '',
     created_at: '',
-    comments:[],
+    comments: [],
     sales: 0
 })
 
-const category=ref([])
-const fetchData=async()=>{
+const category = ref([])
+const fetchData = async () => {
     const response = await apiClient('classify')
-    category.value=response.data
+    category.value = response.data
 }
 onMounted(() => {
     fetchData()
 })
 
-// const imageUrl = ref('');
-// const file = ref(null);
-// const downloadUrl = ref('');
-// const handleUpFile=(e)=>{
-//   imageUrl.value = URL.createObjectURL(e.target.files[0]);
-//   file.value=e.target.files[0]
-// }
+const addProduct = async () => {
+    console.log(newProduct.value);
+    // lưu hình ảnh lên firebase
+    if (!file.value) {
+        alert("Chưa có file được chọn")
+    } else {
+        try {
+            // tạo tham chiếu đến folder đc lưu trữ trên firebase
+            const storageReference = storageRef(storage, `images/${file.value.name}`);
 
-// const handleImage=async()=>{
-//   // lưu hình ảnh lên firebase
-//   if(!file.value){
-//     alert("Chưa có file được chọn")
-//   }else{
-//     try{
-//       // tạo tham chiếu đến folder đc lưu trữ trên firebase
-//       const storageReference = storageRef(storage, `images/${file.value.name}`);
+            // lưu hình ảnh trên firebase
+            await uploadBytes(storageReference, file.value)
 
-//       // lưu hình ảnh trên firebase
-//       await uploadBytes(storageReference,file.value)
+            const urlDonwLoad = await getDownloadURL(storageReference)
 
-//       // lấy url sau khi đã upload xong
-//       downloadUrl.value = await getDownloadURL(storageReference)
-//     }catch(error){
-//       console.log(error);
-//     }
-//   }
-// }
+            newProduct.image = urlDonwLoad;
+
+            console.log("newProduct: ", newProduct);
+            
+            // store.dispatch("apiAddProduct", newProduct); 
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
 </script>
 
 <style></style>

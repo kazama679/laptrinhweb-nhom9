@@ -40,9 +40,18 @@ export const apiDELETE = async (id,text) => {
   }
 };
 
+// export const apiEDIT = async (item,text) => {
+//   try {
+//     const res = await apiClient.put(`/${text}/${item.id}`, item); 
+//     return res.data;
+//   } catch (error) {
+//     console.error("Lỗi Hàm PUT API trong instance:", error);
+//   }
+// }
+
 export const apiEDIT = async (item,text) => {
   try {
-    const res = await apiClient.put(`/${text}/${item.id}`, item); 
+    const res = await apiClient.put(`${text}/${item.id}`, item); 
     return res.data;
   } catch (error) {
     console.error("Lỗi Hàm PUT API trong instance:", error);

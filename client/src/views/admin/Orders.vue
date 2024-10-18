@@ -45,7 +45,7 @@
               <td className="px-4 py-2 border">{{ item.created_at }}</td>
               <td className="px-4 py-2 border">{{ item.note }}</td>
               <td className="px-4 py-2 border">
-                <button @click="handleShowOrder()" className="bg-green-500 text-white px-3 py-1 rounded">
+                <button @click="handleShowOrder(item)" className="bg-green-500 text-white px-3 py-1 rounded">
                   Chi tiết
                 </button>
               </td>
@@ -67,7 +67,7 @@
                         </div>
                         {/* end-phân trang */} -->
       </div>
-      <FormOrder v-if="isShow" @onClose="handleClose"></FormOrder>
+      <FormOrder v-if="isShow" @onClose="handleClose" :new="editCategory"></FormOrder>
     </main>
   </div>
 </template>
@@ -76,9 +76,12 @@
 import apiClient from '@/api/instance';
 import FormOrder from '@/components/FormOrder.vue';
 import { onMounted, ref } from 'vue';
+
+const editCategory=ref();
 const isShow = ref(false)
-const handleShowOrder = () => {
+const handleShowOrder = (item) => {
   isShow.value = true
+  editCategory.value=item
 }
 const handleClose = () => {
   isShow.value = false

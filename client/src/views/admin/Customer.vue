@@ -46,16 +46,15 @@
                             <td className="px-4 py-2 border">{{ item.phone }}</td>
                             <td className="px-4 py-2 border">
                                 <button className='text-black px-3 py-1 rounded'>{{ item.role ? "Admin" :
-                                    "User"}}</button>
+                                    "User" }}</button>
                             </td>
                             <td className="px-4 py-2 border">{{ item.created_at }}</td>
                             <td className="px-4 py-2 border">
-                                <div className="flex justify-center gap-2">
-                                    <!-- {/* Nếu là admin thì không có nút thay đổi trạng thái */} -->
-                                    <button v-if="!item.role" @click="handleStatus(item)"
-                                        :className='item.status ? "bg-green-500 text-white px-3 py-1 rounded" : "bg-red-500 text-white px-3 py-1 rounded"'>
-                                        {{ item.status ? "Đang mở" : "Đang khóa" }}
-                                    </button>
+                                <div @click="handleStatus(item)" className="flex justify-center gap-2 cursor-pointer">
+                                    <div v-if="!item.role">
+                                        <i v-if="item.status" class="fa-solid fa-lock text-green-500"></i>
+                                        <i v-else class="fa-solid fa-unlock text-red-500"></i>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -74,6 +73,7 @@
                             </button>
                         ))}
                     </div> -->
+                    <Edit v-if="isShow" @editConfirm="updateCustomer" @close="closeUpdate"></Edit>
             </div>
         </main>
     </div>
@@ -83,9 +83,12 @@
 import apiClient from '@/api/instance';
 import { onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
+import Edit from '@/components/Edit.vue';
 
 const store = useStore()
 const customer = ref([])
+const customerUpdate = ref(null)
+
 const fetchData = async () => {
     try {
         const response = await apiClient.get('users')
@@ -94,13 +97,29 @@ const fetchData = async () => {
         console.log(err);
     }
 }
+
 onMounted(() => {
     fetchData()
 })
 
+const isShow=ref(false);
+
+// Mở modal
 const handleStatus = (customer) => {
-  customer.status = !customer.status;
-  store.dispatch("apiEditCustomer", customer);
+    isShow.value = true;
+    customerUpdate.value = customer
+}
+
+// Đóng modal
+const closeUpdate=()=>{
+    isShow.value=false
+}
+
+const updateCustomer = () => {
+    customerUpdate.value.status = !customerUpdate.value.status; 
+    store.dispatch("apiEditCustomer", customerUpdate.value); 
+    isShow.value = false;
+    customerUpdate.value = null;
 }
 
 </script>
