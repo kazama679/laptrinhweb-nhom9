@@ -80,7 +80,7 @@
             <button @click="closeDelete" class="px-4 py-2 bg-gray-500 text-white rounded">
               Hủy
             </button>
-            <button class="px-4 py-2 bg-red-500 text-white rounded">
+            <button @click="showFormDelete(item.id)" class="px-4 py-2 bg-red-500 text-white rounded">
               Xóa
             </button>
           </div>
@@ -88,6 +88,7 @@
       </div>
     </main>
     <Form v-if="isShow" @onClose="handleClose"></Form>
+    <Delete v-if="isShowDelete" @close="handleCloseDelete" @deleteConfirm="handleDelete"></Delete>
   </div>
 </template>
 
@@ -95,6 +96,9 @@
 import { onMounted, ref } from "vue";
 import Form from '@/components/Form.vue';
 import apiClient from "@/api/instance";
+import Delete from '@/components/Delete.vue'
+import { useStore } from "vuex";
+const store = useStore()
 const products = ref([]);
 const category = ref([]);
 
@@ -120,15 +124,32 @@ const formatVND = (price) => {
 };
 
 const isShow = ref(false);
+const isShowDelete = ref(false);
 
 const showForm = () => {
   isShow.value = true;
 };
-
 const handleClose = () => {
   isShow.value = false;
   fetchData();
 };
+
+// lưu giá trị id xóa sản phẩm
+const idDelete=ref(null)
+const deleteProduct = (id) => {
+  idDelete.value=id
+  isShowDelete.value = true;
+};
+const handleCloseDelete = () => {
+  isShowDelete.value = false;
+  fetchData();
+};
+// xóa sản phẩm
+const handleDelete=()=>{
+  store.dispatch("apiDeleteProduct", idDelete.value)
+  isShowDelete.value = false;
+  fetchData();
+}
 </script>
 
 <style></style>
