@@ -1,6 +1,6 @@
-import { apiADDCategory, apiDELETECategory, apiEDITCategory, getAPICategory } from "@/api/instance";
+import { apiADD, apiDELETE, apiEDIT, apiGET } from "@/api/instance";
 
-const ProductsModule = {
+const moduleProduct = {
   // Đây là nơi khởi tạo các state của post Module
   state: {
     data: [],
@@ -8,58 +8,58 @@ const ProductsModule = {
 
   // Chứa các hàm đồng bộ để cập nhật lại state
   mutations: {
-    getProducts(state, payload) {
+    getProduct(state, payload) {
       state.data = payload;
     },
-    addProducts(state, payload) {
+    addProduct(state, payload) {
       state.data.push(payload);
     },
-    deleteProducts(state, payload) {
+    deleteProduct(state, payload) {
       state.data.push(payload);
     },
-    editProducts(state, payload) {
+    editProduct(state, payload) {
       state.data.push(payload);
     },
   },
 
   // Chứa các hàm bất đồng bộ: gọi API tương tác với dữ liệu
   actions: {
-    async apiGetProducts({ commit }) {
+    async apiGetProduct({ commit }) {
       try {
-        const data = await getAPI(); // Sử dụng await để đợi API trả về
-        commit("getProducts", data);
+        const data = await apiGET('products'); // Sử dụng await để đợi API trả về
+        commit("getProduct", data);
       } catch (error) {
-        console.log("Error fetching Products data:", error);
+        console.log("Error fetching Product data:", error);
       }
     },
-    async apiAddProducts({ commit }, payload) {
+    async apiAddProduct({ commit }, payload) {
       try {
-        await apiADD(payload); // Đợi API thêm mới hoàn thành
-        await commit("addProducts", payload);
-        commit('getProducts')
+        await apiADD(payload,'products'); // Đợi API thêm mới hoàn thành
+        await commit("addProduct", payload);
+        commit('getProduct')
       } catch (error) {
-        console.log("Error adding Products:", error);
+        console.log("Error adding Product:", error);
       }
     },
-    async apiDeleteProducts({ commit }, payload) {
+    async apiDeleteProduct({ commit }, payload) {
       try {
-        await apiDELETE(payload); // Đợi API thêm mới hoàn thành
-        await commit("deleteProducts", payload);
-        commit('getProducts')
+        await apiDELETE(payload,'products'); // Đợi API thêm mới hoàn thành
+        await commit("deleteProduct", payload);
+        commit('getProduct')
       } catch (error) {
-        console.log("Error adding Products:", error);
+        console.log("Error adding Product:", error);
       }
     },
-    async apiEditProducts({ commit }, payload) {
+    async apiEditProduct({ commit }, payload) {
       try {
-        await apiEDIT(payload); // Đợi API thêm mới hoàn thành
-        await commit("editProducts", payload);
-        commit('getProducts')
+        await apiEDIT(payload,'products'); // Đợi API thêm mới hoàn thành
+        await commit("editProduct", payload);
+        commit('getProduct')
       } catch (error) {
-        console.log("Error adding Products:", error);
+        console.log("Error adding Product:", error);
       }
     },
   },
 };
 
-export default ProductsModule;
+export default moduleProduct;

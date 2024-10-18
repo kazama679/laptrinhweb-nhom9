@@ -17,8 +17,8 @@
       "id": 70982177,
       "name": "quang1",
       "email": "1@gmail.com",
-      "status": true,
-      "password": "1",
+      "status": false,
+      "password": "$2a$10$.jIbjCUnjbSH1wm4vfVxwO2zcoLm2Fm.U..yZm4aP.8E.vaKG82Ki",
       "role": false,
       "avatar": "https://firebasestorage.googleapis.com/v0/b/xuanquang-14d06.appspot.com/o/ptit-image%2Fdell-xps-15-9530-1.jpg?alt=media&token=89835850-f560-460f-b9aa-a17da3a1d83a",
       "phone": "0349199812",
@@ -63,7 +63,7 @@
       "id": 74853246,
       "name": "Ngo",
       "email": "ngo@gmail.com",
-      "password": "123456",
+      "password": "123",
       "phone": "0312424124",
       "address": "123",
       "avatar": "https://firebasestorage.googleapis.com/v0/b/xuanquang-14d06.appspot.com/o/ptit-image%2Fdell-xps-15-9530-1.jpg?alt=media&token=89835850-f560-460f-b9aa-a17da3a1d83a",
@@ -78,7 +78,7 @@
       "id": 4900826,
       "name": "quang3123",
       "email": "quang@gmail.com",
-      "password": "999999",
+      "password": "123",
       "phone": "0312939129",
       "address": "hn",
       "avatar": "https://firebasestorage.googleapis.com/v0/b/xuanquang-14d06.appspot.com/o/ptit-image%2Fdell-xps-15-9530-1.jpg?alt=media&token=89835850-f560-460f-b9aa-a17da3a1d83a",
@@ -678,7 +678,7 @@
       "id": 45778046,
       "name": "Laptop văn phòng",
       "description": "Nhỏ gọn, nhẹ, thuận tiện mang đi, học và làm việc\n",
-      "status": false
+      "status": true
     },
     {
       "id": 45778047,
@@ -687,9 +687,9 @@
       "status": true
     },
     {
-      "id": 5028692,
-      "name": "22223",
-      "description": "fffgggggggg",
+      "id": 2007899,
+      "name": "ádasda",
+      "description": "",
       "status": true
     }
   ],

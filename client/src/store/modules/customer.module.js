@@ -1,6 +1,6 @@
-import { apiEDITCustomers } from "@/api/instance";
+import { apiADD, apiEDIT, apiGET } from "@/api/instance";
 
-const CustomersModule = {
+const moduleCustomer = {
   // Đây là nơi khởi tạo các state của post Module
   state: {
     data: [],
@@ -8,58 +8,46 @@ const CustomersModule = {
 
   // Chứa các hàm đồng bộ để cập nhật lại state
   mutations: {
-    getCustomers(state, payload) {
+    getCustomer(state, payload) {
       state.data = payload;
     },
-    addCustomers(state, payload) {
+    addCustomer(state, payload) {
       state.data.push(payload);
     },
-    deleteCustomers(state, payload) {
-      state.data.push(payload);
-    },
-    editCustomers(state, payload) {
+    editCustomer(state, payload) {
       state.data.push(payload);
     },
   },
 
   // Chứa các hàm bất đồng bộ: gọi API tương tác với dữ liệu
   actions: {
-    async apiGetCustomers({ commit }) {
+    async apiGetCustomer({ commit }) {
       try {
-        const data = await getAPI(); // Sử dụng await để đợi API trả về
-        commit("getCustomers", data);
+        const data = await apiGET('users'); // Sử dụng await để đợi API trả về
+        commit("getCustomer", data);
       } catch (error) {
-        console.log("Error fetching Customers data:", error);
+        console.log("Error fetching Customer data:", error);
       }
     },
-    async apiAddCustomers({ commit }, payload) {
+    async apiAddCustomer({ commit }, payload) {
       try {
-        await apiADD(payload); // Đợi API thêm mới hoàn thành
-        await commit("addCustomers", payload);
-        commit('getCustomers')
+        await apiADD(payload,'users'); // Đợi API thêm mới hoàn thành
+        await commit("addCustomer", payload);
+        commit('getCustomer')
       } catch (error) {
-        console.log("Error adding Customers:", error);
+        console.log("Error adding Customer:", error);
       }
     },
-    async apiDeleteCustomers({ commit }, payload) {
+    async apiEditCustomer({ commit }, payload) {
       try {
-        await apiDELETE(payload); // Đợi API thêm mới hoàn thành
-        await commit("deleteCustomers", payload);
-        commit('getCustomers')
+        await apiEDIT(payload,'users'); // Đợi API thêm mới hoàn thành
+        await commit("editCustomer", payload);
+        commit('getCustomer')
       } catch (error) {
-        console.log("Error adding Customers:", error);
-      }
-    },
-    async apiEDITCustomers({ commit }, payload) {
-      try {
-        await apiEDIT(payload); // Đợi API thêm mới hoàn thành
-        await commit("editCustomers", payload);
-        commit('getCustomers')
-      } catch (error) {
-        console.log("Error adding Customers:", error);
+        console.log("Error adding Customer:", error);
       }
     },
   },
 };
 
-export default CustomersModule;
+export default moduleCustomer;

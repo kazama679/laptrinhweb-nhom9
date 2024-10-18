@@ -1,6 +1,6 @@
-import { apiADD, apiDELETE, apiEDIT, getAPI } from "@/api/instance";
+import { apiADD, apiDELETE, apiEDIT, apiGET } from "@/api/instance";
 
-const postModule = {
+const moduleCategory = {
   // Đây là nơi khởi tạo các state của post Module
   state: {
     data: [],
@@ -26,7 +26,7 @@ const postModule = {
   actions: {
     async apiGetCategory({ commit }) {
       try {
-        const data = await getAPI(); // Sử dụng await để đợi API trả về
+        const data = await apiGET('classify'); // Sử dụng await để đợi API trả về
         commit("getCategory", data);
       } catch (error) {
         console.log("Error fetching category data:", error);
@@ -34,7 +34,7 @@ const postModule = {
     },
     async apiAddCategory({ commit }, payload) {
       try {
-        await apiADD(payload); // Đợi API thêm mới hoàn thành
+        await apiADD(payload,'classify'); // Đợi API thêm mới hoàn thành
         await commit("addCategory", payload);
         commit('getCategory')
       } catch (error) {
@@ -43,7 +43,7 @@ const postModule = {
     },
     async apiDeleteCategory({ commit }, payload) {
       try {
-        await apiDELETE(payload); // Đợi API thêm mới hoàn thành
+        await apiDELETE(payload,'classify'); // Đợi API thêm mới hoàn thành
         await commit("deleteCategory", payload);
         commit('getCategory')
       } catch (error) {
@@ -52,7 +52,7 @@ const postModule = {
     },
     async apiEditCategory({ commit }, payload) {
       try {
-        await apiEDIT(payload); // Đợi API thêm mới hoàn thành
+        await apiEDIT(payload,'classify'); // Đợi API thêm mới hoàn thành
         await commit("editCategory", payload);
         commit('getCategory')
       } catch (error) {
@@ -62,4 +62,4 @@ const postModule = {
   },
 };
 
-export default postModule;
+export default moduleCategory;

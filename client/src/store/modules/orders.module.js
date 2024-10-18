@@ -1,6 +1,6 @@
-import { apiADDCategory, apiDELETECategory, apiEDITCategory, getAPICategory } from "@/api/instance";
+import { apiADD, apiEDIT, apiGET } from "@/api/instance";
 
-const OrdersModule = {
+const moduleOrder = {
   // Đây là nơi khởi tạo các state của post Module
   state: {
     data: [],
@@ -8,46 +8,46 @@ const OrdersModule = {
 
   // Chứa các hàm đồng bộ để cập nhật lại state
   mutations: {
-    getOrders(state, payload) {
+    getOrder(state, payload) {
       state.data = payload;
     },
-    addOrders(state, payload) {
+    addOrder(state, payload) {
       state.data.push(payload);
     },
-    editOrders(state, payload) {
+    editOrder(state, payload) {
       state.data.push(payload);
     },
   },
 
   // Chứa các hàm bất đồng bộ: gọi API tương tác với dữ liệu
   actions: {
-    async apiGetOrders({ commit }) {
+    async apiGetOrder({ commit }) {
       try {
-        const data = await getAPI(); // Sử dụng await để đợi API trả về
-        commit("getOrders", data);
+        const data = await apiGET('orders'); // Sử dụng await để đợi API trả về
+        commit("getOrder", data);
       } catch (error) {
-        console.log("Error fetching Orders data:", error);
+        console.log("Error fetching Order data:", error);
       }
     },
-    async apiAddOrders({ commit }, payload) {
+    async apiAddOrder({ commit }, payload) {
       try {
-        await apiADD(payload); // Đợi API thêm mới hoàn thành
-        await commit("addOrders", payload);
-        commit('getOrders')
+        await apiADD(payload,'orders'); // Đợi API thêm mới hoàn thành
+        await commit("addOrder", payload);
+        commit('getOrder')
       } catch (error) {
-        console.log("Error adding Orders:", error);
+        console.log("Error adding Order:", error);
       }
     },
-    async apiEditOrders({ commit }, payload) {
+    async apiEditOrder({ commit }, payload) {
       try {
-        await apiEDIT(payload); // Đợi API thêm mới hoàn thành
-        await commit("editOrders", payload);
-        commit('getOrders')
+        await apiEDIT(payload,'orders'); // Đợi API thêm mới hoàn thành
+        await commit("editOrder", payload);
+        commit('getOrder')
       } catch (error) {
-        console.log("Error adding Orders:", error);
+        console.log("Error adding Order:", error);
       }
     },
   },
 };
 
-export default OrdersModule;
+export default moduleOrder;

@@ -92,7 +92,6 @@
 </template>
 
 <script setup>
-import axios from "axios";
 import { onMounted, ref } from "vue";
 import Form from '@/components/Form.vue';
 import apiClient from "@/api/instance";

@@ -52,7 +52,7 @@
                             <td className="px-4 py-2 border">
                                 <div className="flex justify-center gap-2">
                                     <!-- {/* Nếu là admin thì không có nút thay đổi trạng thái */} -->
-                                    <button v-if="!item.role"
+                                    <button v-if="!item.role" @click="handleStatus(item)"
                                         :className='item.status ? "bg-green-500 text-white px-3 py-1 rounded" : "bg-red-500 text-white px-3 py-1 rounded"'>
                                         {{ item.status ? "Đang mở" : "Đang khóa" }}
                                     </button>
@@ -82,7 +82,9 @@
 <script setup>
 import apiClient from '@/api/instance';
 import { onMounted, ref } from 'vue';
+import { useStore } from 'vuex';
 
+const store = useStore()
 const customer = ref([])
 const fetchData = async () => {
     try {
@@ -95,6 +97,12 @@ const fetchData = async () => {
 onMounted(() => {
     fetchData()
 })
+
+const handleStatus = (customer) => {
+  customer.status = !customer.status;
+  store.dispatch("apiEditCustomer", customer);
+}
+
 </script>
 
 <style></style>

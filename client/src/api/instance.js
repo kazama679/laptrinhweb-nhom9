@@ -11,44 +11,40 @@ const apiClient = axios.create({
 export default apiClient;
 
 // Hàm GET để lấy dữ liệu từ API
-export const getAPI = async () => {
+export const apiGET = async (text) => {
   try {
-    const res = await apiClient.get('/classify');  // Sử dụng apiClient thay vì axios trực tiếp
+    const res = await apiClient.get(text); 
     return res.data;
   } catch (error) {
-    console.error("Error fetching data:", error);
-    throw error; // Đảm bảo lỗi được ném ra để xử lý
+    console.error("Lỗi Hàm GET API trong instance:", error);
   }
 };
 
 // Hàm POST để thêm dữ liệu vào API
-export const apiADD = async (item) => {
+export const apiADD = async (item,text) => {
   try {
-    const res = await apiClient.post('/classify', item);  // Sử dụng apiClient thay vì axios trực tiếp
+    const res = await apiClient.post(text, item); 
     return res.data;
   } catch (error) {
-    console.error("Error adding data:", error);
-    throw error; // Đảm bảo lỗi được ném ra để xử lý
+    console.error("Lỗi Hàm GET API trong instance:", error);
   }
 };
 
 // Hàm DELETE để xóa dữ liệu vào API
-export const apiDELETE = async (id) => {
+export const apiDELETE = async (id,text) => {
   try {
-    const res = await apiClient.delete(`/classify/${id}`);  // Sử dụng apiClient thay vì axios trực tiếp
+    const res = await apiClient.delete(`/${text}/${id}`); 
     return res.data;
   } catch (error) {
-    console.error("Error adding data:", error);
-    throw error; // Đảm bảo lỗi được ném ra để xử lý
+    console.error("Lỗi Hàm DELETE API trong instance:", error);
   }
 };
 
-export const apiEDIT = async (category) => {
+export const apiEDIT = async (item,text) => {
   try {
-    const res = await apiClient.put(`/classify/${category.id}`, category);  // Sử dụng apiClient thay vì axios trực tiếp
+    const res = await apiClient.put(`/${text}/${item.id}`, item); 
     return res.data;
   } catch (error) {
-    console.error("Error adding data:", error);
-    throw error; // Đảm bảo lỗi được ném ra để xử lý
+    console.error("Lỗi Hàm PUT API trong instance:", error);
   }
 }
