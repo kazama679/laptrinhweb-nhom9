@@ -20,17 +20,17 @@
         <div v-if="error.block" className="text-red-500 text-xs mt-2">
           Tài khoản đã bị chặn, vui lòng dùng tài khoản khác!
         </div>
-        <a
-          @click="toRegistere"
-          className="text-blue-500 text-sm mt-2 cursor-pointer hover:text-red-600"
-          >Bạn chưa có tài khoản?</a
-        >
         <button
-          type="submit"
-          className="mt-2 bg-pink-600 text-white rounded-full px-8 py-1 uppercase font-bold hover:bg-black transition"
+        type="submit"
+        className="mt-2 bg-pink-600 text-white rounded-full px-8 py-1 uppercase font-bold hover:bg-black transition"
         >
-          Đăng nhập
-        </button>
+        Đăng nhập
+      </button>
+      <a
+        @click="toRegistere"
+        className="text-blue-500 text-sm mt-2 cursor-pointer hover:text-red-600"
+        >Bạn chưa có tài khoản?</a
+      >
         <div v-if="error.done" className="text-green-500 text-xs mt-2">
           Đã đăng nhập tài khoản thành công
         </div>
@@ -69,6 +69,9 @@ const handleLogin = async () => {
     const listUser = response.data;
     if (userInfo.email == "" || userInfo.password == "") {
       error.null = true;
+      setTimeout(() => {
+          error.null = false;
+        }, 2000);
     } else {
       error.null = false;
       // đi kiểm tra xem có trùng tk nào trong db k
