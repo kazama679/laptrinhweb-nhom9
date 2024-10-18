@@ -5,7 +5,7 @@
       </header>
       <div class="bg-white p-6 rounded-lg shadow-lg">
         <div class="flex justify-between mb-4">
-          <button @click="showForm" class="bg-blue-500 text-white px-4 py-2 rounded">
+          <button @click="showForm({},'add')" class="bg-blue-500 text-white px-4 py-2 rounded">
             + Add Product
           </button>
           <div class="flex gap-2">
@@ -52,7 +52,7 @@
               <td class="px-4 py-2 border">{{ product.created_at }}</td>
               <td class="px-4 py-2 border">
                 <div class="flex justify-center gap-2">
-                  <button class="bg-blue-500 text-white px-3 py-1 rounded">
+                  <button @click="showForm(product,'edit')" class="bg-blue-500 text-white px-3 py-1 rounded">
                     Edit
                   </button>
                   <button @click="deleteProduct(product.id)" class="bg-red-500 text-white px-3 py-1 rounded">
@@ -63,31 +63,10 @@
             </tr>
           </tbody>
         </table>
-        <div class="flex justify-center space-x-2 mt-4">
-          <button key={page} class="px-3 py-1 border rounded currentPage bg-blue-500 text-white">
-
-          </button>
-        </div>
       </div>
       <ProductForm product={editingProduct} categories={categories} onSubmit={handleSubmitForm} />
-
-      <!-- form xác nhận xóa -->
-      <div v-if="deleteComfirm" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
-        <div class="bg-white p-6 rounded-lg">
-          <h2 class="text-xl font-bold mb-4">Xác nhận xóa sản phẩm</h2>
-          <p>Bạn có chắc chắn muốn xóa sản phẩm này?</p>
-          <div class="flex justify-end gap-4 mt-6">
-            <button @click="closeDelete" class="px-4 py-2 bg-gray-500 text-white rounded">
-              Hủy
-            </button>
-            <button @click="showFormDelete(item.id)" class="px-4 py-2 bg-red-500 text-white rounded">
-              Xóa
-            </button>
-          </div>
-        </div>
-      </div>
     </main>
-    <Form v-if="isShow" @onClose="handleClose"></Form>
+    <Form v-if="isShow" @onClose="handleClose" :item="itemProduct" :act="action"></Form>
     <Delete v-if="isShowDelete" @close="handleCloseDelete" @deleteConfirm="handleDelete"></Delete>
   </div>
 </template>
@@ -125,8 +104,11 @@ const formatVND = (price) => {
 
 const isShow = ref(false);
 const isShowDelete = ref(false);
-
-const showForm = () => {
+const action = ref('')
+const itemProduct = ref({})
+const showForm = (item, act) => {
+  itemProduct.value=item
+  action.value=act
   isShow.value = true;
 };
 const handleClose = () => {

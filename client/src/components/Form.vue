@@ -5,7 +5,9 @@
     >
       <div class="bg-white p-8 rounded-lg w-full max-w-3xl">
         <button @click="closeForm" class="text-blue-500 mb-4">Back</button>
-        <h2 class="text-2xl font-bold mb-4">Thêm sản phẩm</h2>
+        <h2 class="text-2xl font-bold mb-4">
+          {{ props.act == "add" ? "Thêm sản phẩm" : "Sửa sản phẩm" }}
+        </h2>
         <form @submit.prevent="addProduct" class="grid grid-cols-2 gap-4">
           <div class="col-span-1">
             <label htmlFor="name" class="block text-sm font-medium"
@@ -117,7 +119,7 @@
               type="submit"
               class="w-full bg-purple-500 text-white py-2 rounded mt-4"
             >
-              Thêm sản phẩm
+              {{ props.act == "add" ? "Thêm sản phẩm" : "Sửa sản phẩm" }}
             </button>
           </div>
         </form>
@@ -147,6 +149,8 @@ const err = reactive({
 });
 
 const emit = defineEmits(["onClose"]);
+const props = defineProps(["act", "item"]);
+console.log(22222222, props.act);
 
 const closeForm = () => {
   emit("onClose");
@@ -183,6 +187,19 @@ const newProduct = reactive({
   sales: 0,
 });
 
+if (props.act == "edit") {
+  newProduct.id = props.item.id;
+  newProduct.name = props.item.name;
+  newProduct.price = props.item.price;
+  newProduct.stock = props.item.stock;
+  newProduct.category = props.item.category;
+  newProduct.status = props.item.status;
+  newProduct.image = props.item.image;
+  newProduct.description = props.item.description;
+  newProduct.created_at = props.item.created_at;
+  newProduct.comments = props.item.comments;
+  newProduct.sales = props.item.sales;
+}
 
 const firstInput = ref(null);
 const category = ref([]);
@@ -211,11 +228,20 @@ const addProduct = async () => {
   err.noCategory = false;
   err.noImage = false;
 
-  // Kiểm tra nếu tên sản phẩm bị trùng hoặc trống
+  // Kiểm tra nếu tên sản phẩm bị trống
   if (newProduct.name === "") {
     err.noName = true;
-  } else if (products.value.some((item) => item.name === newProduct.name)) {
-    err.sameName = true;
+  }
+
+  // Kiểm tra nếu tên sản phẩm bị trùng (bỏ qua khi đang chỉnh sửa sản phẩm hiện tại)
+  if(props.act === "add"){
+    if(products.value.some((item) => item.name === newProduct.name)){
+      err.sameName = true;
+    }
+  }else{
+    if(products.value.some((item) => item.name === newProduct.name && item.id !== newProduct.id)){
+      err.sameName = true;
+    }
   }
 
   // Kiểm tra số lượng sản phẩm
@@ -233,11 +259,12 @@ const addProduct = async () => {
     err.noCategory = true;
   }
 
-  if (!file.value) {
+  // Kiểm tra hình ảnh (chỉ khi thêm mới, không kiểm tra nếu đã có hình ảnh khi sửa)
+  if (props.act === "add" && !file.value) {
     err.noImage = true;
   }
 
-  // Nếu có bất kỳ lỗi nào, không tiến hành thêm sản phẩm
+  // Nếu có bất kỳ lỗi nào, không tiến hành thêm/sửa sản phẩm
   if (
     err.noName ||
     err.sameName ||
@@ -249,17 +276,27 @@ const addProduct = async () => {
     return;
   }
   try {
-    const storageReference = storageRef(storage, `images/${file.value.name}`);
-    await uploadBytes(storageReference, file.value);
-    const urlDownload = await getDownloadURL(storageReference);
-
-    newProduct.image = urlDownload;
-    store.dispatch("apiAddProduct", newProduct);
+    if (props.act === "add") {
+      const storageReference = storageRef(storage, `images/${file.value.name}`);
+      await uploadBytes(storageReference, file.value);
+      const urlDownload = await getDownloadURL(storageReference);
+      newProduct.image = urlDownload;
+      store.dispatch("apiAddProduct", newProduct);
+    } else if (props.act === "edit") {
+      if (file.value) {
+        const storageReference = storageRef(storage, `images/${file.value.name}`);
+        await uploadBytes(storageReference, file.value);
+        const urlDownload = await getDownloadURL(storageReference);
+        newProduct.image = urlDownload;
+      }
+      store.dispatch("apiEditProduct", newProduct); 
+    }
     emit("onClose");
   } catch (error) {
     console.log(error);
   }
 };
+
 </script>
 
 <style></style>

@@ -329,7 +329,7 @@
   "products": [
     {
       "id": 39443274,
-      "name": "Laptop ASUS Vivobook 15 X1504ZA-NJ582W",
+      "name": "Asus Zenbook 14 OLED Q41",
       "price": 10690000,
       "stock": 19,
       "category": "Laptop văn phòng",
@@ -337,55 +337,6 @@
       "image": "https://firebasestorage.googleapis.com/v0/b/xuanquang-14d06.appspot.com/o/ptit-image%2Flaptopvanphong1.webp?alt=media&token=5eb8db21-ac7f-4194-8f43-da0ca3e57e89",
       "description": "Laptop ASUS Vivobook 15 X1504ZA-NJ582W sở hữu thiết kế kim loại sang trọng với trọng lượng chỉ 1.7kg đi kèm màn hình IPS 15.6-inch FHD sắc nét. Công nghệ CPU Intel thế hệ 12, RAM DDR4 và ổ SSD M.2 PCIe Gen3 trên thiết bị đảm bảo hiệu suất mạnh mẽ. Ngoài ra, sản phẩm laptop Asus Vivobook còn có sẵn 3 loại cổng kết nối USB thuận tiện để kết nối các thiết bị lưu trữ khác nhau.",
       "created_at": "13/07/2024",
-      "updated_at": "8/9/2024",
-      "sales": 3,
-      "assess": [
-        {
-          "id": 524181,
-          "idUser": 70982177,
-          "name": "quang1",
-          "star": 5,
-          "comment": "Sản phẩm tốt, dùng thoải mái, nhẹ tiện lợi.",
-          "created_at": "16/9/2024",
-          "feedback": []
-        },
-        {
-          "id": 936082,
-          "idUser": 4900826,
-          "name": "quang3123",
-          "star": 5,
-          "comment": "ádddddd đá ád áda dá a",
-          "created_at": "14/10/2024",
-          "feedback": []
-        },
-        {
-          "id": 157097,
-          "idUser": 4900826,
-          "name": "quang3123",
-          "star": 4,
-          "comment": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-          "created_at": "14/10/2024",
-          "feedback": []
-        },
-        {
-          "id": 649014,
-          "idUser": 4900826,
-          "name": "quang3123",
-          "star": 0,
-          "comment": "ggggggggggggggggggg  ",
-          "created_at": "14/10/2024",
-          "feedback": []
-        },
-        {
-          "id": 693982,
-          "idUser": 4900826,
-          "name": "quang3123",
-          "star": 1,
-          "comment": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
-          "created_at": "14/10/2024",
-          "feedback": []
-        }
-      ],
       "comments": [
         {
           "id": 448276,
@@ -440,7 +391,8 @@
             }
           ]
         }
-      ]
+      ],
+      "sales": 3
     },
     {
       "id": 55157377,
@@ -671,19 +623,6 @@
       "updated_at": "16/9/2024",
       "assess": [],
       "comments": []
-    },
-    {
-      "id": 3466264,
-      "name": "1",
-      "price": 1,
-      "stock": 1,
-      "category": "Laptop gaming",
-      "status": true,
-      "image": "https://firebasestorage.googleapis.com/v0/b/m26-upload.appspot.com/o/images%2Favatar-anh-meo-cute-3.jpg?alt=media&token=b19c7e4e-e962-4ff5-85ba-1093e54302cc",
-      "description": "",
-      "created_at": "18/10/2024",
-      "comments": [],
-      "sales": 0
     }
   ],
   "classify": [
