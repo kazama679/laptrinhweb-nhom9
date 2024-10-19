@@ -15,7 +15,7 @@ const router = createRouter({
             name: 'cart'
         },
         {
-            path: '/card',
+            path: '/card/:id',
             component: ()=>  import(/* webpackChunkName: "card" */"@/views/user/Card.vue"),
             name: 'card'
         },

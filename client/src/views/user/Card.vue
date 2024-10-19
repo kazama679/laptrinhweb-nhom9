@@ -4,10 +4,10 @@
     <div className="flex justify-center items-center mt-32">
       <div className="w-3/4 flex p-6 border border-gray-300 rounded-lg bg-white">
         <div className="w-1/2">
-          <img className="w-full h-full rounded-lg shadow-md" src='' alt={product.name} />
+          <img className="w-full h-full rounded-lg shadow-md" :src='product?.image' alt= />
         </div>
         <div className="w-1/2 flex flex-col justify-between ml-10 text-left">
-          <h1 className="text-2xl font-bold mb-2">{product.name}</h1>
+          <h1 className="text-2xl font-bold mb-2">{{ product?.name }}</h1>
           <div className="flex items-center mb-2">
             <span className="mr-2">{calculateAverageRating()}</span> <!-- {/* Hiển thị giá trị trung bình */} -->
             <div className="flex text-yellow-500">
@@ -27,17 +27,13 @@
           </div>
           <div className="flex justify-between items-center mb-2">
             <span className="text-lg">Giá sản phẩm:</span>
-            <span className="text-xl text-red-500 font-bold">{formatVND(product.price)}</span>
+            <span className="text-xl text-red-500 font-bold">{{ formatVND(product?.price) }}</span>
           </div>
           <div className="text-sm text-gray-600 mb-2">
-            <b>Chi tiết sản phẩm:</b> {product.description}
-          </div>
-          <div className="flex items-center text-blue-500 text-sm mb-2">
-            <FaShippingFast className="mr-2" />
-            <span>Miễn phí vận chuyển</span>
+            <b>Chi tiết sản phẩm:</b> {{ product?.description }}
           </div>
           <div className="flex space-x-4">
-            <button onClick={handleAddToCart}
+            <button @click='handleAddToCart'
               className="flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700">
               <FaCartPlus /> Thêm Vào Giỏ Hàng
             </button>
@@ -47,14 +43,16 @@
     </div>
 
     <!-- {/* Sản phẩm liên quan */} -->
-    <div className="container mx-auto my-10 px-40 py-20 bg-gray-50">
-      <h2 className="text-lg font-bold text-left">Sản phẩm liên quan</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 justify-center mt-5">
-        <div className="bg-white rounded-lg overflow-hidden hover:shadow-lg cursor-pointer">
-          <img className="w-full h-40 object-cover" src='' alt={product.name} />
-          <div className="p-4">
-            <h3 className="text-sm font-semibold truncate">{product.name}</h3>
-            <p className="text-red-500 mt-2 font-bold">₫{product.price.toLocaleString('vi-VN')}</p>
+    <div class="container mx-auto my-10 px-40 py-20 bg-gray-50">
+      <h2 class="text-lg font-bold text-left">Sản phẩm liên quan</h2>
+      <div class="flex flex-wrap justify-between gap-5 mt-5">
+        <!-- Vòng lặp qua sản phẩm liên quan -->
+        <div v-for="item in products.filter(i => i.category == product?.category).sort((a,b)=>b.sales-a.sales).slice(0, 4)" :key="item.id" @click="nextCard(item.id)"
+          class="bg-white rounded-lg overflow-hidden hover:shadow-lg cursor-pointer w-1/5"> 
+          <img class="w-full h-40 object-cover" :src="item.image" alt="Product Image" />
+          <div class="p-4">
+            <h3 class="text-sm font-semibold truncate">{{ item.name }}</h3>
+            <p class="text-red-500 mt-2 font-bold">{{ formatVND(item.price) }}</p>
           </div>
         </div>
       </div>
@@ -210,22 +208,112 @@
     <!-- {/* end-comment 2 */} -->
 
     <!-- {/* Form thông báo khi thêm sản phẩm vào giỏ hàng thành công */} -->
-    <div v-if="false" className="fixed inset-0 flex items-center justify-center z-50 border border-black">
+    <div v-if="isShowMessager" className="fixed inset-0 flex items-center justify-center z-50 border border-black">
       <div className="bg-white p-6 shadow-2xl rounded-lg z-50 flex flex-col items-center justify-center text-center">
-        <AiOutlineCheckCircle className="text-green-500 text-5xl mb-2" />
-        <p className="text-lg font-bold">Sản phẩm đã được thêm vào Giỏ hàng</p>
+        <i class="fa-solid fa-cart-plus text-green-500 text-5xl mb-2" ></i>
+        <p className="text-lg font-bold mt-2">Đã thêm vào Giỏ hàng</p>
       </div>
     </div>
-    <Contact/>
+    <Contact />
     <Footer />
   </div>
 </template>
 
 <script setup>
-
+import apiClient from '@/api/instance';
 import Contact from '@/components/Contact.vue';
 import Footer from '@/components/Footer.vue';
-import Header from '@/components/Header.vue'
+import Header from '@/components/Header.vue';
+import { ref, onMounted, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+const store=useStore()
+const route = useRoute();
+const router = useRouter();
+const id = route.params.id;
+const products = ref([]);
+const product = ref(null);
+
+const fetchData = async () => {
+  try {
+    const response = await apiClient.get('products');
+    products.value = response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+watch(products, (newProducts) => { // watch để theo dõi sự thay đổi của products và cập nhật product
+  if (newProducts.length > 0) {
+    product.value = newProducts.find(item => item.id == id);
+  }
+});
+
+onMounted(() => {
+  window.scrollTo(0, 0);
+  fetchData()
+});
+
+// format tiền
+const formatVND = (price) => {
+  if (price) {
+    return price.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
+  }
+};
+
+const nextCard = async(id) => {
+  await router.push(`/card/${id}`)
+  window.location.reload();
+}
+
+const isShowMessager=ref(false)
+const handleAddToCart = async () => {
+  isShowMessager.value = true;
+  setTimeout(() => {
+    isShowMessager.value = false;
+  }, 1000);
+
+  // Lấy về user đang đăng nhập từ localStorage
+  const userLocal = JSON.parse(localStorage.getItem("userLogin"));
+  if (!userLocal) {
+    console.log('Chưa đăng nhập');
+    return;
+  }
+
+  // Gọi API để lấy danh sách users
+  try {
+    const response = await apiClient.get('users');
+    const users = response.data;
+
+    // Tìm vị trí của user đang đăng nhập
+    const indexUser = users.findIndex(item => item.id === userLocal.id);
+
+    if (indexUser === -1) {
+      console.log('Không tìm thấy người dùng');
+      return;
+    }
+
+    console.log('Vị trí của user:', indexUser);
+
+    // Kiểm tra xem sản phẩm đã có trong giỏ hàng của user chưa
+    const user = users[indexUser];
+    const productInCart = user.cart.findIndex(item => item.id === product.value.id);
+    
+    if (productInCart!=-1) {
+      // Nếu sản phẩm đã có, tăng số lượng
+      user.cart[productInCart].quantity += 1;
+    } else {
+      // Nếu sản phẩm chưa có, thêm mới
+      user.cart.push({ ...product.value, quantity: 1 });
+    }
+    console.log(8888888,user);
+    store.dispatch('apiEditCustomer', user);
+    fetchData()
+  } catch (error) {
+    console.error('Lỗi khi thêm vào giỏ hàng:', error);
+  }
+};
+
 </script>
 
 <style></style>
