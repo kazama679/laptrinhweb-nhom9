@@ -10,7 +10,7 @@
         </h2>
       </div>
       <div class="shopping-cart-child flex justify-center gap-6">
-        <div v-if="user?.cart.length!==0" class="shopping-cart__items mt-5 w-[650px] p-2 bg-white">
+        <div v-if="user?.cart.length !== 0" class="shopping-cart__items mt-5 w-[650px] p-2 bg-white">
           <div class="shopping-cart__items-p bg-gray-100 flex gap-1 py-4 px-5 -mt-2 mb-4">
             <p class="text-lg">
               Bạn đang có <b>{{ user?.cart.length }} sản phẩm</b> trong giỏ hàng
@@ -23,7 +23,7 @@
                 <div class="shopping-cart__details flex flex-col items-start text-left">
                   <b class="shopping-cart__name font-serif">{{ wordProduct(item.name) }}</b>
                   <div class="counter mt-2 mb-2 flex justify-center">
-                    <button @click="downQuantity(item)" :disabled="item.quantity==1" class="w-6 h-6 flex items-center justify-center bg-gray-200 border-none">
+                    <button @click="downQuantity(item)" :disabled="item.quantity == 1" class="w-6 h-6 flex items-center justify-center bg-gray-200 border-none">
                       -
                     </button>
                     <input type="text" class="w-9 h-6 text-center border border-gray-200" v-model="item.quantity" @input="handleQuantityChange(item)" />
@@ -40,17 +40,14 @@
             </div>
             <div class="shopping-cart__price flex justify-between items-center border-b border-gray-300 pb-2">
               <b>Thành tiền:</b>
-              <b className="shopping-cart__price-number text-red-600">{{ formatVND(item.price * item.quantity) }}</b>
+              <b class="shopping-cart__price-number text-red-600">{{ formatVND(item.price * item.quantity) }}</b>
             </div>
           </div>
           <div class="shopping-cart__notes mt-5">
             <textarea class="w-full h-24 p-2 border border-gray-300" placeholder="Ghi chú đơn hàng"></textarea>
           </div>
 
-          <!-- <div class="text-red-500 text-center mt-4">hết hàng</div> -->
-
-          <button @click="handleClearCart"
-            class="shopping-cart__clear-all w-2/5 rounded py-2 bg-red-600 text-white text-center border-none cursor-pointer mt-5">
+          <button @click="handleShowDeleteAll" class="shopping-cart__clear-all w-2/5 rounded py-2 bg-red-600 text-white text-center border-none cursor-pointer mt-5">
             Xóa tất cả sản phẩm trong giỏ
           </button>
         </div>
@@ -69,8 +66,7 @@
             Bạn có thể nhập mã giảm giá ở trang thanh toán
           </div>
 
-          <button v-if="user?.cart.length!==0" @click="handlePay"
-            class="shopping-cart__checkout w-full py-2 bg-red-600 text-white text-center border-none">
+          <button v-if="user?.cart.length !== 0" @click="handlePay" class="shopping-cart__checkout w-full py-2 bg-red-600 text-white text-center border-none">
             Thanh toán
           </button>
           <div v-else class="text-center text-red-600 font-bold mt-4">
@@ -87,7 +83,13 @@
         </button>
       </div>
     </div>
-    <Delete v-if="showDelete" @deleteConfirm="handleDeleteConfirm" @close="handleClose" :text1="act1" :text2="act2" @deleteAllConfirm="handleDeleteAll"></Delete>
+
+    <!-- Modal xóa sản phẩm -->
+    <Delete v-if="showDelete" @deleteConfirm="handleDeleteConfirm" @close="handleClose"></Delete>
+
+    <!-- Modal xóa tất cả sản phẩm -->
+    <Delete2 v-if="showDeleteAll" @closeAll="handleCloseAll" @deleteAllConfirm="handleDeleteAllConfirm"></Delete2>
+
     <Contact />
     <Footer />
   </div>
@@ -101,13 +103,18 @@ import { ref, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import apiClient from '@/api/instance';
 import { useStore } from 'vuex';
-import Delete from '@/components/Delete.vue'
+import Delete from '@/components/Delete.vue';
+import Delete2 from '@/components/Delete2.vue';
 
-const store = useStore()
+const store = useStore();
 const router = useRouter();
 const users = ref([]);
 const userLocal = JSON.parse(localStorage.getItem('userLogin') || 'null');
-const showDelete=ref(false)
+const showDelete = ref(false);
+const showDeleteAll = ref(false);
+const user = ref(null);
+const idDelete = ref(null);
+
 // Điều hướng nếu chưa đăng nhập
 if (!userLocal) {
   router.push('/login');
@@ -128,34 +135,33 @@ onMounted(() => {
   fetchData();
 });
 
-const user = ref(null);
-
-watch(users, (newUsers) => { // Khi giá trị users thay đổi, newUsers sẽ đc cập nhập
+// Đồng bộ dữ liệu user
+watch(users, (newUsers) => {
   if (newUsers.length > 0) {
     user.value = newUsers.find(item => item.id === userLocal.id);
     console.log('user: ', user.value);
   }
 });
 
-const nextHome=()=>{
-  router.push('/')
-}
+// Điều hướng về trang chủ
+const nextHome = () => {
+  router.push('/');
+};
 
-const handlePay=()=>{
-  router.push('/pay')
-}
+// Chuyển hướng đến trang thanh toán
+const handlePay = () => {
+  router.push('/pay');
+};
 
-// Hàm tính tổng tiền giỏ hàng
+// Tính tổng tiền giỏ hàng
 const calculateTotalPrice = () => {
   if (user.value && user.value.cart) {
-    return user.value.cart.reduce((total, item) => {
-      return total + (item.price * item.quantity);
-    }, 0);
+    return user.value.cart.reduce((total, item) => total + (item.price * item.quantity), 0);
   }
   return 0;
 };
 
-// Hàm format tiền
+// Format tiền VND
 const formatVND = (price) => {
   if (!price || isNaN(price)) {
     return "0 VND";
@@ -163,71 +169,71 @@ const formatVND = (price) => {
   return price.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
 };
 
+// Tách chuỗi sản phẩm để hiển thị tối đa 4 từ
 const wordProduct = (name) => {
-  const words = name.split(' '); // Tách chuỗi theo khoảng trắng
-  return words.slice(0, 4).join(' '); // Lấy 4 từ đầu tiên và ghép lại bằng dấu cách
+  const words = name.split(' ');
+  return words.slice(0, 4).join(' ');
 };
 
-const idDelete=ref(null)
-// hàm xóa sản phẩm
+// Hiển thị modal xóa tất cả sản phẩm
+const handleShowDeleteAll = () => {
+  showDeleteAll.value = true;
+};
+
+// Xác nhận xóa tất cả sản phẩm trong giỏ hàng
+const handleDeleteAllConfirm = () => {
+  user.value = { ...user.value, cart: [] };
+  store.dispatch('apiEditCustomer', user.value);
+  showDeleteAll.value = false;
+};
+
+// Hiển thị modal xóa sản phẩm
 const handleDelete = (product) => {
-  idDelete.value=product.id
-  showDelete.value=true
+  idDelete.value = product.id;
+  showDelete.value = true;
 };
 
+// Xác nhận xóa sản phẩm
 const handleDeleteConfirm = () => {
   const newCart = user.value?.cart.filter(item => item.id !== idDelete.value);
   user.value = { ...user.value, cart: newCart };
   store.dispatch('apiEditCustomer', user.value);
   showDelete.value = false;
-}
+};
 
-const handleClose=()=>{
-  act1.value=''
-  act2.value=''
-  showDelete.value=false
-}
-const act1=ref('')
-const act2=ref('')
-const handleClearCart=()=>{
-  act1.value='Xác nhận xóa tất cả'
-  act2.value='Bạn có chắc chắn xóa tất cả sản phẩm trong giỏ hàng?'
-  showDelete.value = true;
-}
-// xóa tất cả
-const handleDeleteAll = () => {
-  user.value = { ...user.value, cart: [] };
-  store.dispatch('apiEditCustomer', user.value);
-  act1.value=''
-  act2.value=''
+// Đóng modal xóa sản phẩm
+const handleClose = () => {
   showDelete.value = false;
-}
+};
 
-// tăng số lượng sản phẩm
+// Đóng modal xóa tất cả sản phẩm
+const handleCloseAll = () => {
+  showDeleteAll.value = false;
+};
+
+// Tăng số lượng sản phẩm
 const upQuantity = (product) => {
   const indexProduct = user.value?.cart.findIndex(item => item.id === product.id);
-  if(indexProduct!=-1){
-    user.value.cart[indexProduct].quantity++
+  if (indexProduct !== -1) {
+    user.value.cart[indexProduct].quantity++;
     store.dispatch('apiEditCustomer', user.value);
   }
 };
 
-// giảm số lượng sản phẩm
-const downQuantity=(product)=>{
+// Giảm số lượng sản phẩm
+const downQuantity = (product) => {
   const indexProduct = user.value?.cart.findIndex(item => item.id === product.id);
-  if(indexProduct!=-1){
-    user.value.cart[indexProduct].quantity--
+  if (indexProduct !== -1 && user.value.cart[indexProduct].quantity > 1) {
+    user.value.cart[indexProduct].quantity--;
     store.dispatch('apiEditCustomer', user.value);
   }
-}
+};
 
-// Hàm để xử lý khi số lượng thay đổi trong input
+// Xử lý thay đổi số lượng từ input
 const handleQuantityChange = (product) => {
   const indexProduct = user.value?.cart.findIndex(item => item.id === product.id);
   if (indexProduct !== -1) {
-    // Chuyển đổi giá trị từ input thành số nguyên
     let newQuantity = parseInt(user.value.cart[indexProduct].quantity, 10);
-    // Kiểm tra nếu giá trị nhỏ hơn 1, đặt lại thành 1
     if (isNaN(newQuantity) || newQuantity < 1) {
       newQuantity = 1;
     }
@@ -237,4 +243,4 @@ const handleQuantityChange = (product) => {
 };
 </script>
 
-<style></style>
+<style scoped></style>

@@ -57,9 +57,9 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
         <div v-for="item in products.filter(item => item.category == category.name).slice(0, 4)" :key="item.id" @click="nextCard(item.id)"
           class="bg-white rounded-lg shadow-md p-4 relative hover:border-black transition-all duration-300 hover:shadow-2xl">
-          <div>
-            <i v-if="true" class="fa-regular fa-heart hover:text-red-600"></i>
-            <i v-if="false" class="fa-solid fa-heart text-red-600 hover:text-black"></i>
+          <div @click="handleLike(item, $event)">
+            <i v-if="user?.like.some(i => i.id === item.id)" class="fa-solid fa-heart text-red-600 hover:text-black"></i>
+            <i v-else class="fa-regular fa-heart hover:text-red-600"></i>
           </div>
           <div class="bg-red-500 text-white text-sm px-2 py-1 rounded-full absolute top-2 right-2">
             New
@@ -203,18 +203,25 @@ import apiClient from '@/api/instance';
 import Contact from '@/components/Contact.vue';
 import Footer from '@/components/Footer.vue';
 import Header from '@/components/Header.vue'
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+const store=useStore()
 const router=useRouter()
 const products = ref([])
 const category = ref([])
+const user = ref(null)
+const userLocal = JSON.parse(localStorage.getItem('userLogin') || 'null');
+const users = ref([])
 
 const fetchData = async () => {
   try {
     const respones = await apiClient('products')
     const categoryRp = await apiClient('classify')
+    const usersRp = await apiClient('users')
     products.value = respones.data
     category.value = categoryRp.data
+    users.value = usersRp.data
   } catch (err) {
     console.log(err);
   }
@@ -226,10 +233,32 @@ const formatVND = (price) => {
 onMounted(() => {
   fetchData()
 })
-
 const nextCard = (id) => {
   router.push(`/card/${id}`)
 }
+watch(users, (newUsers) => { // Khi giá trị users thay đổi, newUsers sẽ đc cập nhập
+  if (newUsers.length > 0) {
+    user.value = newUsers.find(item => item.id === userLocal.id);
+    console.log('user: ', user.value);
+  }
+  if (!user.value.like) {
+      user.value.like = [];
+    }
+});
+
+// thay đổi yêu thích của user
+const handleLike = (item, event) => {
+  event.stopPropagation();  // Ngăn chặn sự kiện click lan truyền lên phần tử cha
+  // Kiểm tra xem sản phẩm đã có trong danh sách yêu thích chưa
+  if (user.value.like.some(i => i.id === item.id)) {
+    // Xóa sản phẩm khỏi danh sách yêu thích nếu nó đã tồn tại
+    user.value.like = user.value.like.filter(idLike => idLike.id !== item.id);
+  } else {
+    // Thêm sản phẩm vào danh sách yêu thích nếu chưa có
+    user.value.like.push(item);
+  }
+  store.dispatch('apiEditCustomer', user.value);
+};
 
 </script>
 

@@ -13,7 +13,7 @@
                   className="w-full p-2 border border-gray-300 h-10 text-center"
                   value={name}
                 />
-                  <div className="text-red-500 text-sm">
+                  <div v-if="err.name" className="text-red-500 text-sm">
                     Vui lòng nhập tên người nhận hàng!
                   </div>
                 <input
@@ -22,7 +22,7 @@
                   className="w-full p-2 border border-gray-300 h-10 text-center"
                   value={phone}
                 />
-                  <div className="text-red-500 text-sm">
+                  <div v-if="err.phone" className="text-red-500 text-sm">
                     Vui lòng nhập số điện thoại người nhận hàng!
                   </div>
                 <input
@@ -31,7 +31,7 @@
                   className="w-full p-2 border border-gray-300 h-10 text-center"
                   value={address}
                 />
-                  <div className="text-red-500 text-sm">Vui lòng nhập địa chỉ nhận hàng!</div>
+                  <div v-if="err.address" className="text-red-500 text-sm">Vui lòng nhập địa chỉ nhận hàng!</div>
                 <select
                   className="w-full p-2 border border-gray-300 cursor-pointer h-10 text-center"
                   value={province}
@@ -40,7 +40,7 @@
                   <option value="HaNoi">Hà Nội</option>
                   <option value="unHaNoi">Ngoại thành</option>
                 </select>
-                <div className="text-red-500 text-sm">Vui lòng chọn tỉnh / thành!</div>
+                <div v-if="err.noCity" className="text-red-500 text-sm">Vui lòng chọn tỉnh / thành!</div>
                 <select
                   className="w-full p-2 border border-gray-300 cursor-pointer h-10 text-center"
                   value={payTo}
@@ -49,27 +49,27 @@
                   <option value="NhanHang">Thanh toán khi nhận hàng</option>
                   <option value="ChuyenKhoan">Thanh toán qua ngân hàng</option>
                 </select>
-                <div className="text-red-500 text-sm">Vui lòng chọn phương thức thanh toán!</div>
+                <div v-if="err.noPay" className="text-red-500 text-sm">Vui lòng chọn phương thức thanh toán!</div>
                 <input
                   type="text"
                   placeholder="Ghi chú"
                   className="w-full p-2 border border-gray-300 h-10 text-center"
                 />
-              <div className='text-rose-500'>Bạn đang không có sản phẩm nào để thanh toán!</div>
-              <button
+              <div v-if="user?.cart?.length==0" className='text-rose-500'>Bạn đang không có sản phẩm nào để thanh toán!</div>
+              <button  v-if="user?.cart?.length!=0"
                 type="submit"
                 className="w-full p-2 bg-blue-500 text-white cursor-pointer h-10 flex justify-center items-center text-center"
               >
                 Thanh toán
               </button>
-              <button
+              <button v-if="user?.cart?.length==0"
                 type="button"
                 className="w-full p-2 bg-blue-500 text-white cursor-pointer h-10 flex justify-center items-center text-center"
                 onClick={nextHome}
               >
                 Quay lại để mua hàng
               </button>
-            <div
+            <div v-if="showMenu"
               className="flex items-center justify-center p-12 bg-green-100 border border-green-200 rounded shadow-md max-w-[300px] mx-auto fixed top-[35%] left-1/2 transform -translate-x-1/2 z-[1002]"
             >
               <div className="text-green-500 text-2xl mr-2 flex justify-center">✔</div>
@@ -80,17 +80,16 @@
         <div className="shipping-form-2 h-screen border-l border-gray-300 pl-12 flex items-center">
           <div className="cart-summary w-full">
             <!-- {/* Hiển thị số lượng sản phẩm mua */} -->
-              <div key={item.id} className="item flex justify-between items-center py-2">
+              <div v-for="item in user?.cart" :key="item.id" className="item flex justify-between items-center py-2">
                 <img
-                  src=''
-                  alt={item.name}
+                  :src='item.image'
                   className="w-[65px] h-[65px] shadow-md"
                 />
                 <div className="item-div bg-gray-500 text-white text-sm w-[20px] h-[20px] flex justify-center items-center mt-[-65px] ml-[-10px]">
-                  {item.quantity}
+                  {{item.quantity}}
                 </div>
-                <span className="item-span1 w-[200px] mr-10 truncate overflow-hidden text-ellipsis">{item.name}</span>
-                <span className="item-span2 text-lg">{formatVND(item.price)}</span>
+                <span className="item-span1 w-[200px] mr-10 truncate overflow-hidden text-ellipsis">{{item.name}}</span>
+                <span className="item-span2 text-lg">{{formatVND(item.price)}}</span>
               </div>
             <!-- {/* end-hiển thị số lượng sản phẩm mua */} -->
             <div className="down flex justify-between items-center border-b border-gray-300 pb-5 mb-2">
@@ -105,15 +104,15 @@
             </div>
             <div className="total flex justify-between py-2">
               <span>Tạm tính</span>
-              <span>{formatVND(calculateTotalProductPrice())}</span>
+              <span>{{ user?.cart?.length ? formatVND(calculateTotalPrice()) : '0 VND' }}</span>
             </div>
             <div className="shipping-fee flex justify-between py-2">
               <span>Phí vận chuyển</span>
-              <span>{formatVND(calculateShippingFee())}</span>
+              <span>{{formatVND(50000)}}</span>
             </div>
             <div className="grand-total flex justify-between py-2 border-t border-gray-300 mt-3 pt-3">
               <b>Tổng cộng</b>
-              <span className="text-red-600 text-2xl">{formatVND(calculateGrandTotal())}</span>
+              <span className="text-red-600 text-2xl">{{ user?.cart?.length ? formatVND(calculateTotalPrice()+50000) : '0 VND' }}</span>
             </div>
           </div>
         </div>
@@ -128,10 +127,60 @@
 </template>
 
 <script setup>
-
 import Contact from '@/components/Contact.vue';
 import Footer from '@/components/Footer.vue';
 import Header from '@/components/Header.vue'
+import { ref, onMounted, watch, reactive } from 'vue';
+import { useRouter } from 'vue-router';
+import apiClient from '@/api/instance';
+const router = useRouter();
+const users = ref([]);
+const user = ref(null);
+const showMenu = ref(false);
+const userLocal = JSON.parse(localStorage.getItem('userLogin') || 'null');
+const err=reactive({
+  noName:false,// tên k để trống
+  noPhone:false, // số điện thoại k để trống
+  phoneErr:false, // điện dạng điện thoại phải bắt đầu từ số 0 và có 10 số
+  noAddress:false,// địa chỉ k để trống
+  noCity: false, // thành phố k để trống
+  noPay:false,// phương thức k để trống
+})
+// Hàm lấy dữ liệu người dùng từ API
+const fetchData = async () => {
+  try {
+    const response = await apiClient.get('users');
+    users.value = response.data;
+  } catch (error) {
+    console.error('Lỗi khi lấy dữ liệu người dùng:', error);
+  }
+};
+
+watch(users, (newUsers) => { // Khi giá trị users thay đổi, newUsers sẽ đc cập nhập
+  if (newUsers.length > 0) {
+    user.value = newUsers.find(item => item.id === userLocal.id);
+    console.log('user: ', user.value);
+  }
+});
+// format tiền
+const formatVND = (price) => {
+  if(price){
+    return price.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
+  }
+};
+onMounted(() => {
+  fetchData();
+});
+
+// Hàm tính tổng tiền giỏ hàng
+const calculateTotalPrice = () => {
+  if (user.value && user.value.cart) {
+    return user.value.cart.reduce((total, item) => {
+      return total + (item.price * item.quantity);
+    }, 0);
+  }
+  return 0;
+};
 </script>
 
 <style>

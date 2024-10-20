@@ -1,14 +1,14 @@
 <template>
     <div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
         <div class="bg-white p-6 rounded-lg">
-          <h2 class="text-xl font-bold mb-4">Xác nhận xóa sản phẩm</h2>
-          <p>Bạn có chắc chắn muốn xóa sản phẩm này?</p>
+          <h2 class="text-xl font-bold mb-4">Xác nhận xóa tất cả</h2>
+          <p>Bạn có chắc chắn muốn xóa tất sản phẩm?</p>
           <div class="flex justify-end gap-4 mt-6">
-            <button @click="closeDelete" class="px-4 py-2 bg-gray-500 text-white rounded">
+            <button @click="closeDeleteAll" class="px-4 py-2 bg-gray-500 text-white rounded">
               Hủy
             </button>
-            <button @click="deleteCategory" class="px-4 py-2 bg-red-500 text-white rounded">
-              Xóa
+            <button @click="deleteAll" class="px-4 py-2 bg-red-500 text-white rounded">
+              Xóa tất cả
             </button>
           </div>
         </div>
@@ -16,13 +16,12 @@
 </template>
 
 <script setup>
-const emit = defineEmits(['deleteConfirm', 'update','close'])
-const deleteCategory=()=>{
-    emit('deleteConfirm')
-    emit('update')
+const emit = defineEmits(['closeAll','deleteAllConfirm'])
+const deleteAll=()=>{
+    emit('deleteAllConfirm')
 }
-const closeDelete=()=>{
-    emit('close')
+const closeDeleteAll=()=>{
+    emit('closeAll')
 }
 </script>
 
