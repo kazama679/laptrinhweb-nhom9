@@ -47,7 +47,7 @@
       <h2 class="text-lg font-bold text-left">Sản phẩm liên quan</h2>
       <div class="flex flex-wrap justify-between gap-5 mt-5">
         <!-- Vòng lặp qua sản phẩm liên quan -->
-        <div v-for="item in products.filter(i => i.category == product?.category).sort((a,b)=>b.sales-a.sales).slice(0, 4)" :key="item.id" @click="nextCard(item.id)"
+        <div v-for="item in someCat(products.filter(i => i.category == product?.category && i.id !== product.id)).slice(0, 4)" :key="item.id" @click="nextCard(item.id)"
           class="bg-white rounded-lg overflow-hidden hover:shadow-lg cursor-pointer w-1/5"> 
           <img class="w-full h-40 object-cover" :src="item.image" alt="Product Image" />
           <div class="p-4">
@@ -224,13 +224,14 @@ import apiClient from '@/api/instance';
 import Contact from '@/components/Contact.vue';
 import Footer from '@/components/Footer.vue';
 import Header from '@/components/Header.vue';
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch,computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 const store=useStore()
 const route = useRoute();
 const router = useRouter();
-const id = route.params.id;
+const id = computed(()=>route.params.id);
+
 const products = ref([]);
 const product = ref(null);
 
@@ -243,9 +244,13 @@ const fetchData = async () => {
   }
 };
 
+watch(id, () => { // watch để theo dõi sự thay đổi của products và cập nhật product
+  fetchData()
+});
+
 watch(products, (newProducts) => { // watch để theo dõi sự thay đổi của products và cập nhật product
   if (newProducts.length > 0) {
-    product.value = newProducts.find(item => item.id == id);
+    product.value = newProducts.find(item => item.id == id.value);
   }
 });
 
@@ -263,8 +268,17 @@ const formatVND = (price) => {
 
 const nextCard = async(id) => {
   await router.push(`/card/${id}`)
-  window.location.reload();
+  // window.location.reload();
 }
+
+// hàm sản phẩm liên quan
+const someCat = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
 
 const isShowMessager=ref(false)
 const handleAddToCart = async () => {

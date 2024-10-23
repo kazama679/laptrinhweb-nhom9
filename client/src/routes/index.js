@@ -60,6 +60,11 @@ const router = createRouter({
             name: 'register'
         },
         {
+            path: '/test',
+            component: ()=>  import(/* webpackChunkName: "test" */"@/views/user/Test.vue"),
+            name: 'test'
+        },
+        {
             path: '/admin',
             redirect: '/admin/dashboard',
             component: ()=>  import(/* webpackChunkName: "dashboard" */"@/layouts/admin/AdminLayout.vue"),

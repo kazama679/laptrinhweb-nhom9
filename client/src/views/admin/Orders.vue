@@ -52,20 +52,6 @@
             </tr>
           </tbody>
         </table>
-        <!-- 
-                        {/* phân trang */}
-                        <div className="flex justify-center space-x-2 mt-4">
-                            {[...Array(totalPages)].map((_, index) => (
-                                <button
-                                    key={index}
-                                    className={`px-3 py-1 border rounded ${currentPage === index + 1 ? 'bg-blue-500 text-white' : ''}`}
-                                    onClick={() => handlePageChange(index + 1)}
-                                >
-                                    {index + 1}
-                                </button>
-                            ))}
-                        </div>
-                        {/* end-phân trang */} -->
       </div>
       <FormOrder v-if="isShow" @onClose="handleClose" :new="editCategory"></FormOrder>
     </main>
@@ -87,10 +73,13 @@ const handleClose = () => {
   isShow.value = false
 }
 const orders = ref([])
+const sales = ref([])
 const fetchData = async () => {
   try {
     const response = await apiClient.get("orders")
+    const response2 = await apiClient.get("sales")
     orders.value = response.data
+    sales.value = response2.data
   } catch (err) {
     console.log(err);
   }
@@ -105,14 +94,22 @@ const formatVND = (price) => {
   return price.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
 };
 
-// hàm tính tổng tiền 
-const total=(item)=>{
-  let sum =0;
+// hàm tính tổng tiền bao gồm mã giảm giá
+const total = (item) => {
+  let sum = 0;
   item.cart.forEach(i => {
-    sum += i.price*i.quantity
+    sum += i.price * i.quantity;
   });
-  return sum
-}
+  // Kiểm tra nếu đơn hàng có mã giảm giá và áp dụng phần trăm giảm giá
+  if (item.sale) {
+    const sale = sales.value.find(sale => sale.name === item.sale && sale.status);
+    if (sale) {
+      sum = sum - (sum * sale.down / 100);
+    }
+  }
+  return sum;
+};
+
 </script>
 
 <style></style>

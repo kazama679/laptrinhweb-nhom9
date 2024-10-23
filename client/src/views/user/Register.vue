@@ -116,7 +116,9 @@ const newUser = reactive({
   address: "",
   created_at: getCurrentDate(),
   cart: [],
-  like: []
+  like: [],
+  contact:[],
+  save:0
 });
 
 // Thêm người dùng

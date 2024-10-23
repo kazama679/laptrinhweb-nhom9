@@ -15,7 +15,7 @@
             <div v-for="product in products.sort((a, b) => b.sales - a.sales).slice(0, 3)" :key="product.id"
               class="w-1/4 cursor-pointer bg-white group border border-gray-300">
               <div @click="nextCard(product.id)" class="relative">
-                <img :src="product.image" class="w-56 h-56 object-cover mx-auto mt-6" />
+                <img :src="product.image" class="w-56 h-56 object-cover ml-36 mt-6" />
                 <div class="absolute inset-0 flex flex-col justify-start p-5 bg-white bg-opacity-10">
                   <h3 class="text-2xl font-bold">
                     {{ product.name.split(' ').slice(1, 2).join(' ') }}
@@ -81,7 +81,6 @@
     <div className="w-full flex justify-center mt-32 mb-[-50px]">
       <div className="w-[70%] bg-gray-900 p-12 rounded text-white shadow-lg">
         <div className="flex items-center mb-4">
-          <FaSearch className="mr-2 text-2xl" />
           <input className="w-64 rounded h-8 text-black p-2" type="text" value={searchTerm}
             placeholder="Tìm kiếm sản phẩm..." />
         </div>
@@ -116,7 +115,7 @@
 
           <button onClick={handleReset}
             className="flex items-center gap-2 p-3 bg-purple-600 text-white rounded hover:bg-purple-700">
-            <FaRedo className="text-xl" /> RESET
+            RESET
           </button>
         </div>
       </div>
@@ -153,14 +152,14 @@
             </div>
             <div class="flex justify-between text-gray-400">
               <span>
-                <GiCheckMark class="ml-8" /> Chính hãng
+                 Chính hãng
               </span>
               <span class="cursor-pointer hover:text-white">
-                <FaHeart class="ml-5 text-red-600" />Yêu thích
-                <CiHeart class="ml-5 text-xl mt-[-5px]" />Yêu thích
+                Yêu thích
+                Yêu thích
               </span>
               <span>
-                <FaPlugCircleCheck class="ml-8" /> Sạc nhanh!
+                Sạc nhanh!
               </span>
             </div>
           </div>
@@ -181,13 +180,13 @@
     <!-- hiển thị form yêu thích -->
     <div v-if="false" className="fixed inset-0 flex items-center justify-center z-50 border border-black">
       <div className="bg-white p-6 shadow-2xl rounded-lg z-50 flex flex-col items-center justify-center text-center">
-        <FaHeartCircleCheck className="text-red-500 text-4xl mb-2" />
+        
         <p className="text-lg font-bold text-red-500">Sản phẩm đã được thêm vào yêu thích</p>
       </div>
     </div>
     <div v-if="false" className="fixed inset-0 flex items-center justify-center z-50 border border-black">
       <div className="bg-white p-6 shadow-2xl rounded-lg z-50 flex flex-col items-center justify-center text-center">
-        <FaHeartCircleXmark className="text-black text-4xl mb-2" />
+        
         <p className="text-lg font-bold">Đã bỏ yêu thích sản phẩm</p>
       </div>
     </div>
@@ -239,7 +238,6 @@ const nextCard = (id) => {
 watch(users, (newUsers) => { // Khi giá trị users thay đổi, newUsers sẽ đc cập nhập
   if (newUsers.length > 0) {
     user.value = newUsers.find(item => item.id === userLocal.id);
-    console.log('user: ', user.value);
   }
   if (!user.value.like) {
       user.value.like = [];

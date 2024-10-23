@@ -138,8 +138,7 @@ onMounted(() => {
 // Đồng bộ dữ liệu user
 watch(users, (newUsers) => {
   if (newUsers.length > 0) {
-    user.value = newUsers.find(item => item.id === userLocal.id);
-    console.log('user: ', user.value);
+    user.value = newUsers.find(item => item.id === userLocal.id); 
   }
 });
 

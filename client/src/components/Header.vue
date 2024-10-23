@@ -2,19 +2,19 @@
   <div>
     <div class="bg-slate-950 flex justify-center items-center h-12 text-sm text-gray-400 gap-12">
       <div class="flex items-center gap-2">
-        <FaPhoneAlt /> +83 349 199 812
+         +83 349 199 812
       </div>
       <div class="flex items-center gap-2">
-        <FaMapMarkerAlt /> 27 Tân Triều, Hà Đông, Hà Nội
+         27 Tân Triều, Hà Đông, Hà Nội
       </div>
       <div class="flex items-center gap-2">
-        <MdOutlineWorkHistory /> Work Hours
+         Work Hours
       </div>
       <div class="ml-24 flex gap-6">
-        <FaFacebook />
+        <!-- <FaFacebook />
         <FaInstagram />
         <FaTwitch />
-        <FaGoogle />
+        <FaGoogle /> -->
       </div>
 
       <!-- Phần kiểm tra userLocal -->
@@ -58,7 +58,6 @@
           <div class="absolute text-xs text-white bg-black rounded-full w-5 h-5 flex items-center justify-center -top-2 -right-2">
             {{ user?.cart.length }}
           </div>
-          <RiShoppingCart2Fill />
         </div>
       </div>
     </div>
@@ -88,7 +87,7 @@ const fetchData = async () => {
 watch(users, (newUsers) => { // Khi giá trị users thay đổi, newUsers sẽ đc cập nhập
   if (newUsers.length > 0) {
     user.value = newUsers.find(item => item.id === userLocal.id);
-    console.log('user: ', user.value);
+    fetchData();
   }
 });
 

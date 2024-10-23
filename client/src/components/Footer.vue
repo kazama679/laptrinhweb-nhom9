@@ -30,21 +30,12 @@
       <div className="flex-1 min-w-[200px]">
         <h4 className="text-lg font-bold mb-4">SOCIAL NETWORK</h4>
         <div className="flex gap-4">
-          <FaFacebook className="text-gray-400 hover:text-white" />
-          <FaTwitter className="text-gray-400 hover:text-white" />
-          <FaInstagram className="text-gray-400 hover:text-white" />
-          <FaGoogle className="text-gray-400 hover:text-white" />
-          <FaYoutube className="text-gray-400 hover:text-white" />
         </div>
       </div>
     </div>
     <div className="bg-gray-800 text-gray-400 p-5 flex justify-between items-center px-40">
       <p>Copyright © 2021. Laptops - WordPress Theme by StylemixThemes</p>
       <div className="flex gap-4">
-        <FaFacebook className="hover:text-purple-500" />
-        <FaTwitter className="hover:text-purple-500" />
-        <FaInstagram className="hover:text-purple-500" />
-        <FaLinkedin className="hover:text-purple-500" />
       </div>
     </div>
   </div>

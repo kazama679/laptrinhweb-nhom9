@@ -289,7 +289,7 @@ const addProduct = async () => {
         const urlDownload = await getDownloadURL(storageReference);
         newProduct.image = urlDownload;
       }
-      store.dispatch("apiEditProduct", newProduct); 
+      store.dispatch("apiEditProduct", newProduct);
     }
     emit("onClose");
   } catch (error) {

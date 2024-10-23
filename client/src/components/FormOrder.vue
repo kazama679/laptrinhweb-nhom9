@@ -53,6 +53,12 @@
                 : "Trả tiền qua chuyển khoản"
             }}
           </p>
+          <p>
+            <strong>Mã Giảm giá:</strong>
+            {{
+              props.new.sale
+            }}
+          </p>
         </div>
         <button @click="handleStatus(props.new)" className="bg-blue-500 text-white px-4 py-2 rounded mt-5" v-if="props.new.status!=='daGui'">
           Cập nhật
@@ -96,7 +102,8 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import apiClient from "@/api/instance";
+import { onMounted, ref } from "vue";
 import { useStore } from "vuex";
 const props = defineProps(["new"]);
 const store = useStore();
@@ -109,14 +116,36 @@ const statusOrder=ref(props.new.status)
 const formatVND = (price) => {
   return price.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
 };
+const sales = ref([])
+const fetchData = async () => {
+  try {
+    const response2 = await apiClient.get("sales")
+    sales.value = response2.data
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+onMounted(() => {
+  fetchData()
+})
 // hàm tính tổng tiền 
 const total = (item) => {
+  console.log(999999999,item);
+  
   let sum = 0;
   item.cart.forEach(i => {
-    sum += i.price * i.quantity
+    sum += i.price * i.quantity;
   });
-  return sum
-}
+  // Kiểm tra nếu đơn hàng có mã giảm giá và áp dụng phần trăm giảm giá
+  if (item.sale) {
+    const sale = sales.value.find(sale => sale.name === item.sale && sale.status);
+    if (sale) {
+      sum = sum - (sum * sale.down / 100); // Áp dụng giảm giá cho tổng tiền sản phẩm
+    }
+  }
+  return sum; // Trả về tổng tiền sản phẩm sau khi áp dụng mã giảm giá
+};
 
 const handleStatus=()=>{
   props.new.status = statusOrder.value
