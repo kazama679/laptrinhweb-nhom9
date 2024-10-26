@@ -155,7 +155,7 @@ const newOrder = reactive({
   cart: [],
   ship: 0,
   payTo: '',
-  isUser: [],
+  idUser: [],
   created_at: getCurrentDate(),
   sale: '' // Giá trị mã giảm giá
 });
@@ -288,7 +288,7 @@ const handleSubmit = async () => {
         newOrder.address = `${selectedContact.address}, ${selectedContact.commune}, ${selectedContact.district}, ${selectedContact.city}` || '';
         newOrder.payTo = payTo.value;
         newOrder.cart = user.value.cart;
-        newOrder.isUser = user.value.id;
+        newOrder.idUser = user.value.id;
         newOrder.ship = selectedContact.city === "Thành phố Hà Nội" ? 30000 : 50000;
 
         // Giảm stock và tăng sales cho từng sản phẩm

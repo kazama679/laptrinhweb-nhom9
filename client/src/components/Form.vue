@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div
-      class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center"
-    >
+    <div class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
       <div class="bg-white p-8 rounded-lg w-full max-w-3xl">
         <button @click="closeForm" class="text-blue-500 mb-4">Back</button>
         <h2 class="text-2xl font-bold mb-4">
@@ -10,15 +8,8 @@
         </h2>
         <form @submit.prevent="addProduct" class="grid grid-cols-2 gap-4">
           <div class="col-span-1">
-            <label htmlFor="name" class="block text-sm font-medium"
-              >Tên sản phẩm</label
-            >
-            <input
-              :ref="firstInput"
-              v-model="newProduct.name"
-              type="text"
-              class="mt-1 p-2 border rounded w-full"
-            />
+            <label htmlFor="name" class="block text-sm font-medium">Tên sản phẩm</label>
+            <input :ref="firstInput" v-model="newProduct.name" type="text" class="mt-1 p-2 border rounded w-full" />
             <div v-if="err.sameName" className="text-red-500 text-xs mt-1">
               Tên sản phẩm không được trùng
             </div>
@@ -27,42 +18,23 @@
             </div>
           </div>
           <div class="col-span-1">
-            <label htmlFor="stock" class="block text-sm font-medium"
-              >Số lượng</label
-            >
-            <input
-              v-model="newProduct.stock"
-              type="number"
-              class="mt-1 p-2 border rounded w-full"
-            />
+            <label htmlFor="stock" class="block text-sm font-medium">Số lượng</label>
+            <input v-model="newProduct.stock" type="number" class="mt-1 p-2 border rounded w-full" />
             <div v-if="err.noStock" className="text-red-500 text-xs mt-1">
               Số lượng không được nhỏ hơn 1
             </div>
           </div>
           <div class="col-span-1">
             <label htmlFor="price" class="block text-sm font-medium">Giá</label>
-            <input
-              v-model="newProduct.price"
-              type="number"
-              class="mt-1 p-2 border rounded w-full"
-            />
+            <input v-model="newProduct.price" type="number" class="mt-1 p-2 border rounded w-full" />
             <div v-if="err.noPrice" className="text-red-500 text-xs mt-1">
               Giá không được nhỏ hơn 1
             </div>
           </div>
           <div class="col-span-1">
-            <label htmlFor="image" class="block text-sm font-medium"
-              >URL Ảnh</label
-            >
-            <input
-              @change="handleUpFile"
-              class="mt-1 p-2 border rounded w-full"
-              type="file"
-            />
-            <div
-              v-if="newProduct.image !== ''"
-              class="flex justify-center text-center"
-            >
+            <label htmlFor="image" class="block text-sm font-medium">URL Ảnh</label>
+            <input @change="handleUpFile" class="mt-1 p-2 border rounded w-full" type="file" />
+            <div v-if="newProduct.image !== ''" class="flex justify-center text-center">
               <img :src="newProduct.image" class="w-16 h-16 mt-4" />
             </div>
             <div v-if="err.noImage" className="text-red-500 text-xs mt-1">
@@ -70,19 +42,10 @@
             </div>
           </div>
           <div class="col-span-1">
-            <label htmlFor="category" class="block text-sm font-medium"
-              >Phân loại</label
-            >
-            <select
-              class="mt-1 p-2 border rounded w-full"
-              v-model="newProduct.category"
-            >
+            <label htmlFor="category" class="block text-sm font-medium">Phân loại</label>
+            <select class="mt-1 p-2 border rounded w-full" v-model="newProduct.category">
               <option value="">Phân loại sản phẩm</option>
-              <option
-                v-for="item in category"
-                :key="item.id"
-                :value="item.name"
-              >
+              <option v-for="item in category" :key="item.id" :value="item.name">
                 {{ item.name }}
               </option>
             </select>
@@ -91,34 +54,19 @@
             </div>
           </div>
           <div class="col-span-1">
-            <label htmlFor="status" class="block text-sm font-medium"
-              >Trạng thái</label
-            >
-            <select
-              :value="true"
-              v-model="newProduct.status"
-              class="mt-1 p-2 border rounded w-full"
-            >
+            <label htmlFor="status" class="block text-sm font-medium">Trạng thái</label>
+            <select :value="true" v-model="newProduct.status" class="mt-1 p-2 border rounded w-full">
               <option :value="true">Đang bán</option>
               <option :value="false">Ngừng bán</option>
             </select>
           </div>
           <div class="col-span-2">
-            <label htmlFor="description" class="block text-sm font-medium"
-              >Chi tiết sản phẩm</label
-            >
-            <textarea
-              v-model="newProduct.description"
-              class="mt-1 p-2 border rounded w-full"
-              rows="{3}"
-              placeholder="Mô tả chi tiết sản phẩm"
-            />
+            <label htmlFor="description" class="block text-sm font-medium">Chi tiết sản phẩm</label>
+            <textarea v-model="newProduct.description" class="mt-1 p-2 border rounded w-full" rows="{3}"
+              placeholder="Mô tả chi tiết sản phẩm" />
           </div>
           <div class="col-span-2">
-            <button
-              type="submit"
-              class="w-full bg-purple-500 text-white py-2 rounded mt-4"
-            >
+            <button type="submit" class="w-full bg-purple-500 text-white py-2 rounded mt-4">
               {{ props.act == "add" ? "Thêm sản phẩm" : "Sửa sản phẩm" }}
             </button>
           </div>
@@ -234,12 +182,12 @@ const addProduct = async () => {
   }
 
   // Kiểm tra nếu tên sản phẩm bị trùng (bỏ qua khi đang chỉnh sửa sản phẩm hiện tại)
-  if(props.act === "add"){
-    if(products.value.some((item) => item.name === newProduct.name)){
+  if (props.act === "add") {
+    if (products.value.some((item) => item.name === newProduct.name)) {
       err.sameName = true;
     }
-  }else{
-    if(products.value.some((item) => item.name === newProduct.name && item.id !== newProduct.id)){
+  } else {
+    if (products.value.some((item) => item.name === newProduct.name && item.id !== newProduct.id)) {
       err.sameName = true;
     }
   }

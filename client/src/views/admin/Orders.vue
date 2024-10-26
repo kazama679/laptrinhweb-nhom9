@@ -32,7 +32,7 @@
               <th className="px-4 py-2 border">Action</th>
             </tr>
           </thead>
-          <tbody v-for="item in orders" :key="item.id">
+          <tbody v-for="item in orders.reverse()" :key="item.id">
             <tr>
               <td className="px-4 py-2 border">{{ item.id }}</td>
               <td className="px-4 py-2 border">{{ item.name }}</td>

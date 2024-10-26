@@ -35,7 +35,7 @@
               <th class="px-4 py-2 border">Action</th>
             </tr>
           </thead>
-          <tbody v-for="(product, index) in products" :key="product.id">
+          <tbody v-for="(product, index) in products.reverse()" :key="product.id">
             <tr key={product.id} class="text-center">
               <td class="px-4 py-2 border">{{ index + 1 }}</td>
               <td class="px-4 py-2 border">

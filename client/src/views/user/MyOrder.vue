@@ -4,7 +4,7 @@
     <div className='flex justify-center text-center pt-28 text-3xl font-bold'>Đơn hàng đã mua</div>
 
     <!-- {/* Kiểm tra nếu người dùng có đơn hàng */} -->
-    <div className="profile-container-bot" v-for="order in orders.filter(item => item.idUser == user.id)" :key="order.id">
+    <div className="profile-container-bot" v-for="order in orders.filter(item => item.idUser == user.id).reverse()" :key="order.id">
       <div className="order-item-all flex justify-center items-center mt-12 mb-5">
         <div className="order-item w-4/5 bg-gray-100 border border-gray-300 rounded-lg p-5 mb-5">
           <div className="order-header flex justify-between items-center mb-5">
@@ -120,6 +120,7 @@ const formatVND = (price) => {
     return price.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
   }
 };
+
 // Tính tổng tiền của một đơn hàng
 const calculateTotal = (order) => {
   let total = 0;

@@ -45,7 +45,7 @@
           </thead>
           <tbody>
             <tr
-              v-for="(item, index) in categoryPage"
+              v-for="(item, index) in categoryPage.reverse()"
               :key="item.id"
               class="text-center"
             >

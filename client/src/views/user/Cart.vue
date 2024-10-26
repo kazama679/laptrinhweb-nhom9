@@ -31,6 +31,7 @@
                       +
                     </button>
                   </div>
+                  <div v-if="errorStock" class="text-red-500 text-xs">Số lượng sản phẩm trong kho không đủ</div>
                   <b>{{ formatVND(item.price) }}</b>
                 </div>
               </div>
@@ -106,9 +107,11 @@ import { useStore } from 'vuex';
 import Delete from '@/components/Delete.vue';
 import Delete2 from '@/components/Delete2.vue';
 
+const errorStock=ref(false)
 const store = useStore();
 const router = useRouter();
 const users = ref([]);
+const products = ref([]);
 const userLocal = JSON.parse(localStorage.getItem('userLogin') || 'null');
 const showDelete = ref(false);
 const showDeleteAll = ref(false);
@@ -124,7 +127,9 @@ if (!userLocal) {
 const fetchData = async () => {
   try {
     const response = await apiClient.get('users');
+    const response2 = await apiClient.get('products');
     users.value = response.data;
+    products.value = response2.data;
   } catch (error) {
     console.error('Lỗi khi lấy dữ liệu người dùng:', error);
   }
@@ -212,15 +217,29 @@ const handleCloseAll = () => {
 
 // Tăng số lượng sản phẩm
 const upQuantity = (product) => {
+  // Lấy ra sản phẩm từ danh sách sản phẩm trong kho
+  const productFind = products.value.find(item => item.id === product.id);
+  // Kiểm tra nếu số lượng hiện tại của sản phẩm trong giỏ nhỏ hơn tồn kho
   const indexProduct = user.value?.cart.findIndex(item => item.id === product.id);
   if (indexProduct !== -1) {
-    user.value.cart[indexProduct].quantity++;
-    store.dispatch('apiEditCustomer', user.value);
+    const currentQuantity = user.value.cart[indexProduct].quantity;
+    // Kiểm tra số lượng tồn kho
+    if (currentQuantity < productFind.stock) {
+      user.value.cart[indexProduct].quantity++;
+      store.dispatch('apiEditCustomer', user.value); // Cập nhật giỏ hàng lên store
+      errorStock.value = false; // Tắt lỗi tồn kho nếu số lượng hợp lệ
+    } else {
+      errorStock.value = true; // Hiển thị lỗi nếu vượt quá tồn kho
+      setTimeout(() => {
+      errorStock.value = false; 
+      }, 3000);
+    }
   }
 };
 
 // Giảm số lượng sản phẩm
 const downQuantity = (product) => {
+  errorStock.value = false;
   const indexProduct = user.value?.cart.findIndex(item => item.id === product.id);
   if (indexProduct !== -1 && user.value.cart[indexProduct].quantity > 1) {
     user.value.cart[indexProduct].quantity--;
@@ -231,15 +250,36 @@ const downQuantity = (product) => {
 // Xử lý thay đổi số lượng từ input
 const handleQuantityChange = (product) => {
   const indexProduct = user.value?.cart.findIndex(item => item.id === product.id);
+  const productFind = products.value.find(item => item.id === product.id); // Lấy sản phẩm từ kho
+
   if (indexProduct !== -1) {
+    const currentQuantity = user.value.cart[indexProduct].quantity; // Lưu lại số lượng hiện tại
+
     let newQuantity = parseInt(user.value.cart[indexProduct].quantity, 10);
+
     if (isNaN(newQuantity) || newQuantity < 1) {
-      newQuantity = 1;
+      newQuantity = 1; // Số lượng không hợp lệ, đặt về 1
     }
-    user.value.cart[indexProduct].quantity = newQuantity;
-    store.dispatch('apiEditCustomer', user.value);
+
+    // Kiểm tra số lượng tồn kho
+    if (newQuantity <= productFind.stock) {
+      user.value.cart[indexProduct].quantity = newQuantity;
+      store.dispatch('apiEditCustomer', user.value); // Cập nhật giỏ hàng lên store
+      errorStock.value = false; // Tắt lỗi nếu số lượng hợp lệ
+    } else {
+      errorStock.value = true; // Hiển thị lỗi nếu vượt quá tồn kho
+
+      // Tự động chỉnh lại số lượng về giá trị cũ sau khi hiển thị lỗi
+      setTimeout(() => {
+        errorStock.value = false; // Ẩn thông báo lỗi sau 3 giây
+      }, 3000);
+
+      // Trả lại số lượng về giá trị cũ
+      user.value.cart[indexProduct].quantity = currentQuantity;
+    }
   }
 };
+
 </script>
 
 <style scoped></style>
