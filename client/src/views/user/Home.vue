@@ -79,14 +79,19 @@
     <!-- end-hiển thị theo danh mục -->
 
     <!-- hiển thị tìm kiếm  -->
-    <div className="w-full flex justify-center mt-32 mb-[-50px]">
-      <div className="w-[70%] bg-gray-900 p-12 rounded text-white shadow-lg">
-        <div className="flex items-center mb-4">
-          <input className="w-64 rounded h-8 text-black p-2" type="text" value={searchTerm}
-            placeholder="Tìm kiếm sản phẩm..." />
+    <div class="w-full flex justify-center mt-32 mb-[-50px]">
+      <div class="w-[70%] bg-gray-900 p-12 rounded text-white shadow-lg">
+        <div class="flex items-center mb-4">
+          <input
+            class="w-64 rounded h-8 text-black p-2"
+            v-model="searchTerm"
+            type="text"
+            placeholder="Tìm kiếm sản phẩm..."
+          />
         </div>
-        <div className="flex gap-4 items-center">
-          <select value={year} className="w-1/3 p-3 bg-gray-200 text-black rounded">
+        <div class="flex gap-4 items-center">
+          <!-- Lọc theo năm -->
+          <select v-model="yearFilter" class="w-1/3 p-3 bg-gray-200 text-black rounded">
             <option value="">Lọc theo năm</option>
             <option value="2024">2024</option>
             <option value="2023">2023</option>
@@ -94,28 +99,32 @@
             <option value="2021">2021</option>
           </select>
 
-          <select value={category} className="w-1/3 p-3 bg-gray-200 text-black rounded">
+          <!-- Lọc theo danh mục -->
+          <select v-model="categoryFilter" class="w-1/3 p-3 bg-gray-200 text-black rounded">
             <option value="">Lọc theo danh mục</option>
-            <option key={item.id} value={item.name}>
-              {item.name}
+            <option v-for="item in category" :key="item.id" :value="item.name">
+              {{ item.name }}
             </option>
           </select>
 
-          <select value={priceRange} className="w-1/3 p-3 bg-gray-200 text-black rounded">
+          <!-- Lọc theo giá -->
+          <select v-model="priceFilter" class="w-1/3 p-3 bg-gray-200 text-black rounded">
             <option value="">Lọc theo giá</option>
-            <option value="15">Dưới 15 tr</option>
-            <option value="1530">15-30tr</option>
-            <option value="30">Trên 30tr</option>
+            <option value="15">Dưới 15 triệu</option>
+            <option value="15-30">15 - 30 triệu</option>
+            <option value="30">Trên 30 triệu</option>
           </select>
 
-          <select value={sortOrder} className="w-1/3 p-3 bg-gray-200 text-black rounded">
+          <!-- Sắp xếp theo giá -->
+          <select v-model="sortOrder" class="w-1/3 p-3 bg-gray-200 text-black rounded">
             <option value="">Sắp xếp theo giá</option>
             <option value="up">Tăng dần</option>
             <option value="down">Giảm dần</option>
           </select>
 
-          <button onClick={handleReset}
-            className="flex items-center gap-2 p-3 bg-purple-600 text-white rounded hover:bg-purple-700">
+          <!-- Nút RESET -->
+          <button @click="resetFilters"
+            class="flex items-center gap-2 p-3 bg-purple-600 text-white rounded hover:bg-purple-700">
             RESET
           </button>
         </div>
@@ -123,11 +132,11 @@
     </div>
     <!-- end-hiển thị tìm kiếm -->
 
-    <div className="text-center mt-40" v-if="false">
+    <div className="text-center mt-40" v-if="paginatedProducts.length==0">
       <h1 className="text-4xl font-bold">Không tìm thấy sản phẩm</h1>
-      <p className="text-gray-500">Vui lòng tìm kiếm sản phẩm khác!</p>
+      <p className="text-gray-500 mt-2">Vui lòng tìm kiếm sản phẩm khác!</p>
     </div>
-    <div className="text-center mt-40">
+    <div v-if="!paginatedProducts.length==0" className="text-center mt-20">
       <h1 className="text-4xl font-bold">
         RECENT <span className="text-yellow-500">Laptop</span>
       </h1>
@@ -139,7 +148,7 @@
 
     <!-- Hiển thị tất cả danh sách sản phẩm -->
     <div class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 gap-6 max-w-6xl mx-auto mt-10">
-      <div v-for="(item, index) in products" :key="index" class="p-4">
+      <div v-for="(item, index) in paginatedProducts" :key="index" class="p-4">
         <div 
           class="bg-gray-800 text-white shadow-lg border-2 border-gray hover:border-black transition-all duration-300 hover:shadow-2xl">
           <img :src="item.image" alt="Product Image" class="w-full h-[340px]" />
@@ -157,7 +166,6 @@
               </span>
               <span class="cursor-pointer hover:text-white">
                 Yêu thích
-                Yêu thích
               </span>
               <span>
                 Sạc nhanh!
@@ -168,15 +176,19 @@
       </div>
     </div>
 
-    <!-- end-hiển thị tất cả danh sách sản phẩm  -->
-
     <!-- Phân trang -->
-    <div className="flex justify-center space-x-2 mt-4">
-      <button key={index} class="px-3 py-1 border rounded bg-blue-500 text-white">
-        {index + 1}
+    <div v-if="!paginatedProducts.length==0" class="flex justify-center space-x-2 mt-4">
+      <button @click="prevPage" :disabled="currentPage === 1" :class="['py-1 border rounded', { 'bg-gray-400 cursor-not-allowed opacity-50': currentPage === 1, 'bg-blue-500 text-white': currentPage > 1 }]">
+        <i class="px-[9px] fa-solid fa-arrow-left"></i>
+      </button>
+      <button v-for="page in totalPages" :key="page" @click="currentPage = page" :class="['px-3 py-1 border rounded', { 'bg-blue-500 text-white': currentPage === page }]">
+        {{ page }}
+      </button>
+      <button @click="nextPage" :disabled="currentPage === totalPages" :class="['py-1 border rounded', { 'bg-gray-400 cursor-not-allowed opacity-50': currentPage === totalPages, 'bg-blue-500 text-white': currentPage < totalPages }]">
+        <i class="px-[9px] fa-solid fa-arrow-right"></i>
       </button>
     </div>
-    <!-- end-Phân trang  -->
+    <!-- end-hiển thị tất cả danh sách sản phẩm -->
 
     <!-- hiển thị form yêu thích -->
     <div v-if="false" className="fixed inset-0 flex items-center justify-center z-50 border border-black">
@@ -204,62 +216,127 @@ import Contact from '@/components/Contact.vue';
 import Banner from '@/components/Banner.vue';
 import Footer from '@/components/Footer.vue';
 import Header from '@/components/Header.vue'
-import { onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-const store=useStore()
-const router=useRouter()
-const products = ref([])
-const category = ref([])
-const user = ref(null)
-const userLocal = JSON.parse(localStorage.getItem('userLogin') || 'null');
-const users = ref([])
+const store = useStore();
+const router = useRouter();
+const products = ref([]);
+const category = ref([]);
+const user = ref(null);
+
+// Các biến để lọc, tìm kiếm, sắp xếp
+const searchTerm = ref("");
+const yearFilter = ref("");
+const categoryFilter = ref("");
+const priceFilter = ref("");
+const sortOrder = ref("");
+
+// Phân trang
+const currentPage = ref(1);
+const itemsPerPage = 6;
+
+// Lấy danh sách sản phẩm cho trang hiện tại
+const paginatedProducts = computed(() => {
+  const filteredProducts = filteredAndSortedProducts.value;
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return filteredProducts.slice(start, end);
+});
+
+// Tính tổng số trang
+const totalPages = computed(() => {
+  return Math.ceil(filteredAndSortedProducts.value.length / itemsPerPage);
+});
+
+// Lọc và sắp xếp sản phẩm
+const filteredAndSortedProducts = computed(() => {
+  let filtered = products.value;
+
+  // Lọc theo tìm kiếm
+  if (searchTerm.value) {
+    filtered = filtered.filter(item => item.name.toLowerCase().includes(searchTerm.value.toLowerCase()));
+  }
+
+  // Lọc theo năm
+  if (yearFilter.value) {
+    filtered = filtered.filter(item => item.created_at.includes(yearFilter.value));
+  }
+
+  // Lọc theo danh mục
+  if (categoryFilter.value) {
+    filtered = filtered.filter(item => item.category === categoryFilter.value);
+  }
+
+  // Lọc theo giá
+  if (priceFilter.value === "15") {
+    filtered = filtered.filter(item => item.price < 15000000);
+  } else if (priceFilter.value === "15-30") {
+    filtered = filtered.filter(item => item.price >= 15000000 && item.price <= 30000000);
+  } else if (priceFilter.value === "30") {
+    filtered = filtered.filter(item => item.price > 30000000);
+  }
+
+  // Sắp xếp theo giá
+  if (sortOrder.value === "up") {
+    filtered.sort((a, b) => a.price - b.price);
+  } else if (sortOrder.value === "down") {
+    filtered.sort((a, b) => b.price - a.price);
+  }
+
+  return filtered;
+});
+
+// Chuyển đến trang trước
+const prevPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+  }
+};
+
+// Chuyển đến trang tiếp theo
+const nextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+  }
+};
+
+// Lấy dữ liệu sản phẩm từ API
 const fetchData = async () => {
   try {
-    const respones = await apiClient('products')
-    const categoryRp = await apiClient('classify')
-    const usersRp = await apiClient('users')
-    products.value = respones.data
-    category.value = categoryRp.data
-    users.value = usersRp.data
+    const respones = await apiClient('products');
+    const categoryRp = await apiClient('classify');
+    products.value = respones.data;
+    category.value = categoryRp.data;
   } catch (err) {
     console.log(err);
   }
-}
-// format tiền
+};
+
+// Định dạng giá tiền VND
 const formatVND = (price) => {
   return price.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
 };
-onMounted(() => {
-  fetchData()
-})
-const nextCard = (id) => {
-  router.push(`/card/${id}`)
-}
-watch(users, (newUsers) => { // Khi giá trị users thay đổi, newUsers sẽ đc cập nhập
-  if (newUsers.length > 0) {
-    user.value = newUsers.find(item => item.id === userLocal.id);
-  }
-  if (!user.value.like) {
-      user.value.like = [];
-    }
-});
 
-// thay đổi yêu thích của user
-const handleLike = (item, event) => {
-  event.stopPropagation();  // Ngăn chặn sự kiện click lan truyền lên phần tử cha
-  // Kiểm tra xem sản phẩm đã có trong danh sách yêu thích chưa
-  if (user.value.like.some(i => i.id === item.id)) {
-    // Xóa sản phẩm khỏi danh sách yêu thích nếu nó đã tồn tại
-    user.value.like = user.value.like.filter(idLike => idLike.id !== item.id);
-  } else {
-    // Thêm sản phẩm vào danh sách yêu thích nếu chưa có
-    user.value.like.push(item);
-  }
-  store.dispatch('apiEditCustomer', user.value);
+// Điều hướng tới trang chi tiết sản phẩm
+const nextCard = (id) => {
+  router.push(`/card/${id}`);
 };
 
+// Reset các bộ lọc và tìm kiếm
+const resetFilters = () => {
+  searchTerm.value = "";
+  yearFilter.value = "";
+  categoryFilter.value = "";
+  priceFilter.value = "";
+  sortOrder.value = "";
+  currentPage.value = 1;
+};
+
+onMounted(() => {
+  fetchData();
+});
 </script>
 
 <style>
