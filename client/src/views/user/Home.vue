@@ -1,8 +1,9 @@
 <template>
   <div>
     <Header></Header>
+    <Banner></Banner>
     <!-- hiển thị sản phẩm bán chạy  -->
-    <div class="bg-gray-100 py-20">
+    <div class="bg-gray-100 py-20 pt-56"> 
       <div class="container mx-auto">
         <div class="text-center mb-10">
           <h2 class="text-3xl font-bold">Sản phẩm bán chạy</h2>
@@ -137,7 +138,7 @@
     </div>
 
     <!-- Hiển thị tất cả danh sách sản phẩm -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-center mt-10">
+    <div class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 gap-6 max-w-6xl mx-auto mt-10">
       <div v-for="(item, index) in products" :key="index" class="p-4">
         <div 
           class="bg-gray-800 text-white shadow-lg border-2 border-gray hover:border-black transition-all duration-300 hover:shadow-2xl">
@@ -200,11 +201,13 @@
 <script setup>
 import apiClient from '@/api/instance';
 import Contact from '@/components/Contact.vue';
+import Banner from '@/components/Banner.vue';
 import Footer from '@/components/Footer.vue';
 import Header from '@/components/Header.vue'
 import { onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+
 const store=useStore()
 const router=useRouter()
 const products = ref([])
@@ -212,7 +215,6 @@ const category = ref([])
 const user = ref(null)
 const userLocal = JSON.parse(localStorage.getItem('userLogin') || 'null');
 const users = ref([])
-
 const fetchData = async () => {
   try {
     const respones = await apiClient('products')
@@ -260,4 +262,5 @@ const handleLike = (item, event) => {
 
 </script>
 
-<style></style>
+<style>
+</style>

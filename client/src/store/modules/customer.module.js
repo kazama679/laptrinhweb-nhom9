@@ -11,10 +11,18 @@ const moduleCustomer = {
     getCustomer(state, payload) {
       state.data = payload;
     },
+
     addCustomer(state, payload) {
       state.data.push(payload);
     },
+
     editCustomer(state, payload) {
+      const findIndexUser = state.data.findIndex((cus) => cus.id == payload.id);
+
+      if (findIndexUser !== -1) {
+        state.data.splice(findIndexUser, 1);
+      }
+
       state.data.push(payload);
     },
   },
@@ -23,17 +31,19 @@ const moduleCustomer = {
   actions: {
     async apiGetCustomer({ commit }) {
       try {
-        const data = await apiGET('users'); // Sử dụng await để đợi API trả về
+        const data = await apiGET("users"); // Sử dụng await để đợi API trả về
+
         commit("getCustomer", data);
       } catch (error) {
         console.log("Error fetching Customer data:", error);
       }
     },
+
     async apiAddCustomer({ commit }, payload) {
       try {
-        await apiADD(payload,'users'); // Đợi API thêm mới hoàn thành
-        await commit("addCustomer", payload);
-        commit('getCustomer')
+        const response = await apiADD(payload, "users"); // Đợi API thêm mới hoàn thành
+
+        commit("addCustomer", response);
       } catch (error) {
         console.log("Error adding Customer:", error);
       }
@@ -41,7 +51,10 @@ const moduleCustomer = {
 
     async apiEditCustomer({ commit }, payload) {
       try {
-        await apiEDIT(payload,'users'); // Đợi API thêm mới hoàn thành
+        const response = await apiEDIT(payload, "users"); // Đợi API thêm mới hoàn thành
+
+        console.log("response: ", response);
+
         await commit("editCustomer", payload);
       } catch (error) {
         console.log("Error adding Customer:", error);
