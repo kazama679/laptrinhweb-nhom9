@@ -2,7 +2,7 @@
     <div>
         <!-- Swiper component -->
         <swiper :spaceBetween="30" :centeredSlides="true" :autoplay="{
-            delay: 2500,
+            delay: 4500,
             disableOnInteraction: false,
         }" :pagination="{
         clickable: true,
@@ -173,7 +173,7 @@ const onSlideChange = () => {
     z-index: 2;
 }
 .myBox{
-    margin-top: -200px;
+    margin-top: -210px;
     margin-bottom: -150px;
     position: relative;
     z-index: 2;

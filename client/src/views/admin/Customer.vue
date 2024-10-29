@@ -5,18 +5,26 @@
                 <div className="flex justify-between mb-4">
                     <div className='flex gap-4'>
                         <!-- {/* Lọc theo vai trò */} -->
-                        <select className="border px-4 py-2 rounded" value={filterRole}>
+                        <select v-model="filterRole" className="border px-4 py-2 rounded" >
                             <option value="">Lọc theo vai trò</option>
-                            <option value="admin">Admin</option>
-                            <option value="users">Users</option>
+                            <option :value=true>Admin</option>
+                            <option :value=false>Users</option>
                         </select>
                         <!-- {/* Sắp xếp theo tên */} -->
-                        <select className="border px-4 py-2 rounded" value={sortOrder}>
+                        <select v-model="sortOption" className="border px-4 py-2 rounded">
                             <option value="">Sắp xếp theo tên</option>
                             <option value="az">Sắp xếp từ lớn đến bé</option>
                             <option value="za">Sắp xếp từ bé đến lớn</option>
                         </select>
                     </div>
+                    
+                    <!-- tìm kiếm theo tên -->
+                    <input
+                    v-model="NameSearch"
+                    type="text"
+                    class="border-black border px-4 py-2 rounded"
+                    placeholder="Tìm kiếm theo tên"
+                    />
                 </div>
 
                 <!-- {/* Hiển thị danh sách người dùng */} -->
@@ -33,7 +41,7 @@
                             <th className="px-4 py-2 border">Action</th>
                         </tr>
                     </thead>
-                    <tbody v-for="(item, index) in customer" :key="item.id">
+                    <tbody v-for="(item, index) in paginatedCustomers" :key="item.id">
                         <tr>
                             <td className="px-4 py-2 border">{{ index + 1 }}</td>
                             <td className="px-4 py-2 border">
@@ -61,18 +69,29 @@
                     </tbody>
                 </table>
 
-                <!-- {/* Phân trang */}
-                    <div className="flex justify-center space-x-2 mt-4">
-                        {Array.from({ length: Math.ceil(filteredUsers.length / pageNumber) }, (_, index) => (
-                            <button
-                                key={index}
-                                onClick={() => paginate(index + 1)}
-                                className={`px-3 py-1 border rounded ${currentPage === index + 1 ? 'bg-blue-500 text-white' : ''}`}
-                            >
-                                {index + 1}
-                            </button>
-                        ))}
-                    </div> -->
+                <!-- Phân trang -->
+                <div class="flex justify-center space-x-2 mt-4">
+                    <button 
+                        @click="prevPage"
+                        :disabled="currentPage === 1"
+                        :class="['py-1 border rounded', { 'bg-gray-400 cursor-not-allowed opacity-50': currentPage === 1, 'bg-blue-500 text-white': currentPage > 1 }]">
+                        <i class="px-[9px] fa-solid fa-arrow-left"></i>
+                    </button>
+                    <button
+                        v-for="page in totalPages"
+                        :key="page"
+                        @click="currentPage = page"
+                        :class="['px-3 py-1 border rounded', { 'bg-blue-500 text-white': currentPage === page }]"
+                    >
+                        {{ page }}
+                    </button>
+                    <button 
+                        @click="nextPage"
+                        :disabled="currentPage === totalPages"
+                        :class="['py-1 border rounded', { 'bg-gray-400 cursor-not-allowed opacity-50': currentPage === totalPages, 'bg-blue-500 text-white': currentPage < totalPages }]">
+                        <i class="px-[9px] fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
                     <Edit v-if="isShow" @editConfirm="updateCustomer" @close="closeUpdate"></Edit>
             </div>
         </main>
@@ -81,13 +100,73 @@
 
 <script setup>
 import apiClient from '@/api/instance';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import Edit from '@/components/Edit.vue';
 
 const store = useStore()
 const customer = ref([])
 const customerUpdate = ref(null)
+const NameSearch = ref('');
+const sortOption = ref('');
+const filterRole = ref('');
+
+// Phân trang
+const currentPage = ref(1);
+const pageSize = ref(2); // Số lượng khách hàng trên mỗi trang
+
+// Lọc và sắp xếp khách hàng
+const filteredAndSortedCustomers = computed(() => {
+    let filteredCustomers = customer.value;
+
+    // Lọc theo tên
+    if (NameSearch.value) {
+        filteredCustomers = filteredCustomers.filter(item =>
+            item.name.toLowerCase().includes(NameSearch.value.toLowerCase()) 
+            // includes trả về true nếu tìm thấy, toLowerCase giúp k phân biệt hoa thường
+        );
+    }
+
+    // Lọc theo vai trò
+    if (filterRole.value !== '') {
+        filteredCustomers = filteredCustomers.filter(item => item.role === filterRole.value);
+    }
+
+    // Sắp xếp theo tên
+    if (sortOption.value === 'az') {
+        filteredCustomers.sort((a, b) => a.name.localeCompare(b.name));
+        // localeCompare so sánh vị trị trong bản chữ cái
+    } else if (sortOption.value === 'za') {
+        filteredCustomers.sort((a, b) => b.name.localeCompare(a.name));
+    }
+
+    return filteredCustomers;
+});
+
+// Tính tổng số trang
+const totalPages = computed(() => {
+    return Math.ceil(filteredAndSortedCustomers.value.length / pageSize.value);
+});
+
+// Lấy dữ liệu khách hàng cho trang hiện tại
+const paginatedCustomers = computed(() => {
+    const start = (currentPage.value - 1) * pageSize.value;
+    const end = start + pageSize.value;
+    return filteredAndSortedCustomers.value.slice(start, end);
+});
+// Chuyển sang trang tiếp theo
+const nextPage = () => {
+    if (currentPage.value < totalPages.value) {
+        currentPage.value++;
+    }
+}
+
+// Quay lại trang trước
+const prevPage = () => {
+    if (currentPage.value > 1) {
+        currentPage.value--;
+    }
+}
 
 const fetchData = async () => {
     try {

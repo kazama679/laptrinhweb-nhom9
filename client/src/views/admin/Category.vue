@@ -21,8 +21,8 @@
             <!-- Lọc theo trạng thái -->
             <select class="border px-4 py-2 rounded" v-model="filterStatus">
               <option value="">Lọc theo trạng thái</option>
-              <option :value="true">Mở</option>
-              <option :value="false">Đóng</option>
+              <option value="true">Mở</option>
+              <option value="false">Đóng</option>
             </select>
 
             <!-- Sắp xếp theo tên -->
@@ -45,7 +45,7 @@
           </thead>
           <tbody>
             <tr
-              v-for="(item, index) in categoryPage.reverse()"
+              v-for="(item, index) in categoryPage"
               :key="item.id"
               class="text-center"
             >
@@ -82,35 +82,15 @@
         </table>
 
         <!-- Phân trang -->
-        <div v-if="true" class="flex justify-center space-x-2 mt-4">
-          <!-- Nút Previous -->
-          <button
-            class="px-4 py-2 border rounded hover:bg-gray-100"
-            @click="prevPage"
-            :disabled="currentPage === 1"
-            :class="{ 'opacity-50 cursor-not-allowed': currentPage === 1 }"
-          >
-            Previous
+        <div class="flex justify-center space-x-2 mt-4">
+          <button @click="prevPage" :disabled="currentPage === 1" :class="['py-1 border rounded', { 'bg-gray-400 cursor-not-allowed opacity-50': currentPage === 1, 'bg-blue-500 text-white': currentPage > 1 }]">
+            <i class="px-[9px] fa-solid fa-arrow-left"></i>
           </button>
-
-          <!-- Các số trang -->
-          <button
-            v-for="page in totalPages"
-            :key="page"
-            @click="selectPage(page)"
-            :class="[page === currentPage ? 'bg-blue-500 text-white' : 'hover:bg-gray-100']"
-          >
+          <button v-for="page in totalPages" :key="page" @click="currentPage = page" :class="['px-3 py-1 border rounded', { 'bg-blue-500 text-white': currentPage === page }]">
             {{ page }}
           </button>
-
-          <!-- Nút Next -->
-          <button
-            class="px-4 py-2 border rounded hover:bg-gray-100"
-            @click="nextPage"
-            :disabled="currentPage === totalPages"
-            :class="{'opacity-50 cursor-not-allowed': currentPage === totalPages}"
-          >
-            Next
+          <button @click="nextPage" :disabled="currentPage === totalPages" :class="['py-1 border rounded', { 'bg-gray-400 cursor-not-allowed opacity-50': currentPage === totalPages, 'bg-blue-500 text-white': currentPage < totalPages }]">
+            <i class="px-[9px] fa-solid fa-arrow-right"></i>
           </button>
         </div>
       </div>
@@ -160,49 +140,46 @@ const sortOrder = ref("");
 
 // Tính toán số trang
 const totalPages = computed(() => {
-  return Math.ceil(category.value.length / itemPage);
+  return Math.ceil(filteredAndSortedCategories.value.length / itemPage);
 });
 
 // Lấy danh mục hiển thị cho trang hiện tại
 const categoryPage = computed(() => {
-  let filterCategory = category.value;
-
-  // Trích xuất các mục theo trang hiện tại
   const start = (currentPage.value - 1) * itemPage;
   const end = start + itemPage;
-  return filterCategory.slice(start, end);
+  return filteredAndSortedCategories.value.slice(start, end);
+});
+
+// Lọc và sắp xếp danh mục
+const filteredAndSortedCategories = computed(() => {
+  let filteredCategories = category.value;
+
+  // Tìm kiếm theo tên
+  if (NameSearch.value) {
+    filteredCategories = filteredCategories.filter(item =>
+      item.name.toLowerCase().includes(NameSearch.value.toLowerCase())
+    );
+  }
+
+  // Lọc theo trạng thái
+  if (filterStatus.value !== "") {
+    filteredCategories = filteredCategories.filter(item => item.status === (filterStatus.value === "true"));
+  }
+
+  // Sắp xếp theo tên
+  if (sortOrder.value === "az") {
+    filteredCategories.sort((a, b) => a.name.localeCompare(b.name));
+  } else if (sortOrder.value === "za") {
+    filteredCategories.sort((a, b) => b.name.localeCompare(a.name));
+  }
+
+  return filteredCategories;
 });
 
 // Hàm lấy dữ liệu danh mục với tìm kiếm, lọc, sắp xếp, và phân trang
 const fetchData = async () => {
   try {
-    // Construct the query parameters for filtering, searching, sorting, and pagination
-    const params = {
-      _page: currentPage.value,  // Current page
-      _limit: itemPage,          // Number of items per page
-    };
-
-    // Add name search query if it exists
-    if (NameSearch.value.trim() !== "") {
-      params.name_like = NameSearch.value;  // Search by name
-    }
-
-    // Add status filter if selected
-    if (filterStatus.value !== "") {
-      params.status = filterStatus.value === "true";  // Filter by status
-    }
-
-    // Add sorting order if selected
-    if (sortOrder.value === "az") {
-      params._sort = "name";
-      params._order = "asc";  // Sort by name A-Z
-    } else if (sortOrder.value === "za") {
-      params._sort = "name";
-      params._order = "desc";  // Sort by name Z-A
-    }
-
-    // Make the API request with the constructed parameters
-    const response = await apiClient.get("classify", { params });
+    const response = await apiClient.get("classify");
     category.value = response.data;  // Assign the data to category list
   } catch (error) {
     console.error(error);

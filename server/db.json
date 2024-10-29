@@ -7,7 +7,7 @@
       "status": true,
       "password": "admin",
       "role": true,
-      "avatar": "https://firebasestorage.googleapis.com/v0/b/xuanquang-14d06.appspot.com/o/ptit-image%2Fdell-xps-15-9530-1.jpg?alt=media&token=89835850-f560-460f-b9aa-a17da3a1d83a",
+      "avatar": "https://ih1.redbubble.net/image.2955130987.9629/raf,360x360,075,t,fafafa:ca443f4786.jpg",
       "phone": "0349199812",
       "address": "Hà Nội",
       "created_at": "14/07/2024",
@@ -25,34 +25,19 @@
       "created_at": "15/07/2024",
       "cart": [
         {
-          "id": 55157377,
-          "name": "Laptop Acer Gaming Predator Helios Neo 16 PHN16-72-91RF - Intel Core i9-14900HX | 16GB RAM | SSD 1TB | RTX 4060 | 16 inch 2.5K 240Hz 100% sRGB",
-          "price": 35990000,
-          "stock": -1,
-          "category": "Laptop gaming",
+          "id": 59816112,
+          "name": "Laptop Dell Inspiron 5440 NDY5V1 (i5 1334U/ 16GB/ 512GB SSD/ 14 inch FHD+/ Win 11/ Office/ Vỏ nhôm",
+          "price": 21490000,
+          "stock": 53,
+          "category": "Laptop văn phòng",
           "status": true,
-          "image": "https://firebasestorage.googleapis.com/v0/b/xuanquang-14d06.appspot.com/o/ptit-image%2Fgaming2.png?alt=media&token=34871e4e-cffd-44b0-8fc7-589527053d79",
-          "description": "Laptop Acer Predator là một dòng laptop gaming cao cấp của hãng laptop Acer, được đầu tư chỉn chu về mọi mặt từ build, tản nhiệt cho đến màn hình, cấu hình và các linh kiện bên trong. Đây là chiếc laptop/máy tính xách tay sở hữu chip i9 - 14900HX mạnh nhất hiện nay. Hãy cùng khám phá mẫu Acer Predator Helios Neo 16 PHN16-72 ở bài viết dưới đây nhé!",
-          "created_at": "13/07/2024",
-          "comments": [
-            {
-              "id": 11419,
-              "idUser": 4900826,
-              "name": "quang3",
-              "comment": "háudhshu 12312 3",
-              "created_at": "16/9/2024",
-              "feedback": [
-                {
-                  "id": 245187,
-                  "idUser": 4900826,
-                  "name": "quang3",
-                  "comment": " gfetqef eq 3 22444 ",
-                  "created_at": "16/9/2024"
-                }
-              ]
-            }
-          ],
-          "sales": 36,
+          "image": "https://phucanhcdn.com/media/product/55348_laptop_dell_inspiron_5440_ndy5v1_thumb.jpg",
+          "description": "Laptop Dell Inspiron 5440 NDY5V1 sở hữu thiết kế hiện đại với màu sắc Ice Blue sang trọng. Máy có kích thước 314 x 226 x 16.49 mm và trọng lượng chỉ 1.69 kg, dễ dàng mang theo bên mình.Dell Inspiron 5440 NDY5V1 trang bị pin 4 cell, cho thời lượng sử dụng dài và hỗ trợ sạc nhanh. Với chất liệu vỏ nhôm chắc chắn và thiết kế nhẹ nhàng, đây là chiếc laptop lý tưởng cho người dùng cần một thiết bị di động và mạnh mẽ",
+          "created_at": "2024-09-16",
+          "updated_at": "16/9/2024",
+          "sales": 32,
+          "assess": [],
+          "comments": [],
           "quantity": 1
         }
       ],
@@ -219,7 +204,7 @@
       "id": 55157377,
       "name": "Laptop Acer Gaming Predator Helios Neo 16 PHN16-72-91RF - Intel Core i9-14900HX | 16GB RAM | SSD 1TB | RTX 4060 | 16 inch 2.5K 240Hz 100% sRGB",
       "price": 35990000,
-      "stock": -1,
+      "stock": 30,
       "category": "Laptop gaming",
       "status": true,
       "image": "https://firebasestorage.googleapis.com/v0/b/xuanquang-14d06.appspot.com/o/ptit-image%2Fgaming2.png?alt=media&token=34871e4e-cffd-44b0-8fc7-589527053d79",
@@ -243,7 +228,7 @@
           ]
         }
       ],
-      "sales": 36
+      "sales": 38
     },
     {
       "id": 85277318,
@@ -264,14 +249,14 @@
       "id": 58651124,
       "name": "Laptop Acer Gaming Nitro V ANV15-51-58AN NH.QNASV.001 (Intel Core i5-13420H | 8GB | 512GB | RTX 2050 4GB GDDR6 | 15.6 inch FHD | Win 11 | Obsidian Black)",
       "price": 13450000,
-      "stock": 14,
+      "stock": 13,
       "category": "Laptop gaming",
       "status": true,
       "image": "https://firebasestorage.googleapis.com/v0/b/xuanquang-14d06.appspot.com/o/ptit-image%2F47470_acer_gaming_nitro_v_anv15_51_58an_anphatpc55_3.jpg?alt=media&token=a0f69913-4b21-447e-a218-115ffe40b96c",
       "description": "CPU: Intel Core i5-13420H (up to 4.60 GHz, 8 nhân, 12 luồng, 12MB)\nRAM: 8GB DDR5 5200MHz (2 khe)\nỔ cứng: 512GB, PCIe, NVMe SSD (nâng cấp tối đa 2TB SSD)\nVGA: NVIDIA GeForce RTX 2050 with 4 GB of dedicated GDDR6 VRAM",
       "created_at": "16/07/2024",
       "updated_at": "16/07/2024",
-      "sales": 37,
+      "sales": 38,
       "assess": [],
       "comments": []
     },
@@ -294,7 +279,7 @@
       "id": 16958287,
       "name": "Dell Precision 5510 Core i7 6th / M1000M / 15.6 inch",
       "price": 13600000,
-      "stock": 5,
+      "stock": 52,
       "category": "Laptop văn phòng",
       "status": true,
       "image": "https://ngocnguyen.vn/cdn/images/202304/goods_img/dell-precision-5510-i7-6820hq-ram-8gb-ssd-256gb-m1000m-156-inch-fhd-G3082-1681207405650.jpg",
@@ -309,14 +294,14 @@
       "id": 51455851,
       "name": "Laptop MSI Modern 15 B13M 438VN | Intel i5-1335U | 8GB | 15.6 Inch FHD",
       "price": 11700000,
-      "stock": 41,
+      "stock": 40,
       "category": "Laptop văn phòng",
       "status": true,
       "image": "https://laptop88.vn/media/product/8802_msi_modern_15_b13m_438vn.jpg",
       "description": "MSI Modern 15 B13M 438VN là một trong những mẫu laptop văn phòng 2024 nổi bật đến từ thương hiệu laptop MSI danh tiếng. Mẫu laptop MSI Modern 15 này không chỉ sở hữu cho mình cấu hình Intel đời cao cho hiệu năng khỏe mà còn có giá thành rất rẻ. Nếu bạn muốn tham khảo chi tiết về mẫu máy tính xách tay MSI Modern này hãy đọc ngay nội dung dưới đây nhé!",
       "created_at": "2024-09-16",
       "updated_at": "16/9/2024",
-      "sales": 24,
+      "sales": 25,
       "assess": [],
       "comments": []
     },
@@ -324,14 +309,14 @@
       "id": 59816112,
       "name": "Laptop Dell Inspiron 5440 NDY5V1 (i5 1334U/ 16GB/ 512GB SSD/ 14 inch FHD+/ Win 11/ Office/ Vỏ nhôm",
       "price": 21490000,
-      "stock": 54,
+      "stock": 53,
       "category": "Laptop văn phòng",
       "status": true,
       "image": "https://phucanhcdn.com/media/product/55348_laptop_dell_inspiron_5440_ndy5v1_thumb.jpg",
       "description": "Laptop Dell Inspiron 5440 NDY5V1 sở hữu thiết kế hiện đại với màu sắc Ice Blue sang trọng. Máy có kích thước 314 x 226 x 16.49 mm và trọng lượng chỉ 1.69 kg, dễ dàng mang theo bên mình.Dell Inspiron 5440 NDY5V1 trang bị pin 4 cell, cho thời lượng sử dụng dài và hỗ trợ sạc nhanh. Với chất liệu vỏ nhôm chắc chắn và thiết kế nhẹ nhàng, đây là chiếc laptop lý tưởng cho người dùng cần một thiết bị di động và mạnh mẽ",
       "created_at": "2024-09-16",
       "updated_at": "16/9/2024",
-      "sales": 31,
+      "sales": 32,
       "assess": [],
       "comments": []
     },
@@ -339,7 +324,7 @@
       "id": 36833777,
       "name": "Laptop Dell Inspiron 3530 I5U085W11SLU (i5 1335U/ 8GB/ 512GB SSD/ 15.6 inch FHD/ Win 11/ Office/ Silver",
       "price": 16990000,
-      "stock": 7,
+      "stock": 17,
       "category": "Laptop văn phòng",
       "status": true,
       "image": "https://phucanhcdn.com/media/product/54929_laptop_dell_inspiron_3530_i5u085w11slu_1.jpg",
@@ -354,7 +339,7 @@
       "id": 81681,
       "name": "Asus Zenbook 14 OLED Q415 (2024)",
       "price": 14690000,
-      "stock": 9,
+      "stock": 19,
       "category": "Laptop văn phòng",
       "status": true,
       "image": "https://lapvip.vn/upload/products/thumb_800x0/asus-zenbook-14-oled-q415-2024-1713753250.jpg",
@@ -369,7 +354,7 @@
       "id": 98268965,
       "name": "Asus Zenbook 14 OLED Q415 (2024)",
       "price": 14600000,
-      "stock": 6,
+      "stock": 16,
       "category": "Laptop văn phòng",
       "status": true,
       "image": "https://laptopkhanhtran.vn/pic/product/thinkpad-_638150793581845268_HasThumb.jpg",
@@ -399,7 +384,7 @@
       "id": 97816776,
       "name": "Alienware m18 R2 18 inch 2024 Core i9 14900HX RAM 32GB SSD 2TB RTX 4090 QHD+",
       "price": 96000000,
-      "stock": 2,
+      "stock": 12,
       "category": "Laptop gaming",
       "status": true,
       "image": "https://macstores.vn/wp-content/uploads/2024/04/alienware-m18-r2-gaming-laptop-1.jpg",
@@ -414,7 +399,7 @@
       "id": 24123912,
       "name": "[New Outlet] Laptop Acer Nitro 5 AN515-58-57QW - Intel Core i5-12450H | RAM 16GB | Nvidia RTX 3050Ti | 15.6 Inch Full HD 144Hz",
       "price": 16990000,
-      "stock": 3,
+      "stock": 23,
       "category": "Laptop gaming",
       "status": true,
       "image": "https://laptop88.vn/media/product/8634_anb_57qw.jpg",
@@ -429,7 +414,7 @@
       "id": 78358099,
       "name": "Laptop Acer Gaming Nitro V ANV15-51-58AN NH.QNASV.001 (Intel Core i5-13420H |RTX 2050 4GB GDDR6 | 8GB | 512GB | 15.6 inch FHD | Win 11 | Obsidian Black)",
       "price": 189990000,
-      "stock": 4,
+      "stock": 24,
       "category": "Laptop gaming",
       "status": true,
       "image": "https://anphat.com.vn/media/product/47470_laptop_acer_gaming_nitro_v_anv15_51_58an_nh_qnasv_001.jpg",
@@ -445,7 +430,7 @@
       "name": "Laptop Acer Gaming Nitro V ANV15-51-58AN NH.QNASV.001 (Intel Core i5-13420H |RTX 2050 4GB GDDR6 | 8GB | 512GB | 15.6 inch FHD | Win 11 | Obsidian Black)",
       "price": 18999000,
       "sales": 24,
-      "stock": 2,
+      "stock": 12,
       "category": "Laptop gaming",
       "status": true,
       "image": "https://bizweb.dktcdn.net/thumb/grande/100/082/878/products/25649-laptop-gaming-acer-nitro-v-anv15-51-53dm-1.jpg?v=1720739106443",
@@ -467,7 +452,7 @@
       "id": 45778047,
       "name": "Laptop gaming",
       "description": "cân mọi thể loại game, phù hợp cho thiết kế đồ họa",
-      "status": true
+      "status": false
     }
   ],
   "orders": [
@@ -476,7 +461,7 @@
       "name": "Quang Nguyễn",
       "phone": "0349199812",
       "address": "Nhà số 8, cụm 2, Xã Liên Hà, Huyện Đan Phượng, Thành phố Hà Nội",
-      "status": "daGui",
+      "status": "daDuyet",
       "cart": [
         {
           "id": 55157377,
@@ -576,8 +561,174 @@
       "ship": 30000,
       "payTo": "NhanHang",
       "idUser": 70982177,
-      "created_at": "26/10/2024",
+      "created_at": "21/10/2024",
       "sale": "MGG2"
+    },
+    {
+      "id": 6926180,
+      "name": "Quang Nguyễn",
+      "phone": "0349199812",
+      "address": "Nhà số 8, cụm 2, Xã Liên Hà, Huyện Đan Phượng, Thành phố Hà Nội",
+      "status": "choDuyet",
+      "cart": [
+        {
+          "id": 55157377,
+          "name": "Laptop Acer Gaming Predator Helios Neo 16 PHN16-72-91RF - Intel Core i9-14900HX | 16GB RAM | SSD 1TB | RTX 4060 | 16 inch 2.5K 240Hz 100% sRGB",
+          "price": 35990000,
+          "stock": -1,
+          "category": "Laptop gaming",
+          "status": true,
+          "image": "https://firebasestorage.googleapis.com/v0/b/xuanquang-14d06.appspot.com/o/ptit-image%2Fgaming2.png?alt=media&token=34871e4e-cffd-44b0-8fc7-589527053d79",
+          "description": "Laptop Acer Predator là một dòng laptop gaming cao cấp của hãng laptop Acer, được đầu tư chỉn chu về mọi mặt từ build, tản nhiệt cho đến màn hình, cấu hình và các linh kiện bên trong. Đây là chiếc laptop/máy tính xách tay sở hữu chip i9 - 14900HX mạnh nhất hiện nay. Hãy cùng khám phá mẫu Acer Predator Helios Neo 16 PHN16-72 ở bài viết dưới đây nhé!",
+          "created_at": "13/07/2024",
+          "comments": [
+            {
+              "id": 11419,
+              "idUser": 4900826,
+              "name": "quang3",
+              "comment": "háudhshu 12312 3",
+              "created_at": "16/9/2024",
+              "feedback": [
+                {
+                  "id": 245187,
+                  "idUser": 4900826,
+                  "name": "quang3",
+                  "comment": " gfetqef eq 3 22444 ",
+                  "created_at": "16/9/2024"
+                }
+              ]
+            }
+          ],
+          "sales": 36,
+          "quantity": 1
+        }
+      ],
+      "ship": 30000,
+      "payTo": "ChuyenKhoan",
+      "idUser": 70982177,
+      "created_at": "29/10/2024",
+      "sale": "MGG2"
+    },
+    {
+      "id": 6845526,
+      "name": "Quang Nguyễn",
+      "phone": "0349199812",
+      "address": "Nhà số 8, cụm 2, Xã Liên Hà, Huyện Đan Phượng, Thành phố Hà Nội",
+      "status": "choDuyet",
+      "cart": [
+        {
+          "id": 51455851,
+          "name": "Laptop MSI Modern 15 B13M 438VN | Intel i5-1335U | 8GB | 15.6 Inch FHD",
+          "price": 11700000,
+          "stock": 41,
+          "category": "Laptop văn phòng",
+          "status": true,
+          "image": "https://laptop88.vn/media/product/8802_msi_modern_15_b13m_438vn.jpg",
+          "description": "MSI Modern 15 B13M 438VN là một trong những mẫu laptop văn phòng 2024 nổi bật đến từ thương hiệu laptop MSI danh tiếng. Mẫu laptop MSI Modern 15 này không chỉ sở hữu cho mình cấu hình Intel đời cao cho hiệu năng khỏe mà còn có giá thành rất rẻ. Nếu bạn muốn tham khảo chi tiết về mẫu máy tính xách tay MSI Modern này hãy đọc ngay nội dung dưới đây nhé!",
+          "created_at": "2024-09-16",
+          "updated_at": "16/9/2024",
+          "sales": 24,
+          "assess": [],
+          "comments": [],
+          "quantity": 1
+        },
+        {
+          "id": 59816112,
+          "name": "Laptop Dell Inspiron 5440 NDY5V1 (i5 1334U/ 16GB/ 512GB SSD/ 14 inch FHD+/ Win 11/ Office/ Vỏ nhôm",
+          "price": 21490000,
+          "stock": 54,
+          "category": "Laptop văn phòng",
+          "status": true,
+          "image": "https://phucanhcdn.com/media/product/55348_laptop_dell_inspiron_5440_ndy5v1_thumb.jpg",
+          "description": "Laptop Dell Inspiron 5440 NDY5V1 sở hữu thiết kế hiện đại với màu sắc Ice Blue sang trọng. Máy có kích thước 314 x 226 x 16.49 mm và trọng lượng chỉ 1.69 kg, dễ dàng mang theo bên mình.Dell Inspiron 5440 NDY5V1 trang bị pin 4 cell, cho thời lượng sử dụng dài và hỗ trợ sạc nhanh. Với chất liệu vỏ nhôm chắc chắn và thiết kế nhẹ nhàng, đây là chiếc laptop lý tưởng cho người dùng cần một thiết bị di động và mạnh mẽ",
+          "created_at": "2024-09-16",
+          "updated_at": "16/9/2024",
+          "sales": 31,
+          "assess": [],
+          "comments": [],
+          "quantity": 1
+        }
+      ],
+      "ship": 30000,
+      "payTo": "NhanHang",
+      "idUser": 70982177,
+      "created_at": "29/10/2024",
+      "sale": "MGG15"
+    },
+    {
+      "id": 882486,
+      "name": "Quang Nguyễn",
+      "phone": "0349199812",
+      "address": "Nhà số 8, cụm 2, Xã Liên Hà, Huyện Đan Phượng, Thành phố Hà Nội",
+      "status": "choDuyet",
+      "cart": [
+        {
+          "id": 55157377,
+          "name": "Laptop Acer Gaming Predator Helios Neo 16 PHN16-72-91RF - Intel Core i9-14900HX | 16GB RAM | SSD 1TB | RTX 4060 | 16 inch 2.5K 240Hz 100% sRGB",
+          "price": 35990000,
+          "stock": 31,
+          "category": "Laptop gaming",
+          "status": true,
+          "image": "https://firebasestorage.googleapis.com/v0/b/xuanquang-14d06.appspot.com/o/ptit-image%2Fgaming2.png?alt=media&token=34871e4e-cffd-44b0-8fc7-589527053d79",
+          "description": "Laptop Acer Predator là một dòng laptop gaming cao cấp của hãng laptop Acer, được đầu tư chỉn chu về mọi mặt từ build, tản nhiệt cho đến màn hình, cấu hình và các linh kiện bên trong. Đây là chiếc laptop/máy tính xách tay sở hữu chip i9 - 14900HX mạnh nhất hiện nay. Hãy cùng khám phá mẫu Acer Predator Helios Neo 16 PHN16-72 ở bài viết dưới đây nhé!",
+          "created_at": "13/07/2024",
+          "comments": [
+            {
+              "id": 11419,
+              "idUser": 4900826,
+              "name": "quang3",
+              "comment": "háudhshu 12312 3",
+              "created_at": "16/9/2024",
+              "feedback": [
+                {
+                  "id": 245187,
+                  "idUser": 4900826,
+                  "name": "quang3",
+                  "comment": " gfetqef eq 3 22444 ",
+                  "created_at": "16/9/2024"
+                }
+              ]
+            }
+          ],
+          "sales": 37,
+          "quantity": 1
+        }
+      ],
+      "ship": 30000,
+      "payTo": "NhanHang",
+      "idUser": 70982177,
+      "created_at": "29/10/2024",
+      "sale": "MGG2"
+    },
+    {
+      "id": 9136250,
+      "name": "Nguyễn Xuân Quang",
+      "phone": "0349199812",
+      "address": "nhà số 138, Xã Tân Triều, Huyện Thanh Trì, Thành phố Hà Nội",
+      "status": "choDuyet",
+      "cart": [
+        {
+          "id": 58651124,
+          "name": "Laptop Acer Gaming Nitro V ANV15-51-58AN NH.QNASV.001 (Intel Core i5-13420H | 8GB | 512GB | RTX 2050 4GB GDDR6 | 15.6 inch FHD | Win 11 | Obsidian Black)",
+          "price": 13450000,
+          "stock": 14,
+          "category": "Laptop gaming",
+          "status": true,
+          "image": "https://firebasestorage.googleapis.com/v0/b/xuanquang-14d06.appspot.com/o/ptit-image%2F47470_acer_gaming_nitro_v_anv15_51_58an_anphatpc55_3.jpg?alt=media&token=a0f69913-4b21-447e-a218-115ffe40b96c",
+          "description": "CPU: Intel Core i5-13420H (up to 4.60 GHz, 8 nhân, 12 luồng, 12MB)\nRAM: 8GB DDR5 5200MHz (2 khe)\nỔ cứng: 512GB, PCIe, NVMe SSD (nâng cấp tối đa 2TB SSD)\nVGA: NVIDIA GeForce RTX 2050 with 4 GB of dedicated GDDR6 VRAM",
+          "created_at": "16/07/2024",
+          "updated_at": "16/07/2024",
+          "sales": 37,
+          "assess": [],
+          "comments": [],
+          "quantity": 1
+        }
+      ],
+      "ship": 30000,
+      "payTo": "NhanHang",
+      "idUser": 70982177,
+      "created_at": "29/10/2024",
+      "sale": ""
     }
   ],
   "sales": [
