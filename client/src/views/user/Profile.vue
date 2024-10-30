@@ -102,6 +102,7 @@ const userLocal = JSON.parse(localStorage.getItem('userLogin') || 'null');
 const ChangeUser = reactive({
   id: '',
   name: '',
+  gmail: '',
   status: '',
   password: '',
   role: '',
@@ -132,6 +133,7 @@ watch(users, (newUsers) => {
       // Cập nhật thông tin vào ChangeUser sau khi user đã có dữ liệu
       ChangeUser.id = user.value.id;
       ChangeUser.name = user.value.name;
+      ChangeUser.gmail = user.value.gmail;
       ChangeUser.status = user.value.status;
       ChangeUser.password = user.value.password;
       ChangeUser.role = user.value.role;

@@ -353,7 +353,7 @@
     },
     {
       "id": 98268965,
-      "name": "Asus Zenbook 14 OLED Q415 (2024)",
+      "name": "Asus Zenbook 14 OLED Q415",
       "price": 14600000,
       "stock": 16,
       "category": "Laptop văn phòng",
@@ -361,10 +361,8 @@
       "image": "https://laptopkhanhtran.vn/pic/product/thinkpad-_638150793581845268_HasThumb.jpg",
       "description": "Lenovo ThinkPad X1 Carbon Gen 7 được đánh giá là một trong những dòng laptop cao cấp, với thời lượng pin tốt và hiệu suất ổn định. Với cấu hình: Core i7 8565U, RAM 16GB, SSD 256GB, Intel UHD 620, Màn hình 14 inch FHD IPS, Laptop Lenovo Thinkpad X1 Carbon gen 7 là sự lựa chọn phù hợp cho các doanh nhân hoặc những người phải làm việc trong thời gian dài. Hãy cùng Laptop Khánh Trần tìm hiểu chi tiết về sản phẩm trong bài đánh giá dưới đây.",
       "created_at": "2024-09-16",
-      "updated_at": "16/9/2024",
-      "sales": 24,
-      "assess": [],
-      "comments": []
+      "comments": [],
+      "sales": 24
     },
     {
       "id": 55426217,
