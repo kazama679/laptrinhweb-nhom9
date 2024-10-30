@@ -67,8 +67,9 @@
 
       <!-- Phần menu điều hướng chính -->
       <div
-        class="bg-gray-500 bg-opacity-50 fixed top-0 z-10 w-full flex justify-around items-center mt-12 text-white py-3 transition-transform duration-700 ease-in-out translate-y-0"
-      >
+      :class="['menu', isScrollingDown ? 'menu-hidden' : 'menu-visible']"
+      class="bg-gray-500 bg-opacity-50 fixed top-0 z-10 w-full flex justify-around items-center text-white py-3"
+    >
         <div class="italic text-4xl">Laptops</div>
         <div class="flex gap-5">
           <div
@@ -150,6 +151,30 @@ onMounted(async () => {
   }
 });
 
+// ẩn hiện thanh 
+const lastScrollTop = ref(0);
+const isScrollingDown = ref(false);
+
+// Lắng nghe sự kiện scroll
+onMounted(() => {
+  window.addEventListener("scroll", handleScroll);
+});
+
+// Hàm xử lý sự kiện scroll
+const handleScroll = () => {
+  const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+  // Kiểm tra nếu cuộn xuống thì ẩn, cuộn lên thì hiện
+  if (currentScroll > lastScrollTop.value) {
+    isScrollingDown.value = true; // Cuộn xuống
+  } else {
+    isScrollingDown.value = false; // Cuộn lên
+  }
+
+  lastScrollTop.value = currentScroll <= 0 ? 0 : currentScroll; // Tránh trường hợp số âm
+};
+// end-ẩn hiện thanh 
+
 // Hiển thị menu
 const handleMouseEnter = () => {
   showMenu.value = true;
@@ -194,3 +219,18 @@ const nextCart = () => {
   }
 };
 </script>
+
+<style>
+.menu {
+  margin-top: 48px;
+  transition: transform 0.8s ease;
+}
+
+.menu-hidden {
+  transform: translateY(-175%); /* Ẩn menu bằng cách đẩy nó ra khỏi khung nhìn */
+}
+
+.menu-visible {
+  transform: translateY(0); /* Hiện menu */
+}
+</style>

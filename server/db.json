@@ -39,9 +39,86 @@
           "assess": [],
           "comments": [],
           "quantity": 1
+        },
+        {
+          "id": 58651124,
+          "name": "Laptop Acer Gaming Nitro V ANV15-51-58AN NH.QNASV.001 (Intel Core i5-13420H | 8GB | 512GB | RTX 2050 4GB GDDR6 | 15.6 inch FHD | Win 11 | Obsidian Black)",
+          "price": 13450000,
+          "stock": 13,
+          "category": "Laptop gaming",
+          "status": true,
+          "image": "https://firebasestorage.googleapis.com/v0/b/xuanquang-14d06.appspot.com/o/ptit-image%2F47470_acer_gaming_nitro_v_anv15_51_58an_anphatpc55_3.jpg?alt=media&token=a0f69913-4b21-447e-a218-115ffe40b96c",
+          "description": "CPU: Intel Core i5-13420H (up to 4.60 GHz, 8 nhân, 12 luồng, 12MB)\nRAM: 8GB DDR5 5200MHz (2 khe)\nỔ cứng: 512GB, PCIe, NVMe SSD (nâng cấp tối đa 2TB SSD)\nVGA: NVIDIA GeForce RTX 2050 with 4 GB of dedicated GDDR6 VRAM",
+          "created_at": "16/07/2024",
+          "updated_at": "16/07/2024",
+          "sales": 38,
+          "assess": [],
+          "comments": [],
+          "quantity": 1
         }
       ],
-      "like": [],
+      "like": [
+        {
+          "id": 36833777,
+          "name": "Laptop Dell Inspiron 3530 I5U085W11SLU (i5 1335U/ 8GB/ 512GB SSD/ 15.6 inch FHD/ Win 11/ Office/ Silver",
+          "price": 16990000,
+          "stock": 17,
+          "category": "Laptop văn phòng",
+          "status": true,
+          "image": "https://phucanhcdn.com/media/product/54929_laptop_dell_inspiron_3530_i5u085w11slu_1.jpg",
+          "description": "Laptop Dell Inspiron 3530 I5U085W11SLU sở hữu thiết kế hiện đại với màu sắc Silver sang trọng. Máy có kích thước 358 x 235 x 16.69 mm và trọng lượng chỉ 1.66 kg, dễ dàng mang theo bên mình. Với thiết kế nhẹ nhàng và chất liệu vỏ nhựa cao cấp, đây là chiếc laptop lý tưởng cho người dùng cần một thiết bị di động và mạnh mẽ",
+          "created_at": "2024-09-16",
+          "updated_at": "16/9/2024",
+          "sales": 24,
+          "assess": [],
+          "comments": []
+        },
+        {
+          "id": 58651124,
+          "name": "Laptop Acer Gaming Nitro V ANV15-51-58AN NH.QNASV.001 (Intel Core i5-13420H | 8GB | 512GB | RTX 2050 4GB GDDR6 | 15.6 inch FHD | Win 11 | Obsidian Black)",
+          "price": 13450000,
+          "stock": 13,
+          "category": "Laptop gaming",
+          "status": true,
+          "image": "https://firebasestorage.googleapis.com/v0/b/xuanquang-14d06.appspot.com/o/ptit-image%2F47470_acer_gaming_nitro_v_anv15_51_58an_anphatpc55_3.jpg?alt=media&token=a0f69913-4b21-447e-a218-115ffe40b96c",
+          "description": "CPU: Intel Core i5-13420H (up to 4.60 GHz, 8 nhân, 12 luồng, 12MB)\nRAM: 8GB DDR5 5200MHz (2 khe)\nỔ cứng: 512GB, PCIe, NVMe SSD (nâng cấp tối đa 2TB SSD)\nVGA: NVIDIA GeForce RTX 2050 with 4 GB of dedicated GDDR6 VRAM",
+          "created_at": "16/07/2024",
+          "updated_at": "16/07/2024",
+          "sales": 38,
+          "assess": [],
+          "comments": []
+        },
+        {
+          "id": 55426217,
+          "name": "Laptop MSI Gaming Thin 15 B12UCX-1419VN",
+          "price": 15490000,
+          "stock": 20,
+          "category": "Laptop gaming",
+          "status": true,
+          "image": "https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/t/e/text_d_i_3__3_3.png",
+          "description": "Vi xử lý Intel Core i5-12450H, RAM 8GB và ổ cứng SSD 512GB PCIe mang đến hiệu suất mượt mà cho các tác vụ hàng ngày, chơi game và chỉnh sửa video cơ bản.\nCard đồ họa NVIDIA GeForce RTX 2050 giúp bạn chơi game ở độ phân giải Full HD với mức thiết lập đồ họa trung bình đến cao.\nMàn hình 15.6 inch độ phân giải Full HD (1920 x 1080) cho hình ảnh rõ nét, sống động, mang đến trải nghiệm thị giác tuyệt vời.\nHệ thống tản nhiệt tiên tiến giúp duy trì nhiệt độ ổn định, đảm bảo hiệu suất hoạt động tối ưu trong thời gian dài.",
+          "created_at": "2024-09-16",
+          "updated_at": "16/9/2024",
+          "sales": 27,
+          "assess": [],
+          "comments": []
+        },
+        {
+          "id": 59816112,
+          "name": "Laptop Dell Inspiron 5440 NDY5V1 (i5 1334U/ 16GB/ 512GB SSD/ 14 inch FHD+/ Win 11/ Office/ Vỏ nhôm",
+          "price": 21490000,
+          "stock": 53,
+          "category": "Laptop văn phòng",
+          "status": true,
+          "image": "https://phucanhcdn.com/media/product/55348_laptop_dell_inspiron_5440_ndy5v1_thumb.jpg",
+          "description": "Laptop Dell Inspiron 5440 NDY5V1 sở hữu thiết kế hiện đại với màu sắc Ice Blue sang trọng. Máy có kích thước 314 x 226 x 16.49 mm và trọng lượng chỉ 1.69 kg, dễ dàng mang theo bên mình.Dell Inspiron 5440 NDY5V1 trang bị pin 4 cell, cho thời lượng sử dụng dài và hỗ trợ sạc nhanh. Với chất liệu vỏ nhôm chắc chắn và thiết kế nhẹ nhàng, đây là chiếc laptop lý tưởng cho người dùng cần một thiết bị di động và mạnh mẽ",
+          "created_at": "2024-09-16",
+          "updated_at": "16/9/2024",
+          "sales": 32,
+          "assess": [],
+          "comments": []
+        }
+      ],
       "contact": [
         {
           "id": 6042908,
@@ -493,7 +570,7 @@
       "name": "Quang Nguyễn",
       "phone": "0349199812",
       "address": "Nhà số 8, cụm 2, Xã Liên Hà, Huyện Đan Phượng, Thành phố Hà Nội",
-      "status": "choDuyet",
+      "status": "daDuyet",
       "cart": [
         {
           "id": 55157377,

@@ -34,8 +34,8 @@
           <div class="col-span-1">
             <label htmlFor="image" class="block text-sm font-medium">URL Ảnh</label>
             <input @change="handleUpFile" class="mt-1 p-2 border rounded w-full" type="file" />
-            <div v-if="newProduct.image !== ''" class="flex justify-center text-center">
-              <img :src="newProduct.image" class="w-16 h-16 mt-4" />
+            <div v-if="imageUrl || newProduct.image !== ''" class="flex justify-center text-center">
+              <img :src="imageUrl || newProduct.image" class="w-16 h-16 mt-4" />
             </div>
             <div v-if="err.noImage" className="text-red-500 text-xs mt-1">
               Hình ảnh chưa được chọn
@@ -108,8 +108,8 @@ const imageUrl = ref("");
 const file = ref(null);
 
 const handleUpFile = (e) => {
-  imageUrl.value = URL.createObjectURL(e.target.files[0]);
-  file.value = e.target.files[0];
+  imageUrl.value = URL.createObjectURL(e.target.files[0]); 
+  file.value = e.target.files[0]; 
 };
 
 // lấy ngày hiện tại

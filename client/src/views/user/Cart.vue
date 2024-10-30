@@ -138,6 +138,7 @@ const fetchData = async () => {
 // Gọi API khi component được mounted
 onMounted(() => {
   fetchData();
+  window.scroll(0,0)
 });
 
 // Đồng bộ dữ liệu user

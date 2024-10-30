@@ -3,7 +3,7 @@
     <Header></Header>
     <Banner></Banner>
     <!-- hiển thị sản phẩm bán chạy  -->
-    <div class="bg-gray-100 py-20 pt-56"> 
+    <div class="bg-gray-100 py-20 pt-56">
       <div class="container mx-auto">
         <div class="text-center mb-10">
           <h2 class="text-3xl font-bold">Sản phẩm bán chạy</h2>
@@ -13,15 +13,16 @@
           <!-- Sử dụng flexbox để bố trí các sản phẩm theo chiều ngang -->
           <div class="flex justify-center space-x-5 w-full">
             <!-- Vòng lặp qua sản phẩm -->
-            <div v-for="product in products.sort((a, b) => b.sales - a.sales).slice(0, 3)" :key="product.id"
-              class="w-1/4 cursor-pointer bg-white group border border-gray-300">
+            <div v-for="product in products
+              .sort((a, b) => b.sales - a.sales)
+              .slice(0, 3)" :key="product.id" class="w-1/4 cursor-pointer bg-white group border border-gray-300">
               <div @click="nextCard(product.id)" class="relative">
                 <img :src="product.image" class="w-56 h-56 object-cover ml-36 mt-6" />
                 <div class="absolute inset-0 flex flex-col justify-start p-5 bg-white bg-opacity-10">
                   <h3 class="text-2xl font-bold">
-                    {{ product.name.split(' ').slice(1, 2).join(' ') }}
+                    {{ product.name.split(" ").slice(1, 2).join(" ") }}
                     <br />
-                    {{ product.name.split(' ').slice(2, 3).join(' ') }}
+                    {{ product.name.split(" ").slice(2, 3).join(" ") }}
                   </h3>
                   <p class="text-gray-600">{{ product.category }}</p>
                 </div>
@@ -56,10 +57,13 @@
       </div>
       <!-- Hiển thị sản phẩm có danh mục -->
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
-        <div v-for="item in products.filter(item => item.category == category.name).slice(0, 4)" :key="item.id" @click="nextCard(item.id)"
+        <div v-for="item in products
+          .filter((item) => item.category == category.name)
+          .slice(0, 4)" :key="item.id" @click="nextCard(item.id)"
           class="bg-white rounded-lg shadow-md p-4 relative hover:border-black transition-all duration-300 hover:shadow-2xl">
           <div @click="handleLike(item, $event)">
-            <i v-if="user?.like.some(i => i.id === item.id)" class="fa-solid fa-heart text-red-600 hover:text-black"></i>
+            <i v-if="user?.like.some((i) => i.id === item.id)"
+              class="fa-solid fa-heart text-red-600 hover:text-black"></i>
             <i v-else class="fa-regular fa-heart hover:text-red-600"></i>
           </div>
           <div class="bg-red-500 text-white text-sm px-2 py-1 rounded-full absolute top-2 right-2">
@@ -82,12 +86,8 @@
     <div class="w-full flex justify-center mt-32 mb-[-50px]">
       <div class="w-[70%] bg-gray-900 p-12 rounded text-white shadow-lg">
         <div class="flex items-center mb-4">
-          <input
-            class="w-64 rounded h-8 text-black p-2"
-            v-model="searchTerm"
-            type="text"
-            placeholder="Tìm kiếm sản phẩm..."
-          />
+          <input class="w-64 rounded h-8 text-black p-2" v-model="searchTerm" type="text"
+            placeholder="Tìm kiếm sản phẩm..." />
         </div>
         <div class="flex gap-4 items-center">
           <!-- Lọc theo năm -->
@@ -132,24 +132,23 @@
     </div>
     <!-- end-hiển thị tìm kiếm -->
 
-    <div className="text-center mt-40" v-if="paginatedProducts.length==0">
+    <div className="text-center mt-40" v-if="paginatedProducts.length == 0">
       <h1 className="text-4xl font-bold">Không tìm thấy sản phẩm</h1>
       <p className="text-gray-500 mt-2">Vui lòng tìm kiếm sản phẩm khác!</p>
     </div>
-    <div v-if="!paginatedProducts.length==0" className="text-center mt-20">
+    <div v-if="!paginatedProducts.length == 0" className="text-center mt-20">
       <h1 className="text-4xl font-bold">
         RECENT <span className="text-yellow-500">Laptop</span>
       </h1>
       <p className="text-gray-500">
-        Curabitur tellus leo, euismod sit amet gravida at, egestas sed
-        commodo.
+        Curabitur tellus leo, euismod sit amet gravida at, egestas sed commodo.
       </p>
     </div>
 
     <!-- Hiển thị tất cả danh sách sản phẩm -->
     <div class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 gap-6 max-w-6xl mx-auto mt-10">
       <div v-for="(item, index) in paginatedProducts" :key="index" class="p-4">
-        <div 
+        <div
           class="bg-gray-800 text-white shadow-lg border-2 border-gray hover:border-black transition-all duration-300 hover:shadow-2xl">
           <img :src="item.image" alt="Product Image" class="w-full h-[340px]" />
           <div class="p-4">
@@ -158,18 +157,18 @@
               <button @click="nextCard(item.id)" class="bg-blue-500 text-white py-1 px-3">
                 Xem sản phẩm
               </button>
-              <div class="text-blue-400 text-lg">{{ formatVND(item.price) }}</div>
+              <div class="text-blue-400 text-lg">
+                {{ formatVND(item.price) }}
+              </div>
             </div>
             <div class="flex justify-between text-gray-400">
-              <span>
-                 Chính hãng
+              <span> Chính hãng </span>
+              <span @click="handleLike(item, $event)" class="cursor-pointer hover:text-white">
+                <i v-if="user?.like.some((i) => i.id === item.id)"
+                  class="fa-solid fa-heart text-red-600 hover:text-black"></i>
+                <i v-else class="fa-regular fa-heart hover:text-red-600"></i>
               </span>
-              <span class="cursor-pointer hover:text-white">
-                Yêu thích
-              </span>
-              <span>
-                Sạc nhanh!
-              </span>
+              <span> Sạc nhanh! </span>
             </div>
           </div>
         </div>
@@ -177,30 +176,59 @@
     </div>
 
     <!-- Phân trang -->
-    <div v-if="!paginatedProducts.length==0" class="flex justify-center space-x-2 mt-4">
-      <button @click="prevPage" :disabled="currentPage === 1" :class="['py-1 border rounded', { 'bg-gray-400 cursor-not-allowed opacity-50': currentPage === 1, 'bg-blue-500 text-white': currentPage > 1 }]">
+    <div v-if="!paginatedProducts.length == 0" class="flex justify-center space-x-2 mt-4">
+      <button @click="prevPage" :disabled="currentPage === 1" :class="[
+        'py-1 border rounded',
+        {
+          'bg-gray-400 cursor-not-allowed opacity-50': currentPage === 1,
+          'bg-blue-500 text-white': currentPage > 1,
+        },
+      ]">
         <i class="px-[9px] fa-solid fa-arrow-left"></i>
       </button>
-      <button v-for="page in totalPages" :key="page" @click="currentPage = page" :class="['px-3 py-1 border rounded', { 'bg-blue-500 text-white': currentPage === page }]">
+      <button v-for="page in totalPages" :key="page" @click="currentPage = page" :class="[
+        'px-3 py-1 border rounded',
+        { 'bg-blue-500 text-white': currentPage === page },
+      ]">
         {{ page }}
       </button>
-      <button @click="nextPage" :disabled="currentPage === totalPages" :class="['py-1 border rounded', { 'bg-gray-400 cursor-not-allowed opacity-50': currentPage === totalPages, 'bg-blue-500 text-white': currentPage < totalPages }]">
+      <button @click="nextPage" :disabled="currentPage === totalPages" :class="[
+        'py-1 border rounded',
+        {
+          'bg-gray-400 cursor-not-allowed opacity-50':
+            currentPage === totalPages,
+          'bg-blue-500 text-white': currentPage < totalPages,
+        },
+      ]">
         <i class="px-[9px] fa-solid fa-arrow-right"></i>
       </button>
     </div>
     <!-- end-hiển thị tất cả danh sách sản phẩm -->
 
     <!-- hiển thị form yêu thích -->
-    <div v-if="false" className="fixed inset-0 flex items-center justify-center z-50 border border-black">
+    <div v-if="disLike" className=" border border-black">
       <div className="bg-white p-6 shadow-2xl rounded-lg z-50 flex flex-col items-center justify-center text-center">
         
-        <p className="text-lg font-bold text-red-500">Sản phẩm đã được thêm vào yêu thích</p>
+        <p className="text-lg font-bold"></p>
       </div>
     </div>
-    <div v-if="false" className="fixed inset-0 flex items-center justify-center z-50 border border-black">
-      <div className="bg-white p-6 shadow-2xl rounded-lg z-50 flex flex-col items-center justify-center text-center">
-        
-        <p className="text-lg font-bold">Đã bỏ yêu thích sản phẩm</p>
+
+    <div v-if="showLike" class="text-center my-4 fixed inset-0 flex items-end justify-center z-50">
+      <div class="bg-gray-800 text-white text-sm px-6 py-4 rounded mt-4 inline-block max-w-md shadow-lg">
+        <span>Sản phẩm đã được thêm vào yêu thích
+          <i class="fa-solid fa-heart-circle-check text-red-500"></i></span>
+        <button @click="closeLike" class="text-pink-500 font-bold hover:text-pink-700 ml-4">
+          Close
+        </button>
+      </div>
+    </div>
+    <div v-if="disLike" class="text-center my-4 fixed inset-0 flex items-end justify-center z-50">
+      <div class="bg-gray-800 text-white text-sm px-6 py-4 rounded mt-4 inline-block max-w-md shadow-lg">
+        <span>Đã bỏ yêu thích sản phẩm
+          <i class="fa-solid fa-heart-circle-xmark"></i></span>
+        <button @click="closeLike" class="text-pink-500 font-bold hover:text-pink-700 ml-4">
+          Close
+        </button>
       </div>
     </div>
     <!-- end-hiển thị form yêu thích -->
@@ -211,20 +239,24 @@
 </template>
 
 <script setup>
-import apiClient from '@/api/instance';
-import Contact from '@/components/Contact.vue';
-import Banner from '@/components/Banner.vue';
-import Footer from '@/components/Footer.vue';
-import Header from '@/components/Header.vue'
-import { computed, onMounted, ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import apiClient from "@/api/instance";
+import Contact from "@/components/Contact.vue";
+import Banner from "@/components/Banner.vue";
+import Footer from "@/components/Footer.vue";
+import Header from "@/components/Header.vue";
+import { computed, onMounted, ref, watch } from "vue";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 
 const store = useStore();
 const router = useRouter();
 const products = ref([]);
 const category = ref([]);
 const user = ref(null);
+const showLike = ref(false);
+const disLike = ref(false);
+const userLocal = JSON.parse(localStorage.getItem("userLogin") || "null");
+const users = ref([]);
 
 // Các biến để lọc, tìm kiếm, sắp xếp
 const searchTerm = ref("");
@@ -256,26 +288,34 @@ const filteredAndSortedProducts = computed(() => {
 
   // Lọc theo tìm kiếm
   if (searchTerm.value) {
-    filtered = filtered.filter(item => item.name.toLowerCase().includes(searchTerm.value.toLowerCase()));
+    filtered = filtered.filter((item) =>
+      item.name.toLowerCase().includes(searchTerm.value.toLowerCase())
+    );
   }
 
   // Lọc theo năm
   if (yearFilter.value) {
-    filtered = filtered.filter(item => item.created_at.includes(yearFilter.value));
+    filtered = filtered.filter((item) =>
+      item.created_at.includes(yearFilter.value)
+    );
   }
 
   // Lọc theo danh mục
   if (categoryFilter.value) {
-    filtered = filtered.filter(item => item.category === categoryFilter.value);
+    filtered = filtered.filter(
+      (item) => item.category === categoryFilter.value
+    );
   }
 
   // Lọc theo giá
   if (priceFilter.value === "15") {
-    filtered = filtered.filter(item => item.price < 15000000);
+    filtered = filtered.filter((item) => item.price < 15000000);
   } else if (priceFilter.value === "15-30") {
-    filtered = filtered.filter(item => item.price >= 15000000 && item.price <= 30000000);
+    filtered = filtered.filter(
+      (item) => item.price >= 15000000 && item.price <= 30000000
+    );
   } else if (priceFilter.value === "30") {
-    filtered = filtered.filter(item => item.price > 30000000);
+    filtered = filtered.filter((item) => item.price > 30000000);
   }
 
   // Sắp xếp theo giá
@@ -302,13 +342,52 @@ const nextPage = () => {
   }
 };
 
+watch(users, (newUsers) => {
+  // Khi giá trị users thay đổi, newUsers sẽ đc cập nhập
+  if (newUsers.length > 0) {
+    user.value = newUsers.find((item) => item.id === userLocal.id);
+  }
+  if (!user.value.like) {
+    user.value.like = [];
+  }
+});
+
+// thay đổi yêu thích của user
+const handleLike = (item, event) => {
+  event.stopPropagation(); // Ngăn chặn sự kiện click lan truyền lên phần tử cha
+  // Kiểm tra xem sản phẩm đã có trong danh sách yêu thích chưa
+  if (user.value.like.some((i) => i.id === item.id)) {
+    // Xóa sản phẩm khỏi danh sách yêu thích nếu nó đã tồn tại
+    user.value.like = user.value.like.filter((idLike) => idLike.id !== item.id);
+    disLike.value = true;
+    setTimeout(() => {
+      disLike.value = false;
+    }, 2000);
+  } else {
+    // Thêm sản phẩm vào danh sách yêu thích nếu chưa có
+    user.value.like.push(item);
+    showLike.value = true;
+    setTimeout(() => {
+      showLike.value = false;
+    }, 2000);
+  }
+  store.dispatch("apiEditCustomer", user.value);
+};
+
+const closeLike=()=>{
+  showLike.value = false;
+  disLike.value = false;
+}
+
 // Lấy dữ liệu sản phẩm từ API
 const fetchData = async () => {
   try {
-    const respones = await apiClient('products');
-    const categoryRp = await apiClient('classify');
+    const respones = await apiClient("products");
+    const categoryRp = await apiClient("classify");
+    const usersRp = await apiClient("users");
     products.value = respones.data;
     category.value = categoryRp.data;
+    users.value = usersRp.data;
   } catch (err) {
     console.log(err);
   }
@@ -339,5 +418,4 @@ onMounted(() => {
 });
 </script>
 
-<style>
-</style>
+<style></style>

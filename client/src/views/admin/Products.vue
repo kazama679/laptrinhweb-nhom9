@@ -202,10 +202,10 @@ const handleCloseDelete = () => {
 };
 
 // Xóa sản phẩm
-const handleDelete = () => {
-  store.dispatch("apiDeleteProduct", idDelete.value);
+const handleDelete = async () => {
+  await store.dispatch("apiDeleteProduct", idDelete.value);
   isShowDelete.value = false;
-  fetchData();
+  fetchData(); 
 };
 
 </script>
