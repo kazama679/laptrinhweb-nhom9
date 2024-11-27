@@ -69,7 +69,7 @@
           <div class="bg-red-500 text-white text-sm px-2 py-1 rounded-full absolute top-2 right-2">
             New
           </div>
-          <img :src="item.image" class="w-full h-56 object-cover rounded" />
+          <img :src="item.image" class="w-full h-60 object-cover rounded" />
           <h3 class="mt-4 text-gray-800 text-lg font-semibold truncate">
             {{ item.name }}
           </h3>
@@ -217,8 +217,8 @@
       <div class="bg-gray-800 text-white text-sm px-6 py-4 rounded mt-4 inline-block max-w-md shadow-lg">
         <span>Sản phẩm đã được thêm vào yêu thích
           <i class="fa-solid fa-heart-circle-check text-red-500"></i></span>
-        <button @click="closeLike" class="text-pink-500 font-bold hover:text-pink-700 ml-4">
-          Close
+        <button @click="nextLike" class="text-pink-500 font-bold hover:text-pink-700 ml-4">
+          Xem
         </button>
       </div>
     </div>
@@ -226,14 +226,77 @@
       <div class="bg-gray-800 text-white text-sm px-6 py-4 rounded mt-4 inline-block max-w-md shadow-lg">
         <span>Đã bỏ yêu thích sản phẩm
           <i class="fa-solid fa-heart-circle-xmark"></i></span>
-        <button @click="closeLike" class="text-pink-500 font-bold hover:text-pink-700 ml-4">
-          Close
+        <button @click="nextLike" class="text-pink-500 font-bold hover:text-pink-700 ml-4">
+          Xem
         </button>
       </div>
     </div>
     <!-- end-hiển thị form yêu thích -->
 
-    <Contact />
+    <!-- feedback -->
+    <div v-if="showFeedback" class="fixed inset-0 flex items-end justify-end z-50 mr-14">
+      <div class="bg-white shadow-2xl border border-gray-200 rounded w-full max-w-lg">
+        <div class="p-4 border-b border-gray-200 flex justify-between">
+          <h2 class="text-xl font-semibold">Phản hồi</h2>
+          <i @click="closeFeedback" class="fa-solid fa-x cursor-pointer hover:text-red-500~~"></i>
+        </div>
+        <div class="p-4 space-y-4 pb-0">
+          <div>
+            <label for="recipient" class="block text-gray-700 font-medium">Người nhận</label>
+            <input
+              type="text"
+              id="recipient"
+              class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Nhập email người nhận"
+              value="quanglienha123@gmail.com"
+              disabled 
+            />
+          </div>
+        </div>
+        <div class="p-4 space-y-4">
+          <div>
+            <label for="recipient" class="block text-gray-700 font-medium">Người gửi</label>
+            <input
+              type="text"
+              id="subject"
+              class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Nhập email hoặc sđt để chúng tôi có thể liên hệ với bạn"
+            />
+          </div>
+          <div>
+            <label for="message" class="block text-gray-700 font-medium">Nội dung</label>
+            <textarea
+              id="message"
+              class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-32"
+              placeholder="Bất kỳ thắc mắc nào của bạn đều được chúng tôi trả lời"
+            ></textarea>
+          </div>
+        </div>
+        <div class="p-4 border-t border-gray-200 flex justify-between">
+          <button @click="feedback" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Gửi</button>
+        </div>
+      </div>
+    </div>
+    <!-- end-feedback -->
+    <div v-if="messFeedback" class="text-center my-4 fixed inset-0 flex items-end justify-center z-50">
+      <div class="bg-gray-800 text-white text-sm px-6 py-4 rounded mt-4 inline-block max-w-md shadow-lg">
+        <span>Chúng tôi sẽ trả lời phản hồi của bạn sớm nhất có thể</span>
+        <button @click="closeMessFeedback" class="text-pink-500 font-bold hover:text-pink-700 ml-4">
+          Close
+        </button>
+      </div>
+    </div>
+
+    <div v-if="showBan" class="text-center my-4 fixed inset-0 flex items-end justify-center z-50">
+      <div class="bg-red-500 text-white text-sm px-6 py-4 rounded mt-4 inline-block max-w-md shadow-lg">
+        <span>Tài khoản đã bị chặn, vui lòng sử dụng tài khoản khác</span>
+        <button @click="closeBan" class="text-black font-bold hover:text-gray-700 ml-4">
+          Close
+        </button>
+      </div>
+    </div>
+
+    <Contact @showFeedback="onFeedback"/>
     <Footer />
   </div>
 </template>
@@ -255,9 +318,16 @@ const category = ref([]);
 const user = ref(null);
 const showLike = ref(false);
 const disLike = ref(false);
+const showFeedback = ref(false);
+const showBan = ref(false);
 const userLocal = JSON.parse(localStorage.getItem("userLogin") || "null");
 const users = ref([]);
 
+const closeBan=()=>{
+  showBan.value=false
+  router.push('/login')
+  localStorage.removeItem("userLogin");
+}
 // Các biến để lọc, tìm kiếm, sắp xếp
 const searchTerm = ref("");
 const yearFilter = ref("");
@@ -328,6 +398,26 @@ const filteredAndSortedProducts = computed(() => {
   return filtered;
 });
 
+const messFeedback=ref(false)
+// bật form feedback
+const onFeedback=()=>{
+  showFeedback.value=true
+}
+// tắt
+const closeFeedback=()=>{
+  showFeedback.value=false
+}
+const feedback=()=>{
+  showFeedback.value=false
+  messFeedback.value=true
+  setTimeout(() => {
+    messFeedback.value=false
+  }, 3000);
+}
+const closeMessFeedback=()=>{
+  messFeedback.value=false
+}
+
 // Chuyển đến trang trước
 const prevPage = () => {
   if (currentPage.value > 1) {
@@ -343,18 +433,26 @@ const nextPage = () => {
 };
 
 watch(users, (newUsers) => {
-  // Khi giá trị users thay đổi, newUsers sẽ đc cập nhập
-  if (newUsers.length > 0) {
+  if (userLocal && newUsers.length > 0) {
     user.value = newUsers.find((item) => item.id === userLocal.id);
+    if(user.value.status==false){
+      showBan.value=true
+    }
   }
-  if (!user.value.like) {
+  // Khởi tạo danh sách yêu thích nếu chưa có
+  if (user.value && !user.value.like) {
     user.value.like = [];
   }
 });
 
+
 // thay đổi yêu thích của user
 const handleLike = (item, event) => {
   event.stopPropagation(); // Ngăn chặn sự kiện click lan truyền lên phần tử cha
+  if(userLocal=='null'||!userLocal){
+    router.push('/login')
+    return;
+  }
   // Kiểm tra xem sản phẩm đã có trong danh sách yêu thích chưa
   if (user.value.like.some((i) => i.id === item.id)) {
     // Xóa sản phẩm khỏi danh sách yêu thích nếu nó đã tồn tại
@@ -374,9 +472,8 @@ const handleLike = (item, event) => {
   store.dispatch("apiEditCustomer", user.value);
 };
 
-const closeLike=()=>{
-  showLike.value = false;
-  disLike.value = false;
+const nextLike=()=>{
+  router.push('/myLike')
 }
 
 // Lấy dữ liệu sản phẩm từ API

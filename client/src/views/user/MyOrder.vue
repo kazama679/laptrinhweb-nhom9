@@ -50,6 +50,7 @@
             <div className="order-summary flex justify-between items-center mb-5">
               <div className='flex gap-1'>
                 <span className="total-label font-bold">Tổng tiền:</span>
+                <span v-if="(calculateTotalNoSale(order)+order.ship)!=(calculateTotal(order)+order.ship)" class="text-gray-500 line-through mx-1">{{formatVND(calculateTotalNoSale(order)+order.ship)}}</span>
                 <span className="total-price text-red-500 text-lg mt-[-2px]">{{ formatVND(calculateTotal(order)+order.ship) }}</span>
               </div>
             </div>
@@ -87,17 +88,23 @@ import apiClient from '@/api/instance';
 
 const router = useRouter();
 const users = ref([]);
+const sales = ref([]);
 const orders = ref([]);
 const user = ref(null);
 const showMenu = ref(false);
 const userLocal = JSON.parse(localStorage.getItem('userLogin') || 'null');
 
+if(userLocal=='null'||!userLocal){
+  router.push('/login')
+}
 // Hàm lấy dữ liệu người dùng từ API
 const fetchData = async () => {
   try {
     const response = await apiClient.get('users');
     const responseOrders = await apiClient.get('orders');
+    const salesr = await apiClient.get('sales');
     users.value = response.data;
+    sales.value = salesr.data;
     orders.value = responseOrders.data;
   } catch (error) {
     console.error('Lỗi khi lấy dữ liệu người dùng:', error);
@@ -121,16 +128,39 @@ const formatVND = (price) => {
   }
 };
 
-// Tính tổng tiền của một đơn hàng
-const calculateTotal = (order) => {
+// Tính tổng tiền chx có sale
+const calculateTotalNoSale = (order) => {
   let total = 0;
+  console.log(1111,order);
+  // Tính tổng tiền giỏ hàng
   if (order.cart) {
     order.cart.forEach(item => {
       total += item.price * item.quantity;
     });
   }
-  return total + order.ship;
+  return total;
 };
+
+// Tính tổng tiền của một đơn hàng
+const calculateTotal = (order) => {
+  let total = 0;
+  console.log(1111,order);
+  // Tính tổng tiền giỏ hàng
+  if (order.cart) {
+    order.cart.forEach(item => {
+      total += item.price * item.quantity;
+    });
+  }
+  // kiểm tra xem có mã giảm giá đấy k?
+  if(sales){
+    const findSale = sales.value.find(item=>item.name==order.sale)
+    if (findSale && findSale.down > 0) {
+      total = total - (total * findSale.down / 100);
+    }
+  }
+  return total;
+};
+
 const nextHome=()=>{
   router.push('/')
 }

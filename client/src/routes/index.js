@@ -104,9 +104,9 @@ const router = createRouter({
                     name: 'products'
                 },
                 {
-                    path: 'setting',
-                    component: ()=>  import(/* webpackChunkName: "setting" */"@/views/admin/Setting.vue"),
-                    name: 'setting'
+                    path: 'discount',
+                    component: ()=>  import(/* webpackChunkName: "discount" */"@/views/admin/Discount.vue"),
+                    name: 'discount'
                 },
             ]
         },

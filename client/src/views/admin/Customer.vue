@@ -113,7 +113,7 @@ const filterRole = ref('');
 
 // Phân trang
 const currentPage = ref(1);
-const pageSize = ref(2); // Số lượng khách hàng trên mỗi trang
+const pageSize = ref(5); 
 
 // Lọc và sắp xếp khách hàng
 const filteredAndSortedCustomers = computed(() => {

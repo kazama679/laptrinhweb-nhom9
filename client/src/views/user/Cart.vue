@@ -44,9 +44,6 @@
               <b class="shopping-cart__price-number text-red-600">{{ formatVND(item.price * item.quantity) }}</b>
             </div>
           </div>
-          <div class="shopping-cart__notes mt-5">
-            <textarea class="w-full h-24 p-2 border border-gray-300" placeholder="Ghi chú đơn hàng"></textarea>
-          </div>
 
           <button @click="handleShowDeleteAll" class="shopping-cart__clear-all w-2/5 rounded py-2 bg-red-600 text-white text-center border-none cursor-pointer mt-5">
             Xóa tất cả sản phẩm trong giỏ

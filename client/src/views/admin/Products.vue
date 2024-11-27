@@ -2,7 +2,7 @@
   <div class="flex">
     <main class="flex-1 p-5 bg-gray-50">
       <header class="flex justify-between items-center mb-6"></header>
-      <div class="bg-white p-6 rounded-lg shadow-lg">
+      <div class="bg-white p-6 rounded-lg shadow-lg mt-[-20px]">
         <div class="flex justify-between mb-4">
           <button @click="showForm({},'add')" class="bg-blue-500 text-white px-4 py-2 rounded">
             + Add Product
@@ -186,6 +186,7 @@ const showForm = (item, act) => {
 
 const handleClose = () => {
   isShow.value = false;
+  fetchData();
   fetchData();
 };
 

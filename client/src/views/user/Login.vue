@@ -21,16 +21,16 @@
           Tài khoản đã bị chặn, vui lòng dùng tài khoản khác!
         </div>
         <button
-        type="submit"
-        className="mt-2 bg-pink-600 text-white rounded-full px-8 py-1 uppercase font-bold hover:bg-black transition"
+          type="submit"
+          className="mt-2 bg-pink-600 text-white rounded-full px-8 py-1 uppercase font-bold hover:bg-black transition"
         >
-        Đăng nhập
-      </button>
-      <a
-        @click="toRegistere"
-        className="text-blue-500 text-sm mt-2 cursor-pointer hover:text-red-600"
-        >Bạn chưa có tài khoản?</a
-      >
+          Đăng nhập
+        </button>
+        <a
+          @click="toRegistere"
+          className="text-blue-500 text-sm mt-2 cursor-pointer hover:text-red-600"
+          >Bạn chưa có tài khoản?</a
+        >
         <div v-if="error.done" className="text-green-500 text-xs mt-2">
           Đã đăng nhập tài khoản thành công
         </div>
@@ -60,7 +60,7 @@ const toRegistere = () => {
 };
 
 onMounted(() => {
-//   document.querySelector(".container").classList.add("hovered");
+  //   document.querySelector(".container").classList.add("hovered");
 });
 
 const handleLogin = async () => {
@@ -70,8 +70,8 @@ const handleLogin = async () => {
     if (userInfo.email == "" || userInfo.password == "") {
       error.null = true;
       setTimeout(() => {
-          error.null = false;
-        }, 2000);
+        error.null = false;
+      }, 2000);
     } else {
       error.null = false;
       // đi kiểm tra xem có trùng tk nào trong db k
@@ -90,15 +90,26 @@ const handleLogin = async () => {
         // nếu tk đúng
         error.password = false;
         // đi kiểm tra xem nó là admin hay user
-        error.done = true;
-        localStorage.setItem("userLogin", JSON.stringify(userLogin))
-        setTimeout(() => {
-            if (userLogin.role) {
+        if (userLogin.role) {
+          error.done = true;
+          setTimeout(() => {
+            localStorage.setItem("userLogin", JSON.stringify(userLogin));
             router.push("/admin");
-            } else {
-            router.push("/home");
-            }
-        }, 500);
+          }, 500);
+        } else {
+          if (userLogin.status) {
+            error.done = true;
+            setTimeout(() => {
+              localStorage.setItem("userLogin", JSON.stringify(userLogin));
+              router.push("/home");
+            }, 500);
+          } else {
+            error.block = true;
+            setTimeout(() => {
+              error.block = false;
+            }, 3000);
+          }
+        }
       }
     }
   } catch (error) {
@@ -126,12 +137,20 @@ body {
   height: 100%;
   overflow: hidden;
 }
-.container:hover .top:before, .container:hover .top:after, .container:hover .bottom:before, .container:hover .bottom:after, .container:active .top:before, .container:active .top:after, .container:active .bottom:before, .container:active .bottom:after {
+.container:hover .top:before,
+.container:hover .top:after,
+.container:hover .bottom:before,
+.container:hover .bottom:after,
+.container:active .top:before,
+.container:active .top:after,
+.container:active .bottom:before,
+.container:active .bottom:after {
   margin-left: 200px;
   transform-origin: -200px 50%;
   transition-delay: 0s;
 }
-.container:hover .center, .container:active .center {
+.container:hover .center,
+.container:active .center {
   opacity: 1;
   transition-delay: 0.2s;
 }

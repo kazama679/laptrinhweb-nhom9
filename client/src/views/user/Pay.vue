@@ -57,6 +57,7 @@
               </button>
             </div>
             <div v-if="error3" class="text-red-500 text-sm mt-[-24px] mb-1">Mã giảm giá không đúng!</div>
+            <div v-if="error5" class="text-red-500 text-sm mt-[-24px] mb-1">Mã giảm giá đã hết hạn!</div>
             <div v-if="discount > 0" class="text-green-500 text-sm mt-[-24px] mb-1">Đã áp dụng giảm giá: {{ discount }}%</div>
           </div>
 
@@ -103,7 +104,10 @@
           </div>
           <div class="grand-total flex justify-between py-2 border-t border-gray-300 mt-3 pt-3">
             <b>Tổng cộng</b>
-            <span class="text-red-600 text-2xl">{{ user?.cart?.length ? formatVND(calculateGrandTotal()) : '0VND' }}</span>
+            <div>
+              <span v-if="discount > 0" class="text-gray-500 line-through mr-2">{{ user?.cart?.length ? formatVND(noSale2()) : '0VND' }}</span>
+              <span class="text-red-600 text-2xl">{{ user?.cart?.length ? formatVND(calculateGrandTotal()) : '0VND' }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -131,6 +135,7 @@ const error = ref(false);
 const error2 = ref(false);
 const error3 = ref(false);
 const error4 = ref(false);
+const error5 = ref(false);
 const show = ref(false);
 const showDelete = ref(false);
 const payTo = ref('');
@@ -146,6 +151,9 @@ const discount = ref(0); // Phần trăm giảm giá
 
 const showMenu = ref(false);
 const userLocal = JSON.parse(localStorage.getItem('userLogin') || 'null');
+if(userLocal=='null'||!userLocal){
+  router.push('/login')
+}
 const newOrder = reactive({
   id: Math.ceil(Math.random() * 9999999),
   name: '',
@@ -218,6 +226,17 @@ const calculateTotalPrice = () => {
   return 0;
 };
 
+// Hàm tính tổng tiền giỏ hàng chưa tính mã giảm giá
+const noSale = () => {
+  if (user.value && user.value.cart) {
+    let total = user.value.cart.reduce((total, item) => {
+      return total + (item.price * item.quantity);
+    }, 0);
+    return total;
+  }
+  return 0;
+};
+
 // Tính tổng cộng bao gồm ship
 const calculateGrandTotal = () => {
   const totalPrice = calculateTotalPrice();
@@ -225,20 +244,46 @@ const calculateGrandTotal = () => {
   return totalPrice + shippingFee;
 };
 
+
+// Tính tổng cộng bao gồm ship
+const noSale2 = () => {
+  const totalPrice = noSale();
+  const shippingFee = user?.contact && user?.contact[user?.save]?.city === "Thành phố Hà Nội" ? 30000 : 50000;
+  return totalPrice + shippingFee;
+};
+
+
 // Áp dụng mã giảm giá
 const applySales = () => {
-  const foundSale = sales.value.find(sale => sale.name === salesInput.value && sale.status);
+  // Tìm mã giảm giá trong danh sách sales
+  const foundSale = sales.value.find(sale => sale.name === salesInput.value);
+
   if (foundSale) {
-    discount.value = foundSale.down;
-    error3.value = false;
-    newOrder.sale = salesInput.value; // Lưu mã giảm giá vào đơn hàng
+    // Nếu mã giảm giá có status là false
+    if (foundSale.status === false) {
+      error3.value = false;
+      error5.value = true; // Hiển thị thông báo mã giảm giá đã hết hạn
+      discount.value = 0;
+      newOrder.sale = ''; // Không lưu mã giảm giá
+      setTimeout(() => {
+        error5.value = false;
+      }, 3000);
+    } else {
+      // Nếu mã giảm giá còn hiệu lực
+      discount.value = foundSale.down;
+      error3.value = false;
+      error5.value = false;
+      newOrder.sale = salesInput.value; // Lưu mã giảm giá vào đơn hàng
+    }
   } else {
+    // Nếu mã giảm giá không tồn tại
     discount.value = 0;
-    error3.value = true;
+    error3.value = true; // Hiển thị thông báo mã giảm giá không đúng
+    error5.value = false;
     setTimeout(() => {
       error3.value = false;
     }, 3000);
-    newOrder.sale = ''; 
+    newOrder.sale = ''; // Không lưu mã giảm giá
   }
 };
 
@@ -260,7 +305,7 @@ const closeForm = () => {
 // Hàm chọn địa chỉ mặc định
 const handleSave = (id) => {
   error4.value=true
-  user.value.save = user.value.contact.findi(item => item.id === id);
+  user.value.save = user.value.contact.findIndex(item => item.id === id);
   store.dispatch('apiEditCustomer', user.value);
   fetchData();
   setTimeout(() => {
@@ -268,7 +313,6 @@ const handleSave = (id) => {
   }, 2000);
 }
 
-// Hàm xử lý thanh toán
 // Hàm xử lý thanh toán
 const handleSubmit = async () => {
   error3.value = false;
@@ -353,6 +397,9 @@ const handleDeleteConfirm = () => {
       showDelete.value=false
     })
     .catch((error) => console.error("Lỗi khi cập nhật dữ liệu người dùng:", error));
+}
+const nextHome=()=>{
+  router.push('/')
 }
 </script>
 

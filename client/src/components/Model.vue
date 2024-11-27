@@ -125,22 +125,17 @@ const handleSubmit = () => {
   // Reset các lỗi trước khi validate
   err.noName = !newContact.name;
   err.noPhone = !newContact.phone;
-  // Nếu số điện thoại không trống, thì mới kiểm tra định dạng
   if (!err.noPhone) {
     err.phoneErr = !/^0[0-9]{9}$/.test(newContact.phone);
   } else {
-    err.phoneErr = false;  // Nếu chưa nhập số, không kiểm tra định dạng
+    err.phoneErr = false;
   }
   err.noCity = !selectedCity.value;
   err.noDistrict = !selectedDistrict.value;
   err.noCommune = !selectedCommune.value;
   err.noAddress = !newContact.address;
 
-  // Nếu form hợp lệ, thực hiện logic xử lý
   if (!err.noName && !err.noPhone && !err.phoneErr && !err.noCity && !err.noDistrict && !err.noCommune && !err.noAddress) {
-    console.log('Form hợp lệ:', newContact);
-
-    // Kiểm tra xem thông tin người dùng nhập có trùng hoàn toàn với thông tin cũ không
     const checkContact = user.value.contact.some(item => {
       return item.name === newContact.name &&
         item.phone === newContact.phone &&
@@ -150,16 +145,19 @@ const handleSubmit = () => {
     });
 
     if (checkContact) {
-      err.someContact = true; // Nếu thông tin trùng hoàn toàn, báo lỗi
-      console.log("Thông tin của bạn đã tồn tại, vui lòng thay đổi ít nhất một mục.");
+      err.someContact = true;
     } else {
       err.someContact = false;
-      user.value.contact.push(newContact);
-      store.dispatch('apiEditCustomer', user.value);
-      emit('close')
+      user.value.contact = [...user.value.contact, newContact];
+      store.dispatch('apiEditCustomer', user.value)
+        .then(() => {
+          fetchData(); 
+          emit('close');
+        })
+        .catch((error) => {
+          console.error("Lỗi khi cập nhật dữ liệu người dùng:", error);
+        });
     }
-  } else {
-    console.log('Form có lỗi, vui lòng kiểm tra lại thông tin.');
   }
 };
 

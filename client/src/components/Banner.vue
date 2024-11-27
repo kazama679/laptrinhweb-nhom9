@@ -2,45 +2,47 @@
   <div>
     <!-- Swiper component -->
     <swiper
-      :spaceBetween="30"
-      :centeredSlides="true"
-      :autoplay="{
-        delay: 4500,
-        disableOnInteraction: false,
-      }"
-      :pagination="{
-        clickable: true,
-      }"
-      :navigation="true"
-      :modules="modules"
-      @slideChange="onSlideChange"
-      class="mySwiper"
-    >
-      <!-- Swiper slide với hình ảnh và chữ có hiệu ứng di chuyển -->
-      <swiper-slide>
-        <img :src="anh1" alt="Slide 1" class="w-full h-auto object-cover" />
-        <div class="banner-text">
-          <h2 class="slide-in-right">35% OFF</h2>
-          <h1 class="slide-in-left">SALE</h1>
-        </div>
-      </swiper-slide>
+  :spaceBetween="30"
+  :centeredSlides="true"
+  :autoplay="{
+    delay: 4500,
+    disableOnInteraction: false,
+  }"
+  :pagination="{
+    clickable: true,
+  }"
+  :navigation="true"
+  :loop="true"
+  :modules="modules"
+  @slideChange="onSlideChange"
+  class="mySwiper"
+>
+  <!-- Swiper slide với hình ảnh và chữ có hiệu ứng di chuyển -->
+  <swiper-slide>
+    <img :src="anh1" alt="Slide 1" class="w-full h-auto object-cover" />
+    <div class="banner-text">
+      <h2 class="slide-in-right">35% OFF</h2>
+      <h1 class="slide-in-left">SALE</h1>
+    </div>
+  </swiper-slide>
 
-      <swiper-slide>
-        <img :src="anh2" alt="Slide 2" class="w-full h-auto object-cover" />
-        <div class="banner-text">
-          <h2 class="slide-in-right">35% OFF</h2>
-          <h1 class="slide-in-left">EXTRA</h1>
-        </div>
-      </swiper-slide>
+  <swiper-slide>
+    <img :src="anh2" alt="Slide 2" class="w-full h-auto object-cover" />
+    <div class="banner-text">
+      <h2 class="slide-in-right">35% OFF</h2>
+      <h1 class="slide-in-left">EXTRA</h1>
+    </div>
+  </swiper-slide>
 
-      <swiper-slide>
-        <img :src="anh7" alt="Slide 3" class="w-full h-auto object-cover" />
-        <div class="banner-text">
-          <h2 class="slide-in-right">UPTO</h2>
-          <h1 class="slide-in-left">9% OFF</h1>
-        </div>
-      </swiper-slide>
-    </swiper>
+  <swiper-slide>
+    <img :src="anh3" alt="Slide 3" class="w-full h-auto object-cover" />
+    <div class="banner-text">
+      <h2 class="slide-in-right">UPTO</h2>
+      <h1 class="slide-in-left">9% OFF</h1>
+    </div>
+  </swiper-slide>
+</swiper>
+
 
     <div class="myBox flex justify-center">
       <div
@@ -71,13 +73,9 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import anh1 from "@/assets/images/banner01.jpg";
-import anh2 from "@/assets/images/banner02.jpg";
-import anh3 from "@/assets/images/banner03.jpg";
-import anh4 from "@/assets/images/banner04.jpg";
-import anh5 from "@/assets/images/banner05.jpg";
-import anh6 from "@/assets/images/banner06.jpg";
-import anh7 from "@/assets/images/banner07.png";
+import anh1 from "@/assets/images/banner1.jpeg";
+import anh2 from "@/assets/images/banner2.avif";
+import anh3 from "@/assets/images/banner3.avif";
 
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 
@@ -169,12 +167,12 @@ const onSlideChange = () => {
 .slide-in-right {
   animation: slideInRight 1.5s ease-out forwards;
 }
-
 .banner-text h1 {
   font-size: 150px;
   font-weight: bold;
   position: relative;
   z-index: 1;
+  color: rgb(255, 255, 255); 
 }
 
 .banner-text h2 {

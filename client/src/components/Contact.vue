@@ -5,7 +5,7 @@
         <div className="flex items-center text-2xl">
           <span className="text-blue-900">+83 349 199 812</span>
         </div>
-        <button className="flex items-center bg-transparent border border-white text-blue-900 py-2 px-6 rounded-md hover:bg-white hover:text-blue-900 transition duration-300">
+        <button @click="showForm" className="flex items-center bg-transparent border border-white text-blue-900 py-2 px-6 rounded-md hover:bg-white hover:text-blue-900 transition duration-300">
           FEEDBACK
         </button>
       </div>
@@ -13,7 +13,10 @@
 </template>
 
 <script setup>
-
+const emit = defineEmits(['showFeedback'])
+const showForm=()=>{
+  emit('showFeedback')
+}
 </script>
 
 <style>

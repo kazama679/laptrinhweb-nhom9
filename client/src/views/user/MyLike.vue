@@ -59,6 +59,9 @@ const user = ref(null);
 const showMenu = ref(false);
 const userLocal = JSON.parse(localStorage.getItem('userLogin') || 'null');
 
+if(userLocal=='null'||!userLocal){
+  router.push('/login')
+}
 // Hàm lấy dữ liệu người dùng từ API
 const fetchData = async () => {
   try {
@@ -79,6 +82,7 @@ watch(users, (newUsers) => { // Khi giá trị users thay đổi, newUsers sẽ 
 });
 
 onMounted(() => {
+  window.scroll(0,0)
   fetchData();
 });
 // format tiền

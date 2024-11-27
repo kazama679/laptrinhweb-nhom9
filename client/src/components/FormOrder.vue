@@ -5,9 +5,9 @@
     </div>
 
     <!-- {/* thông tin đơn hàng */} -->
-    <div className="bg-white flex-1 p-10 ml-64">
-      <div className="flex justify-center text-center">
-        <button @click="closeForm" className="text-blue-500 mb-5 hover:text-blue-700 transition-colors">
+    <div className="bg-white flex-1 px-10 ml-48 max-w-6xl mp-4 rounded-xl	">
+      <div className="flex justify-end text-center">
+        <button @click="closeForm" className="text-blue-500 hover:text-blue-700 transition-colors mt-6">
           Back
         </button>
       </div>
@@ -20,14 +20,10 @@
           <p><strong>Mã đơn hàng:</strong> {{ props.new.id }}</p>
           <p>
             <strong>Tổng tiền (cả ship):</strong>
-            {{formatVND(total( props.new)+ props.new.ship)}}
+            {{ formatVND(total(props.new) + props.new.ship) }}
           </p>
-          <p>
-            <strong>Tên người nhận:</strong> {{ props.new.name }}
-          </p>
-          <p>
-            <strong>Số người nhận:</strong> {{ props.new.phone }}
-          </p>
+          <p><strong>Tên người nhận:</strong> {{ props.new.name }}</p>
+          <p><strong>Số người nhận:</strong> {{ props.new.phone }}</p>
           <p>
             <strong>Địa chỉ người nhận:</strong>
             {{ props.new.address }}
@@ -35,8 +31,11 @@
           <p><strong>Ghi chú:</strong> {{ props.new.note }}</p>
           <p>
             <strong>Trạng thái:</strong>
-            <select  v-model="statusOrder" className="border border-gray-300 ml-2 p-1 rounded" :disabled="props.new.status=='daGui'">
-              <option value="choDuyet" :disabled="props.new.status=='daDuyet'">Chờ duyệt</option>
+            <select v-model="statusOrder" className="border border-gray-300 ml-2 p-1 rounded"
+              :disabled="props.new.status == 'daGui'">
+              <option value="choDuyet" :disabled="props.new.status == 'daDuyet'">
+                Chờ duyệt
+              </option>
               <option value="daDuyet">Đã duyệt</option>
               <option value="daGui">Đã gửi</option>
             </select>
@@ -55,18 +54,17 @@
           </p>
           <p>
             <strong>Mã Giảm giá:</strong>
-            {{
-              props.new.sale
-            }}
+            {{ props.new.sale }}
           </p>
         </div>
-        <button @click="handleStatus(props.new)" className="bg-blue-500 text-white px-4 py-2 rounded mt-5" v-if="props.new.status!=='daGui'">
+        <button @click="handleStatus(props.new)" className="bg-blue-500 text-white px-4 py-2 rounded mt-5"
+          v-if="props.new.status !== 'daGui'">
           Cập nhật
         </button>
       </div>
 
       <!-- {/* hiển thị sản phẩm */} -->
-      <table className="table-auto w-full border-collapse border border-gray-200">
+      <table className="table-auto w-full border-collapse border border-gray-200 mb-6">
         <thead className="bg-gray-100">
           <tr>
             <th className="px-4 py-2 border">STT</th>
@@ -79,19 +77,27 @@
         </thead>
         <tbody v-for="(item, index) in props.new.cart" :key="item.id">
           <tr>
-            <td className="px-4 py-2 border text-center">{{ index + 1 }}</td>
-            <td className="px-4 py-2 border">
-              <img :src="item.image" alt="{item.name}" className="w-20 h-20 object-cover mx-auto" />
+            <td className="px-4 py-2 border text-center whitespace-nowrap">
+              {{ index + 1 }}
             </td>
-            <td className="px-4 py-2 border">{{ item.name }}</td>
-            <td className="px-4 py-2 border text-center">
+            <td className="px-4 py-2 border">
+              <img :src="item.image" alt="{item.name}" className="w-10 h-10 object-cover mx-auto" />
+            </td>
+            <td className="px-4 py-2 border truncate max-w-xs" style="
+                max-width: 250px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+              ">
+              {{ item.name }}
+            </td>
+            <td className="px-4 py-2 border text-center whitespace-nowrap">
               {{ item.quantity }}
             </td>
-            <td className="px-4 py-2 border">
+            <td className="px-4 py-2 border whitespace-nowrap">
               {{ formatVND(item.price) }}
-
             </td>
-            <td className="px-4 py-2 border">
+            <td className="px-4 py-2 border whitespace-nowrap">
               {{ formatVND(item.price * item.quantity) }}
             </td>
           </tr>
@@ -111,47 +117,49 @@ const emit = defineEmits(["onClose"]);
 const closeForm = () => {
   emit("onClose");
 };
-const statusOrder=ref(props.new.status)
+const statusOrder = ref(props.new.status);
 // format tiền
 const formatVND = (price) => {
   return price.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
 };
-const sales = ref([])
+const sales = ref([]);
 const fetchData = async () => {
   try {
-    const response2 = await apiClient.get("sales")
-    sales.value = response2.data
+    const response2 = await apiClient.get("sales");
+    sales.value = response2.data;
   } catch (err) {
     console.log(err);
   }
-}
+};
 
 onMounted(() => {
-  fetchData()
-})
-// hàm tính tổng tiền 
+  fetchData();
+});
+// hàm tính tổng tiền
 const total = (item) => {
-  console.log(999999999,item);
-  
+  console.log(999999999, item);
+
   let sum = 0;
-  item.cart.forEach(i => {
+  item.cart.forEach((i) => {
     sum += i.price * i.quantity;
   });
   // Kiểm tra nếu đơn hàng có mã giảm giá và áp dụng phần trăm giảm giá
   if (item.sale) {
-    const sale = sales.value.find(sale => sale.name === item.sale && sale.status);
+    const sale = sales.value.find(
+      (sale) => sale.name === item.sale && sale.status
+    );
     if (sale) {
-      sum = sum - (sum * sale.down / 100); // Áp dụng giảm giá cho tổng tiền sản phẩm
+      sum = sum - (sum * sale.down) / 100; // Áp dụng giảm giá cho tổng tiền sản phẩm
     }
   }
   return sum; // Trả về tổng tiền sản phẩm sau khi áp dụng mã giảm giá
 };
 
-const handleStatus=()=>{
-  props.new.status = statusOrder.value
+const handleStatus = () => {
+  props.new.status = statusOrder.value;
   store.dispatch("apiEditOrder", props.new);
   emit("onClose");
-}
+};
 </script>
 
 <style></style>

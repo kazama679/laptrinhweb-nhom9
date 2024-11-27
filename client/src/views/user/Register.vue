@@ -23,6 +23,7 @@
 
           <input v-model="newUser.phone" type="text" placeholder="Số điện thoại" />
           <div v-if="err.phone" class="text-red-500 text-xs">Số điện thoại không hợp lệ</div>
+          <div v-if="err.phone2" class="text-red-500 text-xs">Số điện thoại không được trùng</div>
 
           <button type="submit" class="mt-2 bg-pink-600 text-white rounded-full px-8 py-1 uppercase font-bold hover:bg-black transition">
             Đăng ký
@@ -82,6 +83,7 @@ const err = reactive({
   passwordTooShort: false,
   passwordMismatch: false,
   phone: false,
+  phone2: false,
 });
 
 // Biến lưu mật khẩu nhập lại
@@ -100,6 +102,7 @@ const resetErr=()=>{
       err.passwordTooShort = ''; 
       err.passwordMismatch = '';
       err.phone = '';
+      err.phone2 = '';
     }, 3000);
 }
 
@@ -131,6 +134,7 @@ const addUser = () => {
   err.passwordTooShort = false;
   err.passwordMismatch = false;
   err.phone = false;
+  err.phone2 = false;
 
   // Kiểm tra tên đăng nhập
   if (newUser.name === "") {
@@ -175,7 +179,12 @@ const addUser = () => {
   // Kiểm tra số điện thoại (phải bắt đầu bằng số 0 và có đúng 10 số)
   if (!/^0\d{9}$/.test(newUser.phone)) {
     err.phone = true;
-    resetErr()
+    resetErr();
+    return;
+  } else if (users.value.some((user) => user.phone === newUser.phone)) {
+    // Kiểm tra số điện thoại có trùng không
+    err.phone2 = true;
+    resetErr();
     return;
   }
 
@@ -187,7 +196,8 @@ const addUser = () => {
     err.noPassword ||
     err.passwordTooShort ||
     err.passwordMismatch ||
-    err.phone
+    err.phone||
+    err.phone2
   ) {
     resetErr()
     return;
@@ -197,7 +207,8 @@ const addUser = () => {
   successMessage.value = "Đăng ký thành công!";
   setTimeout(() => {
     successMessage.value = ""; // Ẩn thông báo sau 3 giây
-  }, 3000);
+    router.push('/login')
+  }, 2000);
 
   store.dispatch('apiAddCustomer', newUser);
 };

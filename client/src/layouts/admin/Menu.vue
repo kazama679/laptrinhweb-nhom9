@@ -34,9 +34,9 @@
             </router-link>
           </li>
           <li>
-            <router-link class="flex items-center px-4 hover:text-white" to="/admin/setting" exact-active-class="active">
+            <router-link class="flex items-center px-4 hover:text-white" to="/admin/discount" exact-active-class="active">
               <MdDashboard className="mr-2 flex-shrink-0" />
-              <span className="flex-grow">Settings</span>
+              <span className="flex-grow">Discount</span>
             </router-link>
           </li>
           <li className="mt-auto">
